@@ -109,9 +109,10 @@
     letter-spacing:.06em; color:var(--mute); padding:0; transition:color .15s; }
   .langs button:hover { color:var(--body); }
   .langs button[aria-pressed="true"] { color:var(--ink); font-weight:500; }
-  .btn-pub { border:none; background:none; padding:0; font:inherit; font-size:13.5px; color:var(--accent);
+  .btn-pub { border:none; background:var(--accent); color:var(--ground); border-radius:999px;
+    padding:10px 20px; font:inherit; font-size:13.5px; font-weight:500; letter-spacing:-.005em;
     cursor:pointer; white-space:nowrap; transition:opacity .15s; }
-  .btn-pub:hover { opacity:.7; }
+  .btn-pub:hover { opacity:.85; }
 
   /* ---------- capa de búsqueda, se abre desde la lupa ---------- */
   .searchlayer { border-top:1px solid var(--hair); background:var(--ground); }
@@ -360,7 +361,7 @@
   :focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
   @media (prefers-reduced-motion: reduce) { * { transition:none !important; animation:none !important; } }
 
-  @media (max-width:1179px) {
+  @media (max-width:1360px) {
     .secs { order:3; flex:1 0 100%; margin-inline:calc(-1 * var(--gut)); padding-inline:var(--gut); }
     .bar .wrap { padding-block:12px; gap:12px 26px; }
   }
@@ -377,7 +378,7 @@
     .barright { flex:1 1 auto; flex-wrap:wrap; justify-content:flex-end; gap:10px 16px; }
     .nav { gap:16px; }
     .nav button { font-size:13px; }
-    .btn-pub { display:none; }
+    .btn-pub { padding:9px 17px; font-size:13px; }
     .searchlayer .wrap { padding-block:14px; gap:14px; }
     .secs { order:4; margin-inline:calc(-1 * var(--gut)); padding-inline:var(--gut);
       mask-image:linear-gradient(to right, #000 calc(100% - 24px), transparent); }
@@ -1261,7 +1262,8 @@ Object.assign(T.es, {
   splashSub:'Tabloia · actividades del pueblo',
   queBuscais:'¿Qué buscáis?', ambSub:'Elige primero el tipo de actividad. Luego afinas.',
   porMateria:'Por materia', buscarPh2:'Buscar…',
-  qCapa:'Busca francés, pilota, piano, yoga…', cerrarBusq:'Cerrar la búsqueda', filtrar:'Filtrar', verTodas:'Ver todas',
+  qCapa:'Busca francés, pilota, piano, yoga…', cerrarBusq:'Cerrar la búsqueda',
+  pubCta:'Publica tu actividad', filtrar:'Filtrar', verTodas:'Ver todas',
   fMateriaL:'Materia', fEdadL:'Edad', fQuienL:'Quién lo da', fDiaL:'Día', fComoL:'Cómo', fPrecioL:'Precio',
   cualquiera:'Cualquiera', hasta:'Hasta ', alMes:'/mes'
 });
@@ -1269,7 +1271,8 @@ Object.assign(T.eu, {
   splashSub:'Tabloia · herriko jarduerak',
   queBuscais:'Zeren bila zabiltzate?', ambSub:'Aukeratu lehenik jarduera mota. Gero zehaztu.',
   porMateria:'Gaiaren arabera', buscarPh2:'Bilatu…',
-  qCapa:'Bilatu frantsesa, pilota, pianoa, yoga…', cerrarBusq:'Itxi bilaketa', filtrar:'Iragazi', verTodas:'Ikusi guztiak',
+  qCapa:'Bilatu frantsesa, pilota, pianoa, yoga…', cerrarBusq:'Itxi bilaketa',
+  pubCta:'Argitaratu zure jarduera', filtrar:'Iragazi', verTodas:'Ikusi guztiak',
   fMateriaL:'Gaia', fEdadL:'Adina', fQuienL:'Nork ematen duen', fDiaL:'Eguna', fComoL:'Nola', fPrecioL:'Prezioa',
   cualquiera:'Edozein', hasta:'Gehienez ', alMes:'/hil'
 });
@@ -1874,7 +1877,7 @@ const tab = (id,label,n) => '<button role="tab" data-act="tab" data-v="' + id + 
 function pintarCromo(){
   $('#demo-1').textContent = t('demo1');
   $('#demo-2').textContent = t('demo2');
-  $('#cta-pub').textContent = t('publicar');
+  $('#cta-pub').textContent = t('pubCta');
   $('#foot-p').textContent = t('footP');
   $('#f-h1').textContent = t('fH1'); $('#f-h2').textContent = t('fH2');
   $('#f-l1').textContent = t('fL1'); $('#f-l2').textContent = t('fL2'); $('#f-l3').textContent = t('fL3');
