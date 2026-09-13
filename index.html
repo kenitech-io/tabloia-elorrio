@@ -83,7 +83,9 @@
     font-weight:300; font-size:var(--t-ui); background:var(--ground); color:var(--body);
     line-height:1.65; -webkit-font-smoothing:antialiased; font-variant-numeric:tabular-nums; }
 
-  .wrap { max-width:var(--wrap-max); margin:0 auto; padding-inline:var(--gut); }
+  .wrap { max-width:var(--wrap-max); margin:0 auto;
+    padding-left:max(var(--gut), env(safe-area-inset-left));
+    padding-right:max(var(--gut), env(safe-area-inset-right)); }
   .wrap.view { max-width:1180px; }
   .wrap.narrow { max-width:820px; }
   .stack { display:flex; flex-direction:column; }
@@ -206,6 +208,7 @@
   .lnk { background:none; border:none; padding:6px 0; cursor:pointer; font:inherit; font-size:var(--t-meta);
     color:var(--accent); text-decoration:underline; text-underline-offset:3px; }
   .btn-filtros { display:none; }
+  .busq-movil { display:none; }
   .saltar { position:absolute; left:-9999px; top:0; z-index:120; background:var(--accent);
     color:var(--ground); padding:12px 20px; font-size:var(--t-ui); text-decoration:none;
     border-radius:0 0 var(--r-s) 0; }
@@ -566,9 +569,20 @@
     .filterbar .secs-movil { display:flex; order:0; flex:1 1 0; min-width:0; padding-block:11px;
       margin-inline:calc(-1 * var(--gut)); padding-inline:var(--gut); gap:26px;
       mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent); }
-    .btn-filtros { display:block; order:1; flex:none; margin-left:auto; background:none; border:none;
-      border-left:1px solid var(--hair); padding:12px 0 12px var(--s4); font:inherit; font-size:13px;
+    .btn-filtros { display:block; order:2; flex:none; background:none; border:none;
+      border-left:1px solid var(--hair); padding:12px 0 12px var(--s3); font:inherit; font-size:13px;
       font-weight:500; color:var(--ink); cursor:pointer; white-space:nowrap; }
+    /* La lupa baja a la fila pegajosa: en el móvil la cabecera se va con el scroll
+       y la búsqueda es lo último que se puede perder de vista. */
+    .busq-movil { display:grid; order:1; flex:none; margin-left:auto; width:40px; height:40px; margin-right:0; }
+    .busq-movil svg { width:19px; height:19px; }
+    .bar #abrir-busq { display:none; }
+    /* Y la capa de búsqueda se abre encima, sin mover la página de sitio. */
+    .searchlayer { position:fixed; top:0; left:0; right:0; z-index:80; border-top:none;
+      border-bottom:1px solid var(--hair); box-shadow:var(--sh-hi);
+      padding-top:env(safe-area-inset-top); }
+    .searchlayer .qbox .sugp { position:fixed; left:12px; right:12px; width:auto; top:auto;
+      margin-top:10px; max-height:50vh; }
     .fdrop.on .fpanel { position:fixed; left:16px; right:16px; top:auto; bottom:16px;
       width:auto; min-width:0; max-height:58vh; z-index:60; }
     .hero { min-height:210px; }
@@ -654,6 +668,9 @@
 <div class="filterbar" id="filterbar" hidden><div class="wrap">
   <span class="flabel" id="flabel"></span>
   <nav class="secs secs-movil" id="secs-movil" aria-label="Ámbitos"></nav>
+  <button class="ibtn busq-movil" id="busq-movil" data-act="abrirBusq">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+  </button>
   <button class="btn-filtros" id="btn-filtros" data-act="abrirFiltros" aria-expanded="false" aria-controls="fgroup"></button>
   <div class="fgroup" id="fgroup"></div>
 </div></div>
@@ -776,7 +793,7 @@ es:{
   buscar:'Buscar', agenda:'Agenda', guardados:'Guardados', publicar:'Publicar',
   demo1:'Demostración',
   demo2:'Todo lo que se ve es inventado: fichas, nombres, teléfonos, precios y valoraciones. Esta web no es del Ayuntamiento de Elorrio.',
-  heroH1:'Todo lo que se puede aprender, entrenar y bailar en Elorrio, en un solo sitio.', fEdad:'Edad', fQuien:'Quién', fComo:'Cómo', fDia:'Qué día',
+  fEdad:'Edad', fQuien:'Quién', fComo:'Cómo', fDia:'Qué día',
   soloGratis:'Solo gratuitas', ordenar:'Ordenar',
   oRel:'Por materia', oValor:'Mejor valoradas', oPrecio:'Precio', oEdad:'Edad', quitar:'Quitar filtros',
   actividad:'actividad', actividades:'actividades', conFiltros:' con estos filtros', enPueblo:' en Elorrio',
@@ -818,7 +835,7 @@ es:{
   lMaterias:'Qué se aprende', phMaterias:'deberes, lectura, técnicas de estudio',
   hMaterias:'Separado por comas. Es lo que los padres escriben en el buscador.',
   lDesc:'Explícalo con tus palabras', phDesc:'Cómo son las clases, con cuántos niños, qué material hace falta…',
-  hDesc:'Tres o cuatro frases. Las fichas que cuentan cómo es la clase reciben el triple de llamadas.',
+  hDesc:'Tres o cuatro frases. Cuenta cómo es una clase por dentro: es lo que las familias leen antes de llamar.',
   lIdioma:'Idioma de la ficha', hIdioma:'Se publica tal como la escribes. La mayoría de las familias leen las dos.',
   lEdadMin:'Edad mínima', lEdadMax:'Edad máxima', lExp:'Tu experiencia y titulación', phExp:'Maestra en activo, 15 años',
   lPrecio:'Precio', lUnidad:'Unidad', lMod:'Cómo se dan las clases', lLugar:'Dónde', phLugar:'En mi casa o a domicilio',
@@ -872,7 +889,7 @@ eu:{
   buscar:'Bilatu', agenda:'Agenda', guardados:'Gordeak', publicar:'Argitaratu',
   demo1:'Demostrazioa',
   demo2:'Ikusten den guztia asmatua da: fitxak, izenak, telefonoak, prezioak eta balorazioak. Web hau ez da Elorrioko Udalarena.',
-  heroH1:'Elorrion ikasi, entrenatu eta dantzatu daitekeen guztia, leku bakarrean.', fEdad:'Adina', fQuien:'Nork', fComo:'Nola', fDia:'Zein egunetan',
+  fEdad:'Adina', fQuien:'Nork', fComo:'Nola', fDia:'Zein egunetan',
   soloGratis:'Doakoak bakarrik', ordenar:'Ordenatu',
   oRel:'Gaiaren arabera', oValor:'Balorazio onenak', oPrecio:'Prezioa', oEdad:'Adina', quitar:'Iragazkiak kendu',
   actividad:'jarduera', actividades:'jarduera', conFiltros:' iragazki hauekin', enPueblo:' Elorrion',
@@ -914,7 +931,7 @@ eu:{
   lMaterias:'Zer ikasten den', phMaterias:'etxeko lanak, irakurketa, ikasteko teknikak',
   hMaterias:'Komaz banatuta. Hori da gurasoek bilatzailean idazten dutena.',
   lDesc:'Azaldu zure hitzekin', phDesc:'Nolakoak diren klaseak, zenbat haurrekin, zer material behar den…',
-  hDesc:'Hiru edo lau esaldi. Klasea nolakoa den kontatzen duten fitxek hiru aldiz dei gehiago jasotzen dituzte.',
+  hDesc:'Hiru edo lau esaldi. Kontatu nolakoa den klase bat barrutik: hori da familiek deitu aurretik irakurtzen dutena.',
   lIdioma:'Fitxaren hizkuntza', hIdioma:'Idazten duzun bezala argitaratzen da. Familia gehienek biak irakurtzen dituzte.',
   lEdadMin:'Gutxieneko adina', lEdadMax:'Gehieneko adina', lExp:'Zure esperientzia eta titulazioa', phExp:'Irakaslea, 15 urte',
   lPrecio:'Prezioa', lUnidad:'Unitatea', lMod:'Nola ematen diren klaseak', lLugar:'Non', phLugar:'Neure etxean edo etxez etxe',
@@ -1596,8 +1613,8 @@ AGENDA.sort((a,b) => diasHasta(a) - diasHasta(b));
    ========================================================================== */
 Object.assign(T.es, {
   heroKicker:'Elorrio · Durangaldea',
-  heroH1:'Todo lo que tus hijos pueden hacer en Elorrio.',
-  heroSub:'Clases particulares, academias, clubes, escuelas municipales y elkarteak. Un solo sitio, todo el pueblo.', sTodas:'Cualquier edad', catsSub:'Nueve maneras de llenar una tarde.',
+  heroH1:'Todo lo que se aprende, se entrena y se baila en Elorrio.',
+  heroSub:'Clases particulares, academias, clubes, escuelas municipales y elkarteak. Para los críos y para los mayores, en un solo sitio.', sTodas:'Cualquier edad', catsSub:'Nueve maneras de llenar una tarde.',
   todo:'Todo', masFiltros:'Más filtros', verTodo:'Ver las 45',
   resH:'Actividades en Elorrio', nuevo:'Nuevo',
   valora:'valoraciones', sinValora:'Sin valoraciones todavía',
@@ -1617,8 +1634,8 @@ Object.assign(T.es, {
 });
 Object.assign(T.eu, {
   heroKicker:'Elorrio · Durangaldea',
-  heroH1:'Zure seme-alabek Elorrion egin dezaketen guztia.',
-  heroSub:'Klase partikularrak, akademiak, klubak, udal eskolak eta elkarteak. Leku bakarra, herri osoa.', sTodas:'Edozein adin', catsSub:'Arratsalde bat betetzeko bederatzi modu.',
+  heroH1:'Elorrion ikasi, entrenatu eta dantzatu daitekeen guztia.',
+  heroSub:'Klase partikularrak, akademiak, klubak, udal eskolak eta elkarteak. Haurrentzat eta helduentzat, leku bakarrean.', sTodas:'Edozein adin', catsSub:'Arratsalde bat betetzeko bederatzi modu.',
   todo:'Dena', masFiltros:'Iragazki gehiago', verTodo:'Ikusi 45ak',
   resH:'Jarduerak Elorrion', nuevo:'Berria',
   valora:'balorazio', sinValora:'Baloraziorik ez oraindik',
@@ -2542,9 +2559,11 @@ function pintarCromo(){
   const sp2 = $('#sp-2'); if(sp2) sp2.textContent = t('splashSub');
   const sl = $('#saltar'); if(sl) sl.textContent = t('saltar');
   pintarBotonTema();
+  const NOMBRE_LANG = { eu:'Euskaraz', es:'En castellano' };
   $('#langs').innerHTML = ['eu','es'].map(l =>
-    '<button data-lang="' + l + '" aria-pressed="' + (state.lang===l) + '">' + l.toUpperCase() + '</button>')
-    .join('<span class="sl">/</span>');
+    '<button data-lang="' + l + '" lang="' + l + '" aria-pressed="' + (state.lang===l) +
+    '" aria-label="' + esc(NOMBRE_LANG[l]) + '">' + l.toUpperCase() + '</button>')
+    .join('<span class="sl" aria-hidden="true">/</span>');
   const qi = $('#q');
   if(qi){ qi.placeholder = t('qCapa'); qi.setAttribute('aria-label', t('buscar')); }
   const ab = $('#abrir-busq'); if(ab) ab.setAttribute('aria-label', t('buscar'));
@@ -2687,7 +2706,9 @@ function altoBarras(){
 function aResultados(){
   const a = $('#anchor-res'); if(!a) return;
   const y = a.getBoundingClientRect().top + window.scrollY - altoBarras();
-  if(window.scrollY < y - 4 || window.scrollY > y + 4) window.scrollTo({ top:Math.max(0,y), behavior:'smooth' });
+  if(Math.abs(window.scrollY - y) < 5) return;
+  const quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.scrollTo({ top:Math.max(0,y), behavior: quieto ? 'auto' : 'smooth' });
 }
 
 document.addEventListener('click', e => {
@@ -2851,8 +2872,11 @@ document.addEventListener('input', e => {
   if(el.dataset.f){
     state.form[el.dataset.f] = (el.type === 'checkbox') ? el.checked : el.value;
     const c = el.closest('.field');
-    if(c){ c.classList.remove('err'); const i = c.querySelector('input,textarea,select');
-      if(i) i.removeAttribute('aria-invalid'); }
+    if(c){
+      c.classList.remove('err');
+      const i = c.querySelector('input,textarea,select'); if(i) i.removeAttribute('aria-invalid');
+      const m = c.querySelector('.msg-err'); if(m) m.remove();
+    }
     grabarForm();
   }
 });
@@ -2896,11 +2920,19 @@ function validarPaso(paso){
     if(v === undefined || v === null || v === '' || v === false) falta.push([k, nombres[i]]); });
   if(!falta.length) return true;
   let primero = null;
-  falta.forEach(([k]) => {
+  falta.forEach(([k, nombre]) => {
     const el = document.getElementById(k);
     if(!el) return;
     el.setAttribute('aria-invalid','true');
-    const c = el.closest('.field'); if(c) c.classList.add('err');
+    const c = el.closest('.field');
+    if(c){
+      c.classList.add('err');
+      if(!c.querySelector('.msg-err')){
+        const m = document.createElement('span');
+        m.className = 'msg-err'; m.textContent = t('arreglaCampo');
+        c.appendChild(m);
+      }
+    }
     if(!primero) primero = el;
   });
   toast(t('tFalta') + falta.slice(0,2).map(f => f[1]).join(t('y')) + (falta.length > 2 ? t('tFaltaMas') : '.'));
