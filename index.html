@@ -1502,16 +1502,18 @@ Object.assign(T.eu, {
 });
 
 /* ---- foto de cada ficha ---- */
+/* Una foto por ficha, sin repetir: dos tarjetas con la misma imagen a la vista se
+   notan más que cualquier otro descuido. */
 const IMG = {
-  1:'frantsesa', 2:'euskara', 3:'ikasgela', 4:'liburutegia', 5:'ikasgela2', 6:'euskara',
-  7:'matematika', 8:'ikasgela', 9:'ikasgela2', 10:'matematika', 11:'logopedia', 12:'liburutegia',
+  1:'frantsesa', 2:'euskara', 3:'ingelesa', 4:'alemana', 5:'ikasgela2', 6:'idazmena',
+  7:'matematika', 8:'ikasgela', 9:'ikasgela3', 10:'azterketa', 11:'logopedia', 12:'helduak',
   13:'pianoa', 14:'gitarra', 15:'trikitixa', 16:'txistu', 17:'bateria',
   18:'pilota', 19:'futbol', 20:'saskibaloia', 21:'igeriketa', 22:'haurtxo', 23:'herrikirolak',
   24:'mendi', 25:'judo', 26:'padel', 27:'atletismoa', 28:'gimnasia', 29:'btt',
-  30:'txistu', 31:'ballet', 32:'zumba', 33:'marrazketa', 34:'antzerkia', 35:'zeramika',
-  36:'robotika', 37:'xakea', 38:'liburutegia', 39:'yoga', 40:'pilates', 41:'gimnasioa', 42:'gimnasioa',
-  43:'udalekuak', 44:'ludoteka', 45:'udalekuak',
-  101:'biolina', 102:'gimnasia', 103:'gitarra'
+  30:'euskaldantza', 31:'ballet', 32:'zumba', 33:'marrazketa', 34:'antzerkia', 35:'zeramika',
+  36:'robotika', 37:'xakea', 38:'liburutegia', 39:'yoga', 40:'pilates', 41:'gimnasioa', 42:'entrenatzailea',
+  43:'udalekuak', 44:'ludoteka', 45:'udalekuak2',
+  101:'biolina', 102:'patinajea', 103:'gitarra2'
 };
 const CAT_IMG = { idiomas:'euskara', apoyo:'ikasgela', musica:'trikitixa', deporte:'pilota',
   danza:'ballet', arte:'marrazketa', tecnologia:'robotika', bienestar:'yoga', campamentos:'udalekuak' };
@@ -1540,9 +1542,13 @@ const OPINIONES = {
   'Euskaraz eta gaztelaniaz azaltzen du nor dagoen, eta horrek etxean asko lagundu digu.',
   'Urteak daramatza herrian eta nabari da. Umeak ezagutzen ditu eta badaki noiz estutu eta noiz ez.']
 };
-function rating(f){ return f.verif === false ? null : (42 + (f.id * 37) % 8) / 10; }
+/* Valoraciones de ejemplo: sólo las llevan las fichas del juego de datos inicial.
+   Una actividad recién aprobada no puede tener reseñas de nadie. */
+const CON_OPINIONES = f => f.verif !== false && f.id <= 45;
+function rating(f){ return CON_OPINIONES(f) ? (42 + (f.id * 37) % 8) / 10 : null; }
 function nrev(f){ return 4 + (f.id * 17) % 38; }
 function opiniones(f){
+  if(!CON_OPINIONES(f)) return [];
   const out = [];
   for(let i = 0; i < 3; i++){
     const k = (f.id * 5 + i * 7);
@@ -1559,10 +1565,21 @@ const state = {
   lang:LANG_INICIAL, view:'buscar', q:'', ambito:null, cat:null, edad:null, tipo:null, mod:null, dia:null,
   precioMax:null, sugIdx:-1, orden:'rel', fichaId:null, paso:1, form:{}, enviada:null,
   admin:false, adminTab:'pendientes', listo:false, compartidos:null,
-  fichas:FICHAS.slice(), pendientes:PENDIENTES_INICIALES.slice(), peticiones:PETICIONES_INICIALES.slice(),
+  fichas:FICHAS.map(f => Object.assign({}, f)),
+  pendientes:PENDIENTES_INICIALES.map(f => Object.assign({}, f)),
+  peticiones:PETICIONES_INICIALES.map(f => Object.assign({}, f)),
+  scrollBuscar:0,
   guardados:leerGuardados()
 };
-function leerGuardados(){ try { return JSON.parse(localStorage.getItem('tablon.guardados')||'[]'); } catch(e){ return []; } }
+function leerGuardados(){
+  try {
+    const v = JSON.parse(localStorage.getItem('tablon.guardados') || '[]');
+    /* Sólo ids numéricos. Cualquier otra cosa se descarta en silencio: es preferible
+       perder la lista de guardados a dejar la web en blanco hasta que alguien entre
+       en las herramientas del navegador. */
+    return Array.isArray(v) ? v.map(Number).filter(Number.isFinite) : [];
+  } catch(e){ return []; }
+}
 function grabarGuardados(){ try { localStorage.setItem('tablon.guardados', JSON.stringify(state.guardados)); } catch(e){} }
 function grabarForm(){ try { localStorage.setItem('tablon.form', JSON.stringify(state.form)); } catch(e){} }
 function borrarForm(){ try { localStorage.removeItem('tablon.form'); } catch(e){} }
@@ -1576,7 +1593,7 @@ const L = o => o[state.lang];
 const catName  = id => { const c = CATS.find(x=>x.id===id);  return c ? c[state.lang] : id; };
 const tipoName = id => { const x = TIPOS.find(y=>y.id===id); return x ? x[state.lang] : id; };
 const modName  = id => { const m = MODOS.find(x=>x.id===id); return m ? m[state.lang] : id; };
-const uni = f => UNIDADES[f.unidad][state.lang];
+const uni = f => (UNIDADES[f.unidad] || UNIDADES.hora)[state.lang];
 const num1 = n => n.toFixed(1).replace('.', ',');
 
 function precioTxt(f){
@@ -1584,7 +1601,7 @@ function precioTxt(f){
   return '<b>' + f.precio + ' €</b><span class="u">' + uni(f).s + '</span>';
 }
 function precioLargo(f){ return f.precio === 0 ? t('gratuita') : f.precio + ' € ' + uni(f).l; }
-function precioMes(f){ return Math.round(f.precio * UNIDADES[f.unidad].mes); }
+function precioMes(f){ return Math.round(f.precio * (UNIDADES[f.unidad] || UNIDADES.hora).mes); }
 function edadTxt(f){
   const a = f.edad[0], b = f.edad[1];
   if(a >= 18) return t('adultos');
@@ -1607,27 +1624,40 @@ function toast(msg){
 const HEART = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.7-7.5-9.7A4.3 4.3 0 0 1 12 7.9a4.3 4.3 0 0 1 7.5 2.9c0 5-7.5 9.7-7.5 9.7z"/></svg>';
 
 /* ---------- filtrado ---------- */
-function filtrar(lista){
+/* El texto sobre el que se busca no cambia durante la sesión: se calcula una vez por
+   ficha. Sin esto, teclear una letra reconstruía la misma cadena decenas de veces. */
+function heno(f){
+  if(f._heno === undefined){
+    const c  = CATS.find(x => x.id === f.cat)   || { es:'', eu:'' };
+    const ti = TIPOS.find(x => x.id === f.tipo) || { es:'', eu:'' };
+    f._heno = norm([f.titulo, f.proveedor, (f.materias||[]).join(' '),
+      c.es, c.eu, ti.es, ti.eu, f.desc, f.lugar].join(' '));
+  }
+  return f._heno;
+}
+function filtrar(lista, saltar){
+  const s = saltar || {};
   const term = norm(state.q).trim().split(/\s+/).filter(Boolean);
+  /* Los .find() se resuelven fuera del bucle. Si un id no existe (un dato mal escrito
+     a mano dentro de dos años) el filtro se ignora, no se cae la búsqueda entera. */
+  const amb = (!s.ambito && state.ambito) ? AMBITOS.find(x => x.id === state.ambito) : null;
+  const ed  = (!s.edad   && state.edad)   ? EDADES.find(e => e.id === state.edad)    : null;
+  const cat = s.cat ? null : state.cat, tipo = s.tipo ? null : state.tipo;
+  const mod = s.mod ? null : state.mod, dia = s.dia ? null : state.dia;
+  const pmax = s.precioMax ? null : state.precioMax;
+  const buscar = s.q ? [] : term;
   return lista.filter(f => {
-    if(state.ambito){ const a = AMBITOS.find(x => x.id === state.ambito); if(a.cats.indexOf(f.cat) < 0) return false; }
-    if(state.cat  && f.cat  !== state.cat)  return false;
-    if(state.tipo && f.tipo !== state.tipo) return false;
-    if(state.mod  && f.mod.indexOf(state.mod) < 0) return false;
-    if(state.dia  && f.dias.indexOf(state.dia) < 0) return false;
-    if(state.precioMax !== null){
-      if(state.precioMax === 0){ if(f.precio !== 0) return false; }
-      else if(precioMes(f) > state.precioMax) return false;
+    if(amb && amb.cats.indexOf(f.cat) < 0) return false;
+    if(cat  && f.cat  !== cat)  return false;
+    if(tipo && f.tipo !== tipo) return false;
+    if(mod  && f.mod.indexOf(mod) < 0) return false;
+    if(dia  && f.dias.indexOf(dia) < 0) return false;
+    if(pmax !== null && pmax !== undefined){
+      if(pmax === 0){ if(f.precio !== 0) return false; }
+      else if(precioMes(f) > pmax) return false;
     }
-    if(state.edad){
-      const b = EDADES.find(e => e.id === state.edad);
-      if(!(f.edad[0] <= b.max && f.edad[1] >= b.min)) return false;
-    }
-    if(term.length){
-      const c = CATS.find(x => x.id === f.cat), ti = TIPOS.find(x => x.id === f.tipo);
-      const heno = norm([f.titulo,f.proveedor,f.materias.join(' '),c.es,c.eu,ti.es,ti.eu,f.desc,f.lugar].join(' '));
-      return term.every(x => heno.indexOf(x) >= 0);
-    }
+    if(ed && !(f.edad[0] <= ed.max && f.edad[1] >= ed.min)) return false;
+    if(buscar.length){ const h = heno(f); return buscar.every(x => h.indexOf(x) >= 0); }
     return true;
   });
 }
@@ -1635,14 +1665,41 @@ function ordenar(l){
   l = l.slice();
   if(state.orden === 'precio') return l.sort((a,b) => precioMes(a) - precioMes(b));
   if(state.orden === 'edad')   return l.sort((a,b) => a.edad[0] - b.edad[0]);
-  if(state.orden === 'valor')  return l.sort((a,b) => (rating(b)||0) - (rating(a)||0));
+  /* Las fichas sin valoración van al final, no al principio con un cero. */
+  if(state.orden === 'valor')  return l.sort((a,b) => {
+    const ra = rating(a), rb = rating(b);
+    if(ra === null && rb === null) return 0;
+    if(ra === null) return 1;
+    if(rb === null) return -1;
+    return rb - ra;
+  });
   return l.sort((a,b) => {
     const d = CATS.findIndex(c=>c.id===a.cat) - CATS.findIndex(c=>c.id===b.cat);
     return d !== 0 ? d : a.proveedor.localeCompare(b.proveedor,'es');
   });
 }
 const hayFiltros = () => !!(state.q||state.ambito||state.cat||state.edad||state.tipo||state.mod||state.dia||state.precioMax!==null);
-function contar(k, v){ const g = state[k]; state[k] = v; const n = filtrar(state.fichas).length; state[k] = g; return n; }
+
+/* Los recuentos de cada opción se calculan de una vez, con un filtrado por dimensión
+   (seis en total) en vez de uno por opción (cuarenta y dos). Para las materias se
+   ignora también el ámbito: si no, «Idiomas» pone 0 estando en Deporte y al pulsarlo
+   aparecen seis. */
+let CONTEOS = null;
+function calcularConteos(){
+  const c = { cat:{}, edad:{}, tipo:{}, mod:{}, dia:{}, precioMax:{} };
+  filtrar(state.fichas, { cat:1, ambito:1 }).forEach(f => { c.cat[f.cat] = (c.cat[f.cat]||0)+1; });
+  filtrar(state.fichas, { edad:1 }).forEach(f => EDADES.forEach(e => {
+    if(f.edad[0] <= e.max && f.edad[1] >= e.min) c.edad[e.id] = (c.edad[e.id]||0)+1; }));
+  filtrar(state.fichas, { tipo:1 }).forEach(f => { c.tipo[f.tipo] = (c.tipo[f.tipo]||0)+1; });
+  filtrar(state.fichas, { mod:1 }).forEach(f => f.mod.forEach(m => { c.mod[m] = (c.mod[m]||0)+1; }));
+  filtrar(state.fichas, { dia:1 }).forEach(f => f.dias.forEach(d => { c.dia[d] = (c.dia[d]||0)+1; }));
+  const bp = filtrar(state.fichas, { precioMax:1 });
+  c.precioMax['0']  = bp.filter(f => f.precio === 0).length;
+  c.precioMax['20'] = bp.filter(f => precioMes(f) <= 20).length;
+  c.precioMax['40'] = bp.filter(f => precioMes(f) <= 40).length;
+  CONTEOS = c;
+}
+const contar = (k, v) => (CONTEOS && CONTEOS[k]) ? (CONTEOS[k][String(v)] || 0) : 0;
 const contarCat = id => contar('cat', id);
 
 /* ---------- piezas ---------- */
@@ -1800,7 +1857,12 @@ function drop(k, label, valor, opciones){
     '<div class="fpanel">' + opciones + '</div></div>';
 }
 function opt(k, v, label, n){
-  const on = (state[k] === v) || (v === '' && !state[k]) || (k === 'precioMax' && state.precioMax === v);
+  /* precioMax se guarda como número y aquí v llega como texto: se comparan como texto.
+     El 0 («sólo gratuitas») es falsy, por eso la comprobación explícita. */
+  const actual = state[k];
+  const on = (v === '')
+    ? (actual === null || actual === undefined || actual === '')
+    : String(actual) === String(v);
   return '<button class="fopt" data-act="setf" data-k="' + k + '" data-v="' + v + '" aria-pressed="' + on + '">' +
     esc(label) + (n !== undefined ? '<span class="n">' + n + '</span>' : '') + '</button>';
 }
@@ -1924,6 +1986,7 @@ function pintarResultados(){
   }).join('');
 }
 function actualizar(){
+  calcularConteos();
   pintarSecs(); pintarEdades(); pintarCats(); pintarFiltros(); pintarResultados(); escribirURL('replace');
 }
 
@@ -1986,6 +2049,7 @@ function viewFicha(){
           '<span class="card-s">' + esc(f.exp) + '</span>' +
           (f.verif ? '<span class="card-s" style="color:var(--accent)">' + esc(t('selloVerif')) + (f.cert?esc(t('selloCert')):'') + '</span>' : '') +
           '</span></div>' +
+        (opiniones(f).length ?
         '<hr class="rule">' +
         '<div class="stack g20"><div class="stack g6">' +
           '<h2 class="sec-h">' + esc(t('secOpi')) + '</h2>' +
@@ -1994,7 +2058,7 @@ function viewFicha(){
             '<div><div class="who"><span class="av" aria-hidden="true">' + esc(o.nm[0]) + '</span>' +
             '<span><span class="nm">' + esc(o.nm) + '</span><br><span class="dt">' + esc(o.mes) + '</span></span></div>' +
             '<p>' + esc(o.txt) + '</p></div>').join('') +
-        '</div></div>' +
+        '</div></div>' : '') +
       '</div>' +
 
       '<aside class="sidebox">' +
@@ -2294,9 +2358,14 @@ const ICONO = {
 };
 function busqAbierta(){ const l = $('#searchlayer'); return !!l && !l.hidden; }
 function abrirBusq(){
-  const l = $('#searchlayer'); if(!l) return;
+  const l = $('#searchlayer'), b = $('#bar'); if(!l || !b) return;
   l.hidden = false; medirBarra();
-  const i = $('#q'); if(i){ i.focus(); i.select(); }
+  const i = $('#q'); if(!i) return;
+  /* En el móvil la cabecera no está pegada arriba: si enfocamos sin más, el navegador
+     sube la página de golpe y se pierde el sitio. Subimos a propósito. */
+  if(getComputedStyle(b).position !== 'sticky') window.scrollTo(0,0);
+  try { i.focus({ preventScroll:true }); } catch(e){ i.focus(); }
+  i.select();
 }
 function cerrarBusq(devolverFoco){
   const l = $('#searchlayer'); if(!l || l.hidden) return;
@@ -2393,13 +2462,16 @@ function render(scroll){
   if(scroll !== false) window.scrollTo(0,0);
 }
 function ir(v){
-  if(state.view === 'buscar' && v !== 'buscar') state.scrollBuscar = window.scrollY;
+  /* La posición se recupera sólo al volver de una ficha; desde agenda o guardados se
+     empieza arriba, que si no se cae en medio de una lista que ha cambiado de tamaño. */
+  if(state.view === 'buscar') state.scrollBuscar = (v === 'ficha') ? window.scrollY : 0;
+  if(v === 'publicar' && state.view !== 'publicar'){ state.enviada = null; state.paso = 1; }
   const veniaDeBuscar = state.view === 'buscar';
   state.view = v;
   if(v !== 'buscar') state.compartidos = null;
   escribirURL('push');
   render();
-  if(v === 'buscar' && !veniaDeBuscar && state.scrollBuscar) window.scrollTo(0, state.scrollBuscar);
+  if(v === 'buscar' && !veniaDeBuscar) window.scrollTo(0, state.scrollBuscar || 0);
 }
 function altoBarras(){
   const b = $('#bar'), f = $('#filterbar');
@@ -2509,7 +2581,11 @@ document.addEventListener('click', e => {
       const i = state.pendientes.findIndex(p => p.id === id); if(i < 0) break;
       const p = state.pendientes[i];
       if(!p.cert && p.edad[0] < 18){ toast(t('tCert')); break; }
-      p.verif = true; state.fichas.unshift(p); state.pendientes.splice(i,1);
+      /* Se publica una copia y sin el expediente: el DNI y las notas internas no
+         salen del panel de administración. */
+      const publica = Object.assign({}, p, { verif:true });
+      delete publica.dni; delete publica.aviso; delete publica.enviado;
+      state.fichas.unshift(publica); state.pendientes.splice(i,1);
       toast(t('tPublicada')); render(false); break;
     }
     case 'pedirdatos': toast(t('tPedir')); break;
@@ -2562,7 +2638,7 @@ document.addEventListener('input', e => {
   if(el.id === 'q'){
     state.q = el.value;
     if(state.view !== 'buscar' && state.q){ state.view = 'buscar'; render(false); }
-    pintarSug('sug1'); actualizar(); return;
+    actualizar(); pintarSug('sug1'); return;
   }
   if(el.id === 'pet'){ el.setCustomValidity(''); return; }
   if(el.dataset.f){
