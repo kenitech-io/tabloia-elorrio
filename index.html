@@ -66,7 +66,7 @@
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --ground:#141714; --ground-warm:#1c201c; --ink:#f2efe9; --body:#b0aca4;
+      --ground:#141714; --ground-warm:#242924; --ink:#f2efe9; --body:#b0aca4;
       --mute:#9a968d; --hair:#2c312c; --hair-soft:#232823; --line:#606460;
       --accent:#8fc0b0; --accent-dim:#6d9184; --accent-soft:#1e2723; --star:#8fc0b0;
       --alerta:#e0736a;
@@ -76,7 +76,7 @@
     }
   }
   :root[data-theme="dark"] {
-    --ground:#141714; --ground-warm:#1c201c; --ink:#f2efe9; --body:#b0aca4;
+    --ground:#141714; --ground-warm:#242924; --ink:#f2efe9; --body:#b0aca4;
     --mute:#9a968d; --hair:#2c312c; --hair-soft:#232823; --line:#606460;
     --accent:#8fc0b0; --accent-dim:#6d9184; --accent-soft:#1e2723; --star:#8fc0b0;
     --alerta:#e0736a;
@@ -120,7 +120,8 @@
   .mark .s { font-size:9.5px; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:var(--mute); }
 
   /* secciones = ámbitos, como los departamentos de una tienda */
-  .secs { display:flex; gap:30px; flex:1 1 0; min-width:0; overflow-x:auto; scrollbar-width:none; }
+  .secs { display:flex; gap:30px; flex:1 1 0; min-width:0; overflow-x:auto; scrollbar-width:none;
+    padding-block:6px; margin-block:-6px; }
   .secs-movil { display:none; }
   .secs::-webkit-scrollbar { display:none; }
   .secs button { background:none; border:none; border-bottom:1.5px solid transparent; cursor:pointer;
@@ -187,7 +188,8 @@
   .qchip span { font-size:14px; opacity:.75; }
   .fpanel { position:absolute; top:calc(100% + 10px); left:0; z-index:50; background:var(--ground);
     border:1px solid var(--hair); border-radius:var(--r); box-shadow:var(--sh-hi); padding:7px;
-    min-width:216px; display:none; max-height:340px; overflow-y:auto; }
+    min-width:216px; display:none; max-height:min(70vh,560px); overflow-y:auto;
+    overscroll-behavior:contain; }
   .fdrop.on .fpanel { display:block; }
   .fopt { display:block; width:100%; text-align:left; background:none; border:none; padding:10px 12px;
     border-radius:var(--r-s); font:inherit; font-size:var(--t-ui); color:var(--body); cursor:pointer; }
@@ -286,14 +288,17 @@
   .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));
     gap:var(--s7) var(--s5); }
   @media (min-width:1900px) { .grid { grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); } }
-  .grid.rel { grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr)); }
+  .grid.rel { grid-template-columns:repeat(min(var(--n,4),4),minmax(0,1fr)); }
+  @media (max-width:900px) { .grid.rel { grid-template-columns:repeat(min(var(--n,2),2),minmax(0,1fr)); } }
 
   /* ---------- tarjeta ---------- */
-  .card { position:relative; display:flex; flex-direction:column; gap:var(--s3); }
+  .card { position:relative; display:flex; flex-direction:column; gap:var(--s3); min-width:0; }
   .ph { position:relative; aspect-ratio:4/3; border-radius:var(--r); overflow:hidden; background:var(--ground-warm); }
   .ph img { width:100%; height:100%; object-fit:cover; transition:transform .55s ease; }
   .card:hover .ph img { transform:scale(1.045); }
-  .card-body { display:flex; flex-direction:column; gap:3px; }
+  /* min-width:0 es lo que hace que `.card-s` se recorte con puntos suspensivos en vez
+     de ensanchar la columna: en euskera las líneas son más largas y desbordaban. */
+  .card-body { display:flex; flex-direction:column; gap:3px; min-width:0; flex:1; }
   .card-k { font-size:var(--t-label); font-weight:500; letter-spacing:.12em; text-transform:uppercase;
     color:var(--mute); }
   .card-t { font-size:var(--t-body); font-weight:500; color:var(--ink); line-height:1.28;
@@ -306,7 +311,7 @@
   .card-s { font-size:var(--t-meta); color:var(--mute); white-space:nowrap; overflow:hidden;
     text-overflow:ellipsis; }
   .card-foot { display:flex; align-items:baseline; justify-content:space-between; gap:var(--s3);
-    margin-top:var(--s2); }
+    margin-top:auto; padding-top:var(--s2); }
   .card-p { font-size:15px; color:var(--ink); }
   .card-p b { font-weight:500; }
   .card-p .u { font-size:var(--t-meta); color:var(--mute); font-weight:300; }
@@ -369,15 +374,16 @@
   .chips { display:flex; flex-wrap:wrap; gap:8px; }
   .chipx { border:1px solid var(--hair); border-radius:999px; padding:7px 14px; font-size:var(--t-meta);
     color:var(--body); }
-  .facts { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:var(--s5);
-    background:var(--ground-warm); border-radius:var(--r); padding:var(--s5); }
+  .facts { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:var(--s5);
+    background:var(--ground-warm); border:1px solid var(--hair); border-radius:var(--r); padding:var(--s5); }
   .fact { display:flex; flex-direction:column; gap:3px; }
   .fact .k { font-size:var(--t-label); font-weight:500; letter-spacing:.13em; text-transform:uppercase;
     color:var(--mute); }
   .fact .v { font-size:15px; color:var(--ink); line-height:1.45; }
   .sec-h { font-size:var(--t-h3); font-weight:500; color:var(--ink); letter-spacing:-.018em; }
   .rule { height:1px; background:var(--hair); border:none; }
-  .rev { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:var(--s6) var(--s7); }
+  .rev { display:grid; grid-template-columns:repeat(min(var(--n,3),3),minmax(0,1fr)); gap:var(--s6) var(--s7); }
+  @media (max-width:820px) { .rev { grid-template-columns:minmax(0,1fr); } }
   .rev .who { display:flex; align-items:center; gap:11px; margin-bottom:8px; }
   .av { width:38px; height:38px; border-radius:50%; background:var(--accent-soft); color:var(--accent);
     display:grid; place-items:center; font-size:13px; font-weight:500; flex:none; }
@@ -419,6 +425,9 @@
   .field { display:flex; flex-direction:column; gap:7px; }
   .field > label { font-size:var(--t-label); font-weight:500; letter-spacing:.1em; text-transform:uppercase;
     color:var(--mute); }
+  /* La etiqueta de una casilla es una frase, no un rótulo de campo. */
+  .field > label.opt { font-size:var(--t-ui); font-weight:400; letter-spacing:normal;
+    text-transform:none; color:var(--body); }
   .field .hint { font-size:var(--t-meta); color:var(--mute); line-height:1.5; }
   .field .msg-err { font-size:var(--t-meta); color:var(--alerta); }
   input[type=text], input[type=tel], input[type=email], input[type=number], textarea, select.inp {
@@ -455,7 +464,9 @@
   .pick .pk-t { font-size:15px; color:var(--ink); font-weight:500; }
   .pick .pk-d { font-size:var(--t-meta); color:var(--mute); line-height:1.5; }
   .file { border:1px dashed var(--line); border-radius:var(--r-s); padding:var(--s4) 18px; display:flex;
-    justify-content:space-between; align-items:center; gap:var(--s4); flex-wrap:wrap; }
+    justify-content:space-between; align-items:center; gap:var(--s4); flex-wrap:nowrap; }
+  .file > .stack { min-width:0; }
+  .file .btn { flex:none; }
   .file .fn { font-size:var(--t-ui); color:var(--ink); font-weight:500; }
   .file .fd { font-size:var(--t-meta); color:var(--mute); line-height:1.5; }
   .borrador { display:flex; align-items:center; justify-content:space-between; gap:var(--s4);
@@ -490,7 +501,8 @@
   .kpi .n { font-size:40px; font-weight:300; color:var(--ink); letter-spacing:-.04em; line-height:1; }
   .kpi .n.hi { color:var(--accent); }
   .kpi .c { font-size:var(--t-meta); color:var(--mute); margin-top:8px; line-height:1.4; }
-  .empty { padding:var(--s9) 0; display:flex; flex-direction:column; gap:var(--s4); align-items:flex-start; }
+  .empty { padding:var(--s6) 0 var(--s7); display:flex; flex-direction:column; gap:var(--s4);
+    align-items:flex-start; }
   .tabs { display:flex; gap:8px; flex-wrap:wrap; }
   .tabs button { background:none; border:1px solid var(--line); border-radius:999px; padding:10px 17px;
     cursor:pointer; font:inherit; font-size:var(--t-meta); color:var(--body); }
@@ -503,6 +515,8 @@
     color:var(--ground); font-size:var(--t-ui); padding:14px 22px; border-radius:var(--r-s);
     max-width:calc(100vw - 32px); opacity:0; pointer-events:none; transition:opacity .2s; box-shadow:var(--sh-hi); }
   .toast.on { opacity:1; }
+  .pedir { border:1px solid var(--hair); border-radius:var(--r); padding:var(--s5);
+    max-width:640px; margin-inline:auto; display:flex; flex-direction:column; gap:14px; }
   .cta-pub-fin { border-top:1px solid var(--hair); margin-top:var(--sec); padding-top:var(--s7);
     display:flex; align-items:center; justify-content:space-between; gap:var(--s5); flex-wrap:wrap; }
 
@@ -545,7 +559,7 @@
   @media (prefers-reduced-motion: reduce) { * { transition:none !important; animation:none !important; } }
 
   /* ---------- adaptaciones ---------- */
-  @media (max-width:1400px) {
+  @media (max-width:1180px) {
     .secs { order:3; flex:1 0 100%; margin-inline:calc(-1 * var(--gut)); padding-inline:var(--gut); }
     .bar .wrap { padding-block:14px; gap:12px 26px; }
   }
@@ -595,14 +609,15 @@
     /* la fila de ámbitos baja a la barra pegajosa: es lo único que se queda arriba */
     .bar .secs { display:none; }
     .filterbar .secs-movil { display:flex; order:0; flex:1 1 0; min-width:0; padding-block:11px;
-      margin-inline:calc(-1 * var(--gut)); padding-inline:var(--gut); gap:26px;
-      mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent); }
+      margin-left:calc(-1 * var(--gut)); padding-left:var(--gut); padding-right:var(--s3); gap:26px;
+      mask-image:linear-gradient(to right,#000 calc(100% - 34px),transparent); }
     .btn-filtros { display:block; order:2; flex:none; background:none; border:none;
       border-left:1px solid var(--hair); padding:12px 0 12px var(--s3); font:inherit; font-size:13px;
       font-weight:500; color:var(--ink); cursor:pointer; white-space:nowrap; }
     /* La lupa baja a la fila pegajosa: en el móvil la cabecera se va con el scroll
        y la búsqueda es lo último que se puede perder de vista. */
-    .busq-movil { display:grid; order:1; flex:none; margin-left:auto; width:40px; height:40px; margin-right:0; }
+    .busq-movil { display:grid; order:1; flex:none; width:40px; height:40px; margin:0;
+      position:relative; z-index:1; background:var(--ground); }
     .busq-movil svg { width:19px; height:19px; }
     .bar #abrir-busq { display:none; }
     /* Y la capa de búsqueda se abre encima, sin mover la página de sitio. */
@@ -624,7 +639,7 @@
     .edades .ops { gap:var(--s4); }
     .catwrap { padding-block:var(--s6) 0; }
     .reswrap { padding-block:var(--s6) var(--s8); }
-    .grid, .grid.rel { grid-template-columns:1fr; gap:var(--s6); }
+    .grid, .grid.rel { grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--s5) var(--s4); }
     .ph { aspect-ratio:3/2; }
     .gal { grid-template-columns:1fr; grid-template-rows:auto; aspect-ratio:auto; }
     .gal .g1 { grid-row:auto; aspect-ratio:3/2; }
@@ -648,6 +663,11 @@
     .barra-contacto .bc-fav[aria-pressed="true"] { color:#b8443c; border-color:#b8443c; }
     body.con-barra { padding-bottom:84px; }
     body.con-barra .toast { bottom:calc(84px + env(safe-area-inset-bottom)); }
+  }
+  @media (max-width:560px) {
+    /* Por debajo de 560 dos columnas ya no dan de sí. */
+    .grid, .grid.rel { grid-template-columns:minmax(0,1fr); gap:var(--s6); }
+    .ph { aspect-ratio:3/2; }
   }
   @media (max-width:380px) {
     .btn-pub { padding:9px 12px; font-size:12.5px; letter-spacing:-.01em; }
@@ -2140,12 +2160,11 @@ function plazosHTML(){
 }
 function catsHTML(){
   if(catsVisibles().length < 2) return '';
-  return '<section class="wrap catwrap"><p class="eyebrow" id="cats-h"></p>' +
+  return '<section class="wrap catwrap" id="catwrap"><p class="eyebrow" id="cats-h"></p>' +
     '<div class="cats" id="cats"></div></section>';
 }
 function pedirHTML(){
-  return '<div class="stack g14" style="border:1px solid var(--hair);border-radius:var(--r);' +
-      'padding:var(--s5);max-width:640px">' +
+  return '<div class="pedir">' +
     '<h3 class="sec-h">' + esc(t('faltaLbl')) + '</h3>' +
     '<p class="note">' + esc(t('faltaP')) + '</p>' +
     '<form id="form-pedir" class="stack g10">' +
@@ -2193,6 +2212,10 @@ function pintarCats(){
   /* Una baldosa que pone «0 actividades» es una puerta cerrada: con la edad puesta,
      siete de las diez lo estaban. Se esconden en vez de enseñarse vacías. */
   const conAlgo = vis.filter(x => contarCat(x.id) > 0);
+  /* Si no queda ninguna materia con resultados, la tira entera sobra: diez fotos que
+     no llevan a ningún sitio justo encima de «no hay nada así todavía». */
+  const caja = $('#catwrap');
+  if(caja) caja.hidden = !conAlgo.length;
   const lista = conAlgo.length ? conAlgo : vis;
   c.classList.toggle('pocas', lista.length < 6);
   c.style.setProperty('--ncats', lista.length);
@@ -2449,7 +2472,7 @@ function viewFicha(){
         '<div class="stack g20"><div class="stack g6">' +
           '<h2 class="sec-h">' + esc(t('secOpi')) + '</h2>' +
           '<p class="note">' + starsLong(f) + ' &nbsp;·&nbsp; ' + esc(t('opiDemo')) + '</p></div>' +
-          '<div class="rev">' + opiniones(f).map(o =>
+          '<div class="rev" style="--n:' + opiniones(f).length + '">' + opiniones(f).map(o =>
             '<div><div class="who"><span class="av" aria-hidden="true">' + esc(o.nm[0]) + '</span>' +
             '<span><span class="nm">' + esc(o.nm) + '</span><br><span class="dt">' + esc(o.mes) + '</span></span></div>' +
             '<p>' + esc(o.txt) + '</p></div>').join('') +
@@ -2459,7 +2482,9 @@ function viewFicha(){
       '<aside class="sidebox">' +
         '<div class="stack g6"><span class="price-xl">' + (f.precio===0 ? esc(t('gratis')) :
             f.precio + ' €<span class="u">' + uni(f).s + '</span>') + '</span>' +
-          (f.precio ? '<span class="card-s" style="white-space:normal">≈ ' + precioMes(f) + ' €' + esc(t('aprox')) + '</span>' : '') + '</div>' +
+          /* «52 €/mes» y debajo «≈ 52 € al mes» decía dos veces lo mismo. */
+          (f.precio && f.unidad !== 'mes' ? '<span class="card-s" style="white-space:normal">≈ ' +
+            precioMes(f) + ' €' + esc(t('aprox')) + '</span>' : '') + '</div>' +
         '<hr class="rule">' +
         '<div class="stack g6"><span class="card-s" style="white-space:normal"><b style="color:var(--ink)">' +
             esc(estadoTxt(f) || f.plazas) + '</b></span>' +
@@ -2475,9 +2500,9 @@ function viewFicha(){
 
     (mismos.length ? '<div class="stack g20" style="margin-top:20px"><hr class="rule">' +
       '<h2 class="sec-h">' + esc(t('secMismo') + ' ' + f.proveedor) + '</h2>' +
-      '<div class="grid rel">' + mismos.map(f => fichaCard(f)).join('') + '</div></div>' : '') +
+      '<div class="grid rel" style="--n:' + mismos.length + '">' + mismos.map(f => fichaCard(f)).join('') + '</div></div>' : '') +
     (parecidos.length ? '<div class="stack g20"><hr class="rule"><h2 class="sec-h">' + esc(t('secParecidas')) + '</h2>' +
-      '<div class="grid rel">' + parecidos.map(f => fichaCard(f)).join('') + '</div></div>' : '') +
+      '<div class="grid rel" style="--n:' + parecidos.length + '">' + parecidos.map(f => fichaCard(f)).join('') + '</div></div>' : '') +
     '<p class="note">' + esc(t('fichaNota')) + '</p>' +
   '</div></section>' +
   /* En el móvil, contactar no puede quedar a dos mil píxeles de la decisión. */
