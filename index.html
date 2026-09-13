@@ -2858,6 +2858,12 @@ function abrirBusq(){
   try { i.focus({ preventScroll:true }); } catch(e){ i.focus(); }
   i.select();
 }
+/* Al confirmar una búsqueda la capa se cierra: el foco tiene que seguir al primer
+   resultado, que es donde está mirando quien acaba de buscar. */
+function focoResultados(){
+  const n = document.querySelector('#resultados .card-t a') || $('#app');
+  if(n){ try { n.focus({ preventScroll:true }); } catch(e){ n.focus(); } }
+}
 function cerrarBusq(devolverFoco){
   const l = $('#searchlayer'); if(!l || l.hidden) return;
   cerrarSug(); l.hidden = true; medirBarra();
@@ -3116,10 +3122,7 @@ document.addEventListener('click', e => {
       if(k === 'cat'){ state.q = ''; state.cat = val;
         const a = AMBITOS.find(x => x.cats.indexOf(val) >= 0); state.ambito = a ? a.id : null; }
       if(k === 'mat') state.q = val;
-      syncQ(); render(false); aResultados();
-      const prim = document.querySelector('#resultados .card-t a');
-      if(prim){ try { prim.focus({ preventScroll:true }); } catch(e){ prim.focus(); } }
-      break;
+      syncQ(); render(false); aResultados(); focoResultados(); break;
     }
     case 'tirarBorrador': state.form = {}; state.paso = 1; borrarForm(); render(); break;
     case 'masLista': {
@@ -3215,14 +3218,15 @@ document.addEventListener('keydown', e => {
     const items = p ? Array.prototype.slice.call(p.querySelectorAll('.sug')) : [];
     if(e.key === 'Escape'){ cerrarSug(); cerrarBusq(true); return; }
     if(!items.length || !p.classList.contains('on')){
-      if(e.key === 'Enter'){ e.preventDefault(); cerrarBusq(false); aResultados(); }
+      if(e.key === 'Enter'){ e.preventDefault(); cerrarBusq(false); aResultados(); focoResultados(); }
       return;
     }
     if(e.key === 'ArrowDown'){ e.preventDefault(); state.sugIdx = Math.min(state.sugIdx + 1, items.length - 1); }
     else if(e.key === 'ArrowUp'){ e.preventDefault(); state.sugIdx = Math.max(state.sugIdx - 1, -1); }
     else if(e.key === 'Enter'){
       e.preventDefault();
-      if(state.sugIdx >= 0) items[state.sugIdx].click(); else { cerrarSug(); cerrarBusq(false); aResultados(); }
+      if(state.sugIdx >= 0) items[state.sugIdx].click();
+      else { cerrarSug(); cerrarBusq(false); aResultados(); focoResultados(); }
       return;
     } else return;
     items.forEach((it,i) => { it.classList.toggle('sel', i === state.sugIdx);
