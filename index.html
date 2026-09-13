@@ -1662,7 +1662,7 @@ Object.assign(T.eu, {
 
 Object.assign(T.es, {
   edadQ:'¿Qué edad tiene?', saltar:'Ir al contenido', fIdiomaL:'Idioma de la clase',
-  ademas:'Además del precio', incluido:'incluido', aparte:'aparte',
+  ademas:'Además del precio', incluido:'incluido', aparte:'aparte', verMas:'Ver más actividades',
   fPlaza:'Plazas', soloPlaza:'Sólo con plaza libre', estadoCerrada:'Cerrada',
   ayuda_devolucion:'Se devuelve parte de la matrícula si se aprueba el nivel',
   ayuda_familia:'Descuento para familias numerosas',
@@ -1689,7 +1689,7 @@ Object.assign(T.es, {
 });
 Object.assign(T.eu, {
   edadQ:'Zenbat urte ditu?', saltar:'Edukira joan', fIdiomaL:'Klasearen hizkuntza',
-  ademas:'Prezioaz gain', incluido:'barne', aparte:'aparte',
+  ademas:'Prezioaz gain', incluido:'barne', aparte:'aparte', verMas:'Jarduera gehiago ikusi',
   fPlaza:'Plazak', soloPlaza:'Plaza librea dutenak bakarrik', estadoCerrada:'Itxita',
   ayuda_devolucion:'Matrikularen zati bat itzultzen da maila gainditzen bada',
   ayuda_familia:'Familia ugarientzako hobaria',
@@ -1821,7 +1821,7 @@ function opiniones(f){
    ========================================================================== */
 const state = {
   lang:LANG_INICIAL, view:'buscar', q:'', ambito:null, cat:null, edad:null, tipo:null, mod:null, dia:null,
-  idioma:null, plaza:null,
+  idioma:null, plaza:null, tope:24,
   precioMax:null, sugIdx:-1, orden:'rel', fichaId:null, paso:1, form:{}, enviada:null,
   admin:false, adminTab:'pendientes', listo:false, compartidos:null,
   fichas:FICHAS.map(f => Object.assign({}, f)),
@@ -1840,7 +1840,16 @@ function leerGuardados(){
   } catch(e){ return []; }
 }
 function grabarGuardados(){ try { localStorage.setItem('tablon.guardados', JSON.stringify(state.guardados)); } catch(e){} }
-function grabarForm(){ try { localStorage.setItem('tablon.form', JSON.stringify(state.form)); } catch(e){} }
+/* El formulario se guarda para no perderlo al recargar, pero el DNI no: la propia
+   ayuda del campo promete que sólo lo ve quien revisa la ficha, y dejarlo escrito en
+   el navegador de quien lo teclea contradice eso. */
+function grabarForm(){
+  try {
+    const copia = Object.assign({}, state.form);
+    delete copia.dni;
+    localStorage.setItem('tablon.form', JSON.stringify(copia));
+  } catch(e){}
+}
 function borrarForm(){ try { localStorage.removeItem('tablon.form'); } catch(e){} }
 
 const $ = s => document.querySelector(s);
@@ -2035,6 +2044,7 @@ function viewBuscar(){
     '<section class="wrap reswrap" id="anchor-res"><div class="stack g40">' +
       '<div class="resmeta"><h2 class="sec-h" id="res-h"></h2><div class="fmeta" id="fmeta"></div></div>' +
       '<div class="grid" id="resultados"></div>' +
+      '<div class="btn-row" id="ver-mas"></div>' +
       pedirHTML() +
       ctaPubHTML() +
     '</div></section>' +
@@ -2115,15 +2125,15 @@ function pintarSecs(){
 function catsVisibles(){
   if(!state.ambito) return CATS;
   const a = AMBITOS.find(x => x.id === state.ambito);
+  if(!a) return CATS;
   return CATS.filter(c => a.cats.indexOf(c.id) >= 0);
 }
 function pintarCats(){
   const c = $('#cats'); if(!c) return;
   const vis = catsVisibles();
   const h = $('#cats-h');
-  if(h) h.textContent = state.ambito
-    ? AMBITOS.find(x => x.id === state.ambito)[state.lang] + ' \u2014 ' + t('porMateria')
-    : t('porMateria');
+  const amb = state.ambito ? AMBITOS.find(x => x.id === state.ambito) : null;
+  if(h) h.textContent = amb ? amb[state.lang] + ' \u2014 ' + t('porMateria') : t('porMateria');
   c.classList.toggle('pocas', vis.length < 6);
   c.style.setProperty('--ncats', vis.length);
   c.innerHTML = vis.map(x =>
@@ -2181,7 +2191,7 @@ function pintarFiltros(){
 
   g.innerHTML =
     drop('cat', t('fMateriaL'), catAct, matOpts) +
-    drop('edad', t('fEdadL'), state.edad ? EDADES.find(e => e.id === state.edad)[state.lang] : null,
+    drop('edad', t('fEdadL'), state.edad ? (EDADES.find(e => e.id === state.edad)||{})[state.lang] : null,
       opt('edad','',t('cualquiera')) + EDADES.map(e => opt('edad', e.id, e[state.lang], contar('edad', e.id))).join('')) +
     drop('precioMax', t('fPrecioL'),
       state.precioMax === null ? null : (state.precioMax === 0 ? t('gratis') : t('hasta') + state.precioMax + ' \u20ac'),
@@ -2194,8 +2204,8 @@ function pintarFiltros(){
 }
 function pintarMeta(n){
   const h = $('#res-h');
-  if(h) h.textContent = state.cat ? catName(state.cat)
-    : (state.ambito ? AMBITOS.find(x => x.id === state.ambito)[state.lang] : t('resH'));
+  const amb = state.ambito ? AMBITOS.find(x => x.id === state.ambito) : null;
+  if(h) h.textContent = state.cat ? catName(state.cat) : (amb ? amb[state.lang] : t('resH'));
   const m = $('#fmeta'); if(!m) return;
   m.innerHTML = '<span><b>' + n + '</b> ' + esc(n === 1 ? t('actividad') : t('actividades')) + '</span>' +
     '<label class="fmeta-ord"><span class="vh">' + esc(t('ordenar')) + '</span>' +
@@ -2250,6 +2260,7 @@ function agrupaPorAmbito(lista){
     .filter(g => g.fichas.length);
 }
 const TOPE_GRUPO = 8;
+const TOPE_LISTA = 24;   /* la rejilla plana se sirve por tandas: 300 fichas de golpe no las lee nadie */
 function pintarResultados(){
   const lista = ordenar(filtrar(state.fichas));
   pintarMeta(lista.length);
@@ -2263,7 +2274,17 @@ function pintarResultados(){
   }
   /* Si ya ha dicho lo que quiere, no le reorganices la respuesta. */
   const agrupar = !state.cat && !state.q && !state.ambito && lista.length > 12;
-  if(!agrupar){ c.className = 'grid'; c.innerHTML = lista.map(fichaCard).join(''); return; }
+  if(!agrupar){
+    const tope = state.tope || TOPE_LISTA;
+    c.className = 'grid';
+    c.innerHTML = lista.slice(0, tope).map(fichaCard).join('');
+    const mas = $('#ver-mas');
+    if(mas) mas.innerHTML = lista.length > tope
+      ? '<button class="btn" data-act="masLista">' + esc(t('verMas')) + ' (' + (lista.length - tope) + ')</button>'
+      : '';
+    return;
+  }
+  const mas = $('#ver-mas'); if(mas) mas.innerHTML = '';
   c.className = 'stack g72';
   c.innerHTML = agrupaPorAmbito(lista).map(g => {
     const sobran = g.fichas.length - TOPE_GRUPO;
@@ -2277,6 +2298,7 @@ function pintarResultados(){
 }
 function actualizar(){
   calcularConteos();
+  state.tope = TOPE_LISTA;
   pintarSecs(); pintarEdades(); pintarCats(); pintarFiltros(); pintarResultados(); escribirURL('replace');
 }
 
@@ -2716,8 +2738,24 @@ function escribirURL(modo){
 function limpiarFiltros(){
   state.q = ''; state.ambito = null; state.cat = null; state.edad = null; state.tipo = null;
   state.mod = null; state.dia = null; state.idioma = null; state.plaza = null;
-  state.precioMax = null; state.orden = 'rel';
+  state.precioMax = null; state.orden = 'rel'; state.tope = TOPE_LISTA;
 }
+/* Un enlace que llega por WhatsApp puede traer cualquier cosa. Lo que no reconocemos
+   se ignora: la alternativa era que `#/?amb=deportes` (con una ese de más) dejara la
+   página en blanco. */
+const VALIDO = {
+  ambito:   v => AMBITOS.some(x => x.id === v),
+  cat:      v => CATS.some(x => x.id === v),
+  edad:     v => EDADES.some(x => x.id === v),
+  tipo:     v => TIPOS.some(x => x.id === v),
+  mod:      v => MODOS.some(x => x.id === v),
+  dia:      v => DIAS.indexOf(v) >= 0,
+  idioma:   v => IDIOMAS_CLASE.some(x => x.id === v),
+  plaza:    v => v === 'libre',
+  orden:    v => ['rel','valor','precio','edad'].indexOf(v) >= 0,
+  q:        v => typeof v === 'string' && v.length <= 80,
+  precioMax:v => v === null || (typeof v === 'number' && isFinite(v) && v >= 0 && v <= 100000)
+};
 function leerURL(){
   const h = (location.hash || '#/').replace(/^#/, '');
   const corte = h.indexOf('?');
@@ -2733,8 +2771,11 @@ function leerURL(){
     const u = new URLSearchParams(busca);
     PARAMS.forEach(([k,s]) => {
       if(!u.has(k)) return;
-      const v = u.get(k);
-      state[s] = (s === 'precioMax') ? (v === '' ? null : +v) : (v || null);
+      const bruto = u.get(k);
+      const v = (s === 'precioMax') ? (bruto === '' ? null : +bruto) : (bruto || null);
+      if(v === null){ state[s] = (s === 'q') ? '' : null; return; }
+      if(VALIDO[s] && !VALIDO[s](v)) return;      /* valor que no reconocemos: se ignora */
+      state[s] = v;
     });
     if(state.q === null) state.q = '';
     const l = u.get('lang');
@@ -2864,6 +2905,7 @@ document.addEventListener('click', e => {
       if(k === 'mat') state.q = val;
       syncQ(); render(false); aResultados(); break;
     }
+    case 'masLista': state.tope = (state.tope || TOPE_LISTA) + TOPE_LISTA; pintarResultados(); break;
     case 'limpiar':
       limpiarFiltros(); syncQ(); cerrarSug(); render(false); break;
     case 'fav': case 'guardar': {
@@ -3084,7 +3126,8 @@ function cambiarTema(){
   try {
     const x = localStorage.getItem('tablon.tema'); if(x) document.documentElement.setAttribute('data-theme', x);
     const l = localStorage.getItem('tablon.lang'); if(l === 'eu' || l === 'es') state.lang = l;
-    const f = localStorage.getItem('tablon.form'); if(f) state.form = JSON.parse(f) || {};
+    const f = localStorage.getItem('tablon.form');
+    if(f){ const g = JSON.parse(f); if(g && typeof g === 'object' && !Array.isArray(g)) state.form = g; }
   } catch(e){}
   leerURL();
   state.listo = true;
