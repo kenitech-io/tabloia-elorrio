@@ -1807,8 +1807,9 @@ const extrasDe = f => f.extras || EXTRAS[f.id] || [];
 const ayudasDe = f => f.ayudas || AYUDAS[f.id] || [];
 
 /* ---- foto de cada ficha ---- */
-/* Una foto por ficha, sin repetir: dos tarjetas con la misma imagen a la vista se
-   notan más que cualquier otro descuido. */
+/* Una foto por ficha. Sólo se repite `ludoteka`, en la 44 y la 48, que están en
+   ámbitos distintos y no coinciden nunca en el mismo grupo de resultados: no hay
+   ninguna foto libre de derechos de monitores de tiempo libre que sirva. */
 const IMG = {
   1:'frantsesa', 2:'euskara', 3:'ingelesa', 4:'alemana', 5:'ikasgela2', 6:'idazmena',
   7:'matematika', 8:'ikasgela', 9:'ikasgela3', 10:'azterketa', 11:'logopedia', 12:'helduak',
@@ -1895,7 +1896,9 @@ function leerGuardados(){
     /* Sólo ids numéricos. Cualquier otra cosa se descarta en silencio: es preferible
        perder la lista de guardados a dejar la web en blanco hasta que alguien entre
        en las herramientas del navegador. */
-    return Array.isArray(v) ? v.map(Number).filter(n => Number.isFinite(n) && n > 0) : [];
+    if(!Array.isArray(v)) return [];
+    const ids = v.map(Number).filter(n => Number.isFinite(n) && n > 0);
+    return ids.filter((n,i) => ids.indexOf(n) === i);   /* sin repetidos */
   } catch(e){ return []; }
 }
 function grabarGuardados(){ try { localStorage.setItem('tablon.guardados', JSON.stringify(state.guardados)); } catch(e){} }
@@ -2846,7 +2849,13 @@ function abrirBusq(){
 function cerrarBusq(devolverFoco){
   const l = $('#searchlayer'); if(!l || l.hidden) return;
   cerrarSug(); l.hidden = true; medirBarra();
-  if(devolverFoco){ const b = $('#abrir-busq'); if(b) b.focus(); }
+  if(devolverFoco){
+    /* En el móvil hay dos lupas y sólo una está a la vista según la vista: hay que
+       devolver el foco a la que se pueda ver, no siempre a la de la cabecera. */
+    const lupas = [$('#busq-movil'), $('#abrir-busq')].filter(Boolean);
+    const b = lupas.find(x => x.getClientRects().length) || lupas[0];
+    if(b) b.focus();
+  }
 }
 function medirBarra(){
   const b = $('#bar'); if(!b) return;
@@ -2974,7 +2983,15 @@ function render(scroll){
     const f = state.view === 'ficha' ? state.fichas.find(x => x.id === state.fichaId) : null;
     an.textContent = f ? f.titulo : (nombres[state.view] || '');
   }
-  if(scroll !== false) window.scrollTo(0,0);
+  if(scroll !== false){
+    window.scrollTo(0,0);
+    /* Sustituimos el contenido entero sin recargar: si no movemos el foco, quien
+       navega con teclado se queda al principio del documento en cada cambio. */
+    const m = $('#app');
+    if(m && document.activeElement !== m){
+      try { m.focus({ preventScroll:true }); } catch(e){ m.focus(); }
+    }
+  }
 }
 function ir(v){
   /* La posición se recupera sólo al volver de una ficha; desde agenda o guardados se
