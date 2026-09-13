@@ -301,6 +301,12 @@
     white-space:nowrap; }
   .stars i { font-style:normal; color:var(--star); }
   .stars em { font-style:normal; color:var(--mute); font-weight:300; }
+  .ademas { display:flex; flex-direction:column; gap:var(--s3); }
+  .ademas ul { list-style:none; display:flex; flex-direction:column; gap:6px; }
+  .ademas li { font-size:var(--t-meta); color:var(--body); }
+  .ademas li b { color:var(--ink); font-weight:500; }
+  .ademas li span { color:var(--mute); }
+  .badge.cerrada { background:var(--ink); color:var(--ground); }
   .badge { position:absolute; top:var(--s3); left:var(--s3); background:var(--accent); color:var(--ground);
     font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; padding:5px 11px;
     border-radius:999px; }
@@ -1656,6 +1662,14 @@ Object.assign(T.eu, {
 
 Object.assign(T.es, {
   edadQ:'¿Qué edad tiene?', saltar:'Ir al contenido', fIdiomaL:'Idioma de la clase',
+  ademas:'Además del precio', incluido:'incluido', aparte:'aparte',
+  fPlaza:'Plazas', soloPlaza:'Sólo con plaza libre', estadoCerrada:'Cerrada',
+  ayuda_devolucion:'Se devuelve parte de la matrícula si se aprueba el nivel',
+  ayuda_familia:'Descuento para familias numerosas',
+  ayuda_municipal:'Ayuda del ayuntamiento con informe de servicios sociales',
+  ayuda_estudiantes:'Tarifa reducida para estudiantes',
+  ayuda_paro:'Tarifa reducida para personas en paro',
+  ayuda_renta:'Descuento según la renta familiar',
   plazosH:'Cierra esta semana', verAgenda:'Ver la agenda entera',
   ctaPubH:'¿Das clases en Elorrio?',
   ctaPubP:'Publicar es gratis, no hay comisión y el contacto llega directo a tu teléfono.',
@@ -1675,6 +1689,14 @@ Object.assign(T.es, {
 });
 Object.assign(T.eu, {
   edadQ:'Zenbat urte ditu?', saltar:'Edukira joan', fIdiomaL:'Klasearen hizkuntza',
+  ademas:'Prezioaz gain', incluido:'barne', aparte:'aparte',
+  fPlaza:'Plazak', soloPlaza:'Plaza librea dutenak bakarrik', estadoCerrada:'Itxita',
+  ayuda_devolucion:'Matrikularen zati bat itzultzen da maila gainditzen bada',
+  ayuda_familia:'Familia ugarientzako hobaria',
+  ayuda_municipal:'Udalaren laguntza, gizarte zerbitzuen txostenarekin',
+  ayuda_estudiantes:'Ikasleentzako tarifa murriztua',
+  ayuda_paro:'Langabeentzako tarifa murriztua',
+  ayuda_renta:'Familiaren diru-sarreren araberako hobaria',
   plazosH:'Aste honetan ixten da', verAgenda:'Ikusi agenda osoa',
   ctaPubH:'Elorrion klaseak ematen dituzu?',
   ctaPubP:'Argitaratzea doakoa da, ez dago komisiorik eta harremana zuzenean zure telefonora iristen da.',
@@ -1692,6 +1714,39 @@ Object.assign(T.eu, {
   fMateriaL:'Gaia', fEdadL:'Adina', fQuienL:'Nork ematen duen', fDiaL:'Eguna', fComoL:'Nola', fPrecioL:'Prezioa',
   cualquiera:'Edozein', hasta:'Gehienez ', alMes:'/hil'
 });
+
+/* Lo que cuesta además del precio, y las ayudas. Sacado de lo que ya cuentan las
+   descripciones: hasta ahora había que leer el cuarto párrafo para enterarse de que
+   la equipación entra en la cuota o de que la elkarte presta el instrumento. */
+const EXTRAS = {
+  13:[{que:'Matrícula anual', eur:45, cuando:'una vez'}],
+  15:[{que:'Soinua', eur:0, cuando:'utzita lehen urtean'}],
+  16:[{que:'Txistua', eur:0, cuando:'utzita'}],
+  18:[{que:'Federazio-fitxa eta asegurua', eur:0, cuando:'barne'},
+      {que:'Eskularruak', eur:0, cuando:'utzita lehen urtean'}],
+  19:[{que:'Ekipazioa, fitxa eta asegurua', eur:0, cuando:'barne'}],
+  20:[{que:'Elastikoa eta asegurua', eur:0, cuando:'barne'}],
+  23:[{que:'Materiala', eur:0, cuando:'elkarteak jarrita'}],
+  24:[{que:'Asegurua eta autobusa', eur:0, cuando:'barne'}],
+  26:[{que:'Palas de préstamo', eur:0, cuando:'el primer mes'}],
+  28:[{que:'Maillot de competición', eur:null, cuando:'aparte'}],
+  29:[{que:'Bicicleta y casco', eur:null, cuando:'los pone cada uno'}],
+  30:[{que:'Jantziak', eur:0, cuando:'taldeak utzita'}],
+  31:[{que:'Exámenes Royal Academy of Dance', eur:null, cuando:'aparte'}],
+  33:[{que:'Material básico', eur:0, cuando:'incluido'},
+      {que:'Bastidores', eur:null, cuando:'aparte'}],
+  34:[{que:'Jantziak', eur:0, cuando:'kuotan barne'}],
+  35:[{que:'Cocción de las piezas', eur:0, cuando:'incluida'},
+      {que:'Esmalte', eur:null, cuando:'por kilo'}],
+  36:[{que:'Ordenagailuak eta kitak', eur:0, cuando:'barne'}],
+  39:[{que:'Esterillas', eur:0, cuando:'están en la sala'}],
+  43:[{que:'Jantokia', eur:null, cuando:'aukeran'}]
+};
+const AYUDAS = {
+  2:['devolucion'], 13:['familia'], 19:['municipal'], 41:['estudiantes','paro'], 43:['renta']
+};
+const extrasDe = f => f.extras || EXTRAS[f.id] || [];
+const ayudasDe = f => f.ayudas || AYUDAS[f.id] || [];
 
 /* ---- foto de cada ficha ---- */
 /* Una foto por ficha, sin repetir: dos tarjetas con la misma imagen a la vista se
@@ -1765,7 +1820,8 @@ function opiniones(f){
    ESTADO
    ========================================================================== */
 const state = {
-  lang:LANG_INICIAL, view:'buscar', q:'', ambito:null, cat:null, edad:null, tipo:null, mod:null, dia:null, idioma:null,
+  lang:LANG_INICIAL, view:'buscar', q:'', ambito:null, cat:null, edad:null, tipo:null, mod:null, dia:null,
+  idioma:null, plaza:null,
   precioMax:null, sugIdx:-1, orden:'rel', fichaId:null, paso:1, form:{}, enviada:null,
   admin:false, adminTab:'pendientes', listo:false, compartidos:null,
   fichas:FICHAS.map(f => Object.assign({}, f)),
@@ -1853,6 +1909,7 @@ function filtrar(lista, saltar){
   const mod = s.mod ? null : state.mod, dia = s.dia ? null : state.dia;
   const pmax = s.precioMax ? null : state.precioMax;
   const idi = s.idioma ? null : state.idioma;
+  const pl = s.plaza ? null : state.plaza;
   const buscar = s.q ? [] : term;
   return lista.filter(f => {
     if(amb && amb.cats.indexOf(f.cat) < 0) return false;
@@ -1865,6 +1922,7 @@ function filtrar(lista, saltar){
       else if(precioMes(f) > pmax) return false;
     }
     if(idi && (f.idiomaClase || []).indexOf(idi) < 0) return false;
+    if(pl && f.estado !== 'libre' && f.estado !== 'continua') return false;
     if(ed && !(f.edad[0] <= ed.max && f.edad[1] >= ed.min)) return false;
     if(buscar.length){ const h = heno(f); return buscar.every(x => h.indexOf(x) >= 0); }
     return true;
@@ -1887,7 +1945,7 @@ function ordenar(l){
     return d !== 0 ? d : a.proveedor.localeCompare(b.proveedor,'es');
   });
 }
-const hayFiltros = () => !!(state.q||state.ambito||state.cat||state.edad||state.tipo||state.mod||state.dia||state.idioma||state.precioMax!==null);
+const hayFiltros = () => !!(state.q||state.ambito||state.cat||state.edad||state.tipo||state.mod||state.dia||state.idioma||state.plaza||state.precioMax!==null);
 
 /* Los recuentos de cada opción se calculan de una vez, con un filtrado por dimensión
    (seis en total) en vez de uno por opción (cuarenta y dos). Para las materias se
@@ -1895,12 +1953,13 @@ const hayFiltros = () => !!(state.q||state.ambito||state.cat||state.edad||state.
    aparecen seis. */
 let CONTEOS = null;
 function calcularConteos(){
-  const c = { cat:{}, edad:{}, tipo:{}, mod:{}, dia:{}, precioMax:{}, idioma:{} };
+  const c = { cat:{}, edad:{}, tipo:{}, mod:{}, dia:{}, precioMax:{}, idioma:{}, plaza:{} };
   filtrar(state.fichas, { cat:1, ambito:1 }).forEach(f => { c.cat[f.cat] = (c.cat[f.cat]||0)+1; });
   filtrar(state.fichas, { edad:1 }).forEach(f => EDADES.forEach(e => {
     if(f.edad[0] <= e.max && f.edad[1] >= e.min) c.edad[e.id] = (c.edad[e.id]||0)+1; }));
   filtrar(state.fichas, { tipo:1 }).forEach(f => { c.tipo[f.tipo] = (c.tipo[f.tipo]||0)+1; });
   filtrar(state.fichas, { idioma:1 }).forEach(f => (f.idiomaClase||[]).forEach(i => { c.idioma[i] = (c.idioma[i]||0)+1; }));
+  c.plaza['libre'] = filtrar(state.fichas, { plaza:1 }).filter(f => f.estado === 'libre' || f.estado === 'continua').length;
   filtrar(state.fichas, { mod:1 }).forEach(f => f.mod.forEach(m => { c.mod[m] = (c.mod[m]||0)+1; }));
   filtrar(state.fichas, { dia:1 }).forEach(f => f.dias.forEach(d => { c.dia[d] = (c.dia[d]||0)+1; }));
   const bp = filtrar(state.fichas, { precioMax:1 });
@@ -1929,7 +1988,8 @@ function fichaCard(f){
   return '<article class="card">' +
     '<div class="ph"><img src="' + fotoS(IMG[f.id] || 'elorrio1') + '" srcset="' + srcsetCard(IMG[f.id] || 'elorrio1') +
       '" sizes="(max-width:680px) 100vw, 320px" alt="" loading="lazy" decoding="async" width="900" height="600">' +
-      (f.precio === 0 ? '<span class="badge">' + esc(t('gratis')) + '</span>' : '') +
+      (f.estado === 'cerrada' ? '<span class="badge cerrada">' + esc(t('estadoCerrada')) + '</span>'
+        : f.precio === 0 ? '<span class="badge">' + esc(t('gratis')) + '</span>' : '') +
       '<button class="fav" data-act="fav" data-id="' + f.id + '" aria-pressed="' + g + '" aria-label="' +
         esc((g ? t('btnQuitar') : t('btnGuardar')) + ': ' + f.titulo) + '">' + HEART + '</button></div>' +
     '<div class="card-body">' +
@@ -1947,6 +2007,19 @@ function starsCard(f){
   const r = rating(f);
   if(!r || r < 4.7 || nrev(f) < 18) return '';
   return '<span class="stars"><i>\u2605</i>' + num1(r) + ' <em>(' + nrev(f) + ')</em></span>';
+}
+/* Lo que se paga además de la cuota, y los descuentos: cambia el coste real hasta
+   el doble y hasta ahora estaba enterrado en la descripción. */
+function ademasHTML(f){
+  const ex = extrasDe(f), ay = ayudasDe(f);
+  if(!ex.length && !ay.length) return '';
+  const lg = f.lang !== state.lang ? ' lang="' + f.lang + '"' : '';
+  return '<div class="ademas"><h2 class="sec-h">' + esc(t('ademas')) + '</h2><ul>' +
+    ex.map(x => '<li' + lg + '><b>' + esc(x.que) + '</b>' +
+      (x.eur ? ' · ' + x.eur + ' \u20ac' : '') +
+      (x.cuando ? ' <span>' + esc(x.cuando) + '</span>' : '') + '</li>').join('') +
+    ay.map(a => '<li><b>' + esc(t('ayuda_' + a) || a) + '</b></li>').join('') +
+  '</ul></div>';
 }
 function fact(k, v){ return '<div class="fact"><span class="k">' + esc(k) + '</span><span class="v">' + v + '</span></div>'; }
 
@@ -2094,13 +2167,16 @@ function pintarFiltros(){
     '<div class="fhead">' + esc(t('fIdiomaL')) + '</div>' +
     opt('idioma','',t('cualquiera')) +
     IDIOMAS_CLASE.map(x => opt('idioma', x.id, x[state.lang], contar('idioma', x.id))).join('') +
+    '<div class="fhead">' + esc(t('fPlaza')) + '</div>' +
+    opt('plaza','',t('cualquiera')) + opt('plaza','libre',t('soloPlaza'), contar('plaza','libre')) +
     '<div class="fhead">' + esc(t('fQuienL')) + '</div>' +
     opt('tipo','',t('cualquiera')) + TIPOS.map(x => opt('tipo', x.id, x[state.lang], contar('tipo', x.id))).join('') +
     '<div class="fhead">' + esc(t('fDiaL')) + '</div>' +
     opt('dia','',t('cualquiera')) + DIAS.map(d => opt('dia', d, cap(DIAS_LARGO[state.lang][d]), contar('dia', d))).join('') +
     '<div class="fhead">' + esc(t('fComoL')) + '</div>' +
     opt('mod','',t('cualquiera')) + MODOS.map(x => opt('mod', x.id, x[state.lang], contar('mod', x.id))).join('');
-  const masAct = [state.idioma && idiomaName(state.idioma), state.tipo && tipoName(state.tipo),
+  const masAct = [state.idioma && idiomaName(state.idioma), state.plaza && t('soloPlaza'),
+    state.tipo && tipoName(state.tipo),
     state.dia && cap(DIAS_LARGO[state.lang][state.dia]), state.mod && modName(state.mod)].filter(Boolean);
 
   g.innerHTML =
@@ -2262,6 +2338,7 @@ function viewFicha(){
           fact(t('fPlazas'), (estadoTxt(f) ? '<b>' + esc(estadoTxt(f)) + '</b><br>' : '') +
             '<span style="color:var(--mute);font-size:13px">' + esc(f.plazas) + '</span>') +
         '</div>' +
+        ademasHTML(f) +
         '<div class="who-box"><span class="av big" aria-hidden="true">' + esc(ini) + '</span>' +
           '<span class="stack g6"><span class="card-t">' + esc(f.proveedor) + '</span>' +
           '<span class="card-s">' + esc(f.exp) + '</span>' +
@@ -2612,7 +2689,7 @@ function medirBarra(){
    fichero abierto en local se comporta igual que el publicado.
    ========================================================================== */
 const PARAMS = [['q','q'],['amb','ambito'],['cat','cat'],['edad','edad'],['tipo','tipo'],
-  ['mod','mod'],['dia','dia'],['hizk','idioma'],['max','precioMax'],['orden','orden']];
+  ['mod','mod'],['dia','dia'],['hizk','idioma'],['plaza','plaza'],['max','precioMax'],['orden','orden']];
 const VISTAS_URL = ['agenda','guardados','publicar','admin'];
 const rutaFicha = id => '#/ficha/' + id;
 function rutaDe(){
@@ -2638,7 +2715,8 @@ function escribirURL(modo){
 }
 function limpiarFiltros(){
   state.q = ''; state.ambito = null; state.cat = null; state.edad = null; state.tipo = null;
-  state.mod = null; state.dia = null; state.idioma = null; state.precioMax = null; state.orden = 'rel';
+  state.mod = null; state.dia = null; state.idioma = null; state.plaza = null;
+  state.precioMax = null; state.orden = 'rel';
 }
 function leerURL(){
   const h = (location.hash || '#/').replace(/^#/, '');
@@ -2760,7 +2838,7 @@ document.addEventListener('click', e => {
       state.cat = (state.cat === v) ? null : v;
       if(state.cat){ const a = AMBITOS.find(x => x.cats.indexOf(state.cat) >= 0); state.ambito = a ? a.id : null; }
       render(false); aResultados(); break;
-    case 'edad': case 'tipo': case 'mod': case 'dia': case 'idioma':
+    case 'edad': case 'tipo': case 'mod': case 'dia': case 'idioma': case 'plaza':
       state[act] = (!v || state[act] === v) ? null : v;
       if(state.view !== 'buscar'){ ir('buscar'); break; }
       render(false); aResultados(); break;
