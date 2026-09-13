@@ -2317,7 +2317,9 @@ function agrupaPorAmbito(lista){
   return AMBITOS.map(a => ({ amb:a, fichas:lista.filter(f => a.cats.indexOf(f.cat) >= 0) }))
     .filter(g => g.fichas.length);
 }
-const TOPE_GRUPO = 8;
+/* En el móvil las tarjetas van a una columna: ocho por grupo son cinco pantallas de
+   scroll antes de llegar al grupo siguiente, y la portada entera pasaba de 18.000 px. */
+const topeGrupo = () => (window.matchMedia && window.matchMedia('(max-width:680px)').matches) ? 4 : 8;
 const TOPE_LISTA = 24;   /* la rejilla plana se sirve por tandas: 300 fichas de golpe no las lee nadie */
 function pintarResultados(){
   const lista = ordenar(filtrar(state.fichas));
@@ -2345,13 +2347,14 @@ function pintarResultados(){
   const mas = $('#ver-mas'); if(mas) mas.innerHTML = '';
   c.className = 'stack g72';
   c.innerHTML = agrupaPorAmbito(lista).map(g => {
-    const sobran = g.fichas.length - TOPE_GRUPO;
+    const tope = topeGrupo();
+    const sobran = g.fichas.length - tope;
     return '<section class="grupo">' +
       '<div class="grupo-h"><h2>' + esc(g.amb[state.lang]) + '</h2>' +
       (sobran > 0
         ? '<button class="lnk" data-act="amb" data-v="' + g.amb.id + '">' + esc(t('verTodas')) + ' (' + g.fichas.length + ')</button>'
         : '<span class="n">' + esc(nAct(g.fichas.length)) + '</span>') +
-      '</div><div class="grid">' + g.fichas.slice(0, TOPE_GRUPO).map(f => fichaCard(f)).join('') + '</div></section>';
+      '</div><div class="grid">' + g.fichas.slice(0, tope).map(f => fichaCard(f)).join('') + '</div></section>';
   }).join('');
 }
 function actualizar(){
