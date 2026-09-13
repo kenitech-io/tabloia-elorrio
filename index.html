@@ -217,6 +217,7 @@
   .lnk { background:none; border:none; padding:6px 0; cursor:pointer; font:inherit; font-size:var(--t-meta);
     color:var(--accent); text-decoration:underline; text-underline-offset:3px; }
   .btn-filtros { display:none; }
+  .btn-filtros.act { color:var(--accent); font-weight:600; }
   .busq-movil { display:none; }
   .saltar { position:absolute; left:-9999px; top:0; z-index:120; background:var(--accent);
     color:var(--ground); padding:12px 20px; font-size:var(--t-ui); text-decoration:none;
@@ -242,11 +243,14 @@
   .edades .in { display:flex; align-items:baseline; gap:var(--s3) var(--s6); flex-wrap:wrap; }
   .edades .q { font-size:var(--t-body); color:var(--ink); font-weight:400; }
   .edades .ops { display:flex; gap:var(--s5); flex-wrap:wrap; align-items:baseline; }
-  .edades button { background:none; border:none; border-bottom:1.5px solid transparent; cursor:pointer;
-    font:inherit; font-size:var(--t-ui); color:var(--body); padding:6px 0; white-space:nowrap;
-    transition:color .15s, border-color .15s; }
-  .edades button:hover { color:var(--ink); }
-  .edades button[aria-pressed="true"] { color:var(--ink); border-bottom-color:var(--accent); font-weight:500; }
+  .edades .ops { gap:var(--s2); }
+  .edades button { background:none; border:1px solid var(--hair); border-radius:999px; cursor:pointer;
+    font:inherit; font-size:var(--t-ui); color:var(--body); padding:9px 17px; white-space:nowrap;
+    transition:border-color .15s, color .15s, background-color .15s; }
+  .edades button:hover { border-color:var(--mute); color:var(--ink); }
+  .edades button[aria-pressed="true"] { background:var(--accent); border-color:var(--accent);
+    color:var(--ground); font-weight:500; }
+  .edades .lnk { border:none; padding:9px 4px; }
 
   /* ---------- materias ---------- */
   .catwrap { padding-block:var(--sec) 0; }
@@ -426,6 +430,10 @@
   input:focus, textarea:focus, select:focus { outline:none; border-color:var(--accent); }
   ::placeholder { color:var(--mute); font-weight:300; opacity:1; }
   .field.err input, .field.err textarea, .field.err select { border-color:var(--alerta); }
+  fieldset.field.err .pick { border-color:var(--alerta); }
+  fieldset.field.err legend { color:var(--alerta); }
+  /* La tarjeta de muestra del formulario no es clicable: no lleva a ningún sitio. */
+  .card.previa { pointer-events:none; }
   input[type=checkbox], input[type=radio] { appearance:none; width:24px; height:24px; flex:none;
     border:1.5px solid var(--line); background:var(--ground); cursor:pointer; border-radius:4px;
     transition:all .14s; position:relative; }
@@ -450,6 +458,9 @@
     justify-content:space-between; align-items:center; gap:var(--s4); flex-wrap:wrap; }
   .file .fn { font-size:var(--t-ui); color:var(--ink); font-weight:500; }
   .file .fd { font-size:var(--t-meta); color:var(--mute); line-height:1.5; }
+  .borrador { display:flex; align-items:center; justify-content:space-between; gap:var(--s4);
+    flex-wrap:wrap; background:var(--ground-warm); border-radius:var(--r-s); padding:12px var(--s4);
+    font-size:var(--t-meta); color:var(--body); }
   .steps { display:flex; gap:8px; flex-wrap:wrap; list-style:none; }
   .step { flex:1 1 140px; padding:12px 14px; border-radius:var(--r-s); background:var(--ground-warm);
     display:flex; gap:9px; align-items:baseline; }
@@ -486,6 +497,8 @@
   .tabs button[aria-selected="true"] { background:var(--ink); border-color:var(--ink); color:var(--ground); }
   .pend { border:1px solid var(--hair); border-radius:var(--r); padding:var(--s5); display:flex;
     flex-direction:column; gap:var(--s4); }
+  .pend-cols { display:grid; grid-template-columns:220px minmax(0,1fr); gap:var(--s5); align-items:start; }
+  @media (max-width:760px) { .pend-cols { grid-template-columns:minmax(0,1fr); } }
   .toast { position:fixed; left:50%; bottom:26px; transform:translateX(-50%); z-index:70; background:var(--ink);
     color:var(--ground); font-size:var(--t-ui); padding:14px 22px; border-radius:var(--r-s);
     max-width:calc(100vw - 32px); opacity:0; pointer-events:none; transition:opacity .2s; box-shadow:var(--sh-hi); }
@@ -634,6 +647,7 @@
     .barra-contacto .bc-fav { flex:0 0 auto; padding:13px 15px; }
     .barra-contacto .bc-fav[aria-pressed="true"] { color:#b8443c; border-color:#b8443c; }
     body.con-barra { padding-bottom:84px; }
+    body.con-barra .toast { bottom:calc(84px + env(safe-area-inset-bottom)); }
   }
   @media (max-width:380px) {
     .btn-pub { padding:9px 12px; font-size:12.5px; letter-spacing:-.01em; }
@@ -1672,6 +1686,7 @@ Object.assign(T.eu, {
 Object.assign(T.es, {
   edadQ:'¿Qué edad tiene?', saltar:'Ir al contenido', fIdiomaL:'Idioma de la clase',
   ademas:'Además del precio', incluido:'incluido', aparte:'aparte', verMas:'Ver más actividades',
+  borradorH:'Hemos guardado lo que habías escrito en este navegador.', borradorNo:'Empezar de cero',
   fPlaza:'Plazas', soloPlaza:'Sólo con plaza libre', estadoCerrada:'Cerrada',
   ayuda_devolucion:'Se devuelve parte de la matrícula si se aprueba el nivel',
   ayuda_familia:'Descuento para familias numerosas',
@@ -1699,6 +1714,7 @@ Object.assign(T.es, {
 Object.assign(T.eu, {
   edadQ:'Zenbat urte ditu?', saltar:'Edukira joan', fIdiomaL:'Klasearen hizkuntza',
   ademas:'Prezioaz gain', incluido:'barne', aparte:'aparte', verMas:'Jarduera gehiago ikusi',
+  borradorH:'Idatzi zenuena gorde dugu nabigatzaile honetan.', borradorNo:'Hutsetik hasi',
   fPlaza:'Plazak', soloPlaza:'Plaza librea dutenak bakarrik', estadoCerrada:'Itxita',
   ayuda_devolucion:'Matrikularen zati bat itzultzen da maila gainditzen bada',
   ayuda_familia:'Familia ugarientzako hobaria',
@@ -1830,7 +1846,7 @@ function opiniones(f){
    ========================================================================== */
 const state = {
   lang:LANG_INICIAL, view:'buscar', q:'', ambito:null, cat:null, edad:null, tipo:null, mod:null, dia:null,
-  idioma:null, plaza:null, tope:24,
+  idioma:null, plaza:null, tope:24, propios:0,
   precioMax:null, sugIdx:-1, orden:'rel', fichaId:null, paso:1, form:{}, enviada:null,
   admin:false, adminTab:'pendientes', listo:false, compartidos:null,
   fichas:FICHAS.map(f => Object.assign({}, f)),
@@ -1907,12 +1923,33 @@ const HEART = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.
 /* ---------- filtrado ---------- */
 /* El texto sobre el que se busca no cambia durante la sesión: se calcula una vez por
    ficha. Sin esto, teclear una letra reconstruía la misma cadena decenas de veces. */
+/* En un pueblo bilingüe, quien busca «natación» tiene que encontrar «igeriketa».
+   Al texto de cada ficha se le añade la otra mitad del par. */
+const SINONIMOS = [
+  ['natacion','igeriketa'], ['futbol','futbola'], ['baloncesto','saskibaloia'],
+  ['pelota','pilota'], ['ajedrez','xakea'], ['musica','musika'], ['baile','dantza'],
+  ['danza','dantza'], ['ingles','ingelesa'], ['frances','frantsesa'], ['aleman','alemana'],
+  ['euskera','euskara'], ['piano','pianoa'], ['guitarra','gitarra'], ['bateria','bateria'],
+  ['montana','mendia'], ['atletismo','atletismoa'], ['ciclismo','txirrindularitza'],
+  ['gimnasia','gimnasia'], ['teatro','antzerkia'], ['dibujo','marrazketa'],
+  ['ceramica','zeramika'], ['informatica','informatika'], ['robotica','robotika'],
+  ['matematicas','matematika'], ['fisica','fisika'], ['quimica','kimika'],
+  ['deberes','etxeko lanak'], ['verano','uda'], ['campamento','udalekuak'],
+  ['ludoteca','ludoteka'], ['bertso','bertsolaritza'], ['coro','abesbatza'],
+  ['carne','karneta'], ['conducir','gidatzeko'], ['mayores','nagusiak'],
+  ['adultos','helduak'], ['ninos','haurrak'], ['gratis','doan'], ['idiomas','hizkuntzak']
+];
 function heno(f){
   if(f._heno === undefined){
     const c  = CATS.find(x => x.id === f.cat)   || { es:'', eu:'' };
     const ti = TIPOS.find(x => x.id === f.tipo) || { es:'', eu:'' };
-    f._heno = norm([f.titulo, f.proveedor, (f.materias||[]).join(' '),
+    let h = norm([f.titulo, f.proveedor, (f.materias||[]).join(' '),
       c.es, c.eu, ti.es, ti.eu, f.desc, f.lugar].join(' '));
+    SINONIMOS.forEach(([a,b]) => {
+      if(h.indexOf(a) >= 0 && h.indexOf(b) < 0) h += ' ' + b;
+      else if(h.indexOf(b) >= 0 && h.indexOf(a) < 0) h += ' ' + a;
+    });
+    f._heno = h;
   }
   return f._heno;
 }
@@ -2000,20 +2037,22 @@ function starsLong(f){
   if(!r) return '<span class="stars"><em>' + t('sinValora') + '</em></span>';
   return '<span class="stars"><i>★</i>' + num1(r) + ' <em>· ' + nrev(f) + ' ' + t('valora') + '</em></span>';
 }
-function fichaCard(f){
-  const g = state.guardados.indexOf(f.id) >= 0;
+function fichaCard(f, previa){
+  const g = !previa && state.guardados.indexOf(f.id) >= 0;
   const otro = f.lang !== state.lang ? ' lang="' + f.lang + '"' : '';
-  return '<article class="card">' +
+  return '<article class="card' + (previa ? ' previa' : '') + '">' +
     '<div class="ph"><img src="' + fotoS(IMG[f.id] || 'elorrio1') + '" srcset="' + srcsetCard(IMG[f.id] || 'elorrio1') +
       '" sizes="(max-width:680px) 100vw, 320px" alt="" loading="lazy" decoding="async" width="900" height="600">' +
       (f.estado === 'cerrada' ? '<span class="badge cerrada">' + esc(t('estadoCerrada')) + '</span>'
         : f.precio === 0 ? '<span class="badge">' + esc(t('gratis')) + '</span>' : '') +
-      '<button class="fav" data-act="fav" data-id="' + f.id + '" aria-pressed="' + g + '" aria-label="' +
-        esc((g ? t('btnQuitar') : t('btnGuardar')) + ': ' + f.titulo) + '">' + HEART + '</button></div>' +
+      (previa ? '' : '<button class="fav" data-act="fav" data-id="' + f.id + '" aria-pressed="' + g + '" aria-label="' +
+        esc((g ? t('btnQuitar') : t('btnGuardar')) + ': ' + f.titulo) + '">' + HEART + '</button>') + '</div>' +
     '<div class="card-body">' +
       '<span class="card-k">' + esc(tipoName(f.tipo)) + '</span>' +
-      '<h3 class="card-t"><a href="' + rutaFicha(f.id) + '" data-act="ficha" data-id="' + f.id + '"' + otro + '>' +
-        esc(f.titulo) + '</a></h3>' +
+      '<h3 class="card-t">' + (previa
+        ? '<span' + otro + '>' + esc(f.titulo) + '</span>'
+        : '<a href="' + rutaFicha(f.id) + '" data-act="ficha" data-id="' + f.id + '"' + otro + '>' +
+          esc(f.titulo) + '</a>') + '</h3>' +
       '<span class="card-s">' + esc(f.proveedor) + '</span>' +
       '<span class="card-s">' + esc([edadTxt(f), diasTxt(f.dias)].filter(Boolean).join(' \u00b7 ')) + '</span>' +
     '</div>' +
@@ -2143,9 +2182,13 @@ function pintarCats(){
   const h = $('#cats-h');
   const amb = state.ambito ? AMBITOS.find(x => x.id === state.ambito) : null;
   if(h) h.textContent = amb ? amb[state.lang] + ' \u2014 ' + t('porMateria') : t('porMateria');
-  c.classList.toggle('pocas', vis.length < 6);
-  c.style.setProperty('--ncats', vis.length);
-  c.innerHTML = vis.map(x =>
+  /* Una baldosa que pone «0 actividades» es una puerta cerrada: con la edad puesta,
+     siete de las diez lo estaban. Se esconden en vez de enseñarse vacías. */
+  const conAlgo = vis.filter(x => contarCat(x.id) > 0);
+  const lista = conAlgo.length ? conAlgo : vis;
+  c.classList.toggle('pocas', lista.length < 6);
+  c.style.setProperty('--ncats', lista.length);
+  c.innerHTML = lista.map(x =>
     '<button class="cat-tile" data-act="cat" data-v="' + x.id + '" aria-pressed="' + (state.cat === x.id) + '">' +
       '<span class="cat-ph"><img src="' + fotoT(CAT_IMG[x.id]) + '" alt="" loading="lazy" decoding="async" width="320" height="320"></span>' +
       '<span class="lbl"><span class="nm">' + esc(x[state.lang]) + '</span>' +
@@ -2172,7 +2215,13 @@ function opt(k, v, label, n){
 function pintarFiltros(){
   const g = $('#fgroup'); if(!g) return;
   const fl = $('#flabel'); if(fl) fl.textContent = t('filtrar');
-  const bf = $('#btn-filtros'); if(bf) bf.textContent = t('filtrar');
+  const bf = $('#btn-filtros');
+  if(bf){
+    const n = [state.cat, state.edad, state.tipo, state.mod, state.dia, state.idioma,
+      state.plaza, state.precioMax !== null ? 1 : null].filter(Boolean).length;
+    bf.textContent = n ? t('filtrar') + ' (' + n + ')' : t('filtrar');
+    bf.classList.toggle('act', n > 0);
+  }
 
   let matOpts = opt('cat','',t('cualquiera'));
   AMBITOS.forEach(a => {
@@ -2286,7 +2335,7 @@ function pintarResultados(){
   if(!agrupar){
     const tope = state.tope || TOPE_LISTA;
     c.className = 'grid';
-    c.innerHTML = lista.slice(0, tope).map(fichaCard).join('');
+    c.innerHTML = lista.slice(0, tope).map(f => fichaCard(f)).join('');
     const mas = $('#ver-mas');
     if(mas) mas.innerHTML = lista.length > tope
       ? '<button class="btn" data-act="masLista">' + esc(t('verMas')) + ' (' + (lista.length - tope) + ')</button>'
@@ -2302,7 +2351,7 @@ function pintarResultados(){
       (sobran > 0
         ? '<button class="lnk" data-act="amb" data-v="' + g.amb.id + '">' + esc(t('verTodas')) + ' (' + g.fichas.length + ')</button>'
         : '<span class="n">' + esc(nAct(g.fichas.length)) + '</span>') +
-      '</div><div class="grid">' + g.fichas.slice(0, TOPE_GRUPO).map(fichaCard).join('') + '</div></section>';
+      '</div><div class="grid">' + g.fichas.slice(0, TOPE_GRUPO).map(f => fichaCard(f)).join('') + '</div></section>';
   }).join('');
 }
 function actualizar(){
@@ -2323,8 +2372,10 @@ function viewFicha(){
   const otro = f.lang !== state.lang;
   /* Sólo fotos que tengan que ver con esta actividad: las de quien la da y la de su materia.
      Antes se rellenaba con fotos de otras fichas y salía un campo de fútbol en una ficha de pilota. */
+  /* Sólo entran fotos de la MISMA actividad: la del mismo proveedor con otra materia
+     es otra cosa, y ver un campo de fútbol en una ficha de pilota no engaña a nadie. */
   const gal = [];
-  [IMG[f.id]].concat(mismos.map(x => IMG[x.id])).concat([CAT_IMG[f.cat]]).forEach(k => {
+  [IMG[f.id]].concat(mismos.filter(x => x.cat === f.cat).map(x => IMG[x.id])).forEach(k => {
     if(k && gal.indexOf(k) < 0) gal.push(k);
   });
   const ini = f.proveedor.replace(/^(C\.D\.|Udal|Elorrioko)\s+/,'').trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase();
@@ -2404,9 +2455,9 @@ function viewFicha(){
 
     (mismos.length ? '<div class="stack g20" style="margin-top:20px"><hr class="rule">' +
       '<h2 class="sec-h">' + esc(t('secMismo') + ' ' + f.proveedor) + '</h2>' +
-      '<div class="grid rel">' + mismos.map(fichaCard).join('') + '</div></div>' : '') +
+      '<div class="grid rel">' + mismos.map(f => fichaCard(f)).join('') + '</div></div>' : '') +
     (parecidos.length ? '<div class="stack g20"><hr class="rule"><h2 class="sec-h">' + esc(t('secParecidas')) + '</h2>' +
-      '<div class="grid rel">' + parecidos.map(fichaCard).join('') + '</div></div>' : '') +
+      '<div class="grid rel">' + parecidos.map(f => fichaCard(f)).join('') + '</div></div>' : '') +
     '<p class="note">' + esc(t('fichaNota')) + '</p>' +
   '</div></section>' +
   /* En el móvil, contactar no puede quedar a dos mil píxeles de la decisión. */
@@ -2431,7 +2482,10 @@ function viewAgenda(){
     if(m !== mes){ mes = m;
       html += (html ? '</div>' : '') + '<div class="stack" style="margin-top:30px"><h2 class="sec-h" style="margin-bottom:10px">' + esc(m + t('deAno')) + '</h2>'; }
     /* Casi todas las fechas son de alguien que tiene ficha: que se pueda ir de la fecha a contactar. */
-    const suya = state.fichas.find(f => f.proveedor === a.prov);
+    /* Sólo se enlaza cuando el nombre lleva a una única ficha: si el ayuntamiento
+       tiene seis, «becas de comedor» acababa abriendo el campamento de verano. */
+    const cand = state.fichas.filter(f => f.proveedor === a.prov);
+    const suya = cand.length === 1 ? cand[0] : null;
     const ti = esc(L(a.titulo));
     html += '<div class="ag' + (a.soon ? ' soon' : '') + '">' +
       '<span class="dt"><b>' + esc(a.dia) + '</b>' + esc(L(a.wd)) + '</span>' +
@@ -2455,7 +2509,7 @@ function viewGuardados(){
     '<h1 class="pg">' + esc(compartida ? t('listaCompartidaH') : t('guH1')) + '</h1>' +
     '<p class="lead">' + esc(compartida ? t('listaCompartidaP') : t('guLead')) + '</p></div>' +
     (lista.length
-      ? '<div class="grid">' + lista.map(fichaCard).join('') + '</div>' +
+      ? '<div class="grid">' + lista.map(f => fichaCard(f)).join('') + '</div>' +
         '<div class="btn-row">' + (compartida
           ? '<button class="btn primary" data-act="guardarLista">' + esc(t('guardarLista')) + '</button>' +
             '<button class="lnk" data-nav="guardados">' + esc(t('verMiLista')) + '</button>'
@@ -2509,8 +2563,9 @@ function viewPublicar(){
       campo('horario',t('lHorario'),'text',t('phHorario')) + campo('plazas',t('lPlazas'),'text',t('phPlazas'));
   }
   if(state.paso === 3){
-    campos = '<fieldset><legend>' + esc(t('pQueEres')) + '</legend>' +
-      TIPOS.map(x => '<label class="pick"><input type="radio" name="tipo" value="' + x.id + '" data-f="tipo"' +
+    campos = '<fieldset class="field" id="campo-tipo"><legend>' + esc(t('pQueEres')) + '</legend>' +
+      TIPOS.map((x,i) => '<label class="pick"><input type="radio" name="tipo" value="' + x.id + '" data-f="tipo"' +
+        (i === 0 ? ' id="tipo"' : '') +
         (f.tipo===x.id?' checked':'') + '><span class="stack g6"><span class="pk-t">' + x[state.lang] + '</span>' +
         '<span class="pk-d">' + descTipo(x.id) + '</span></span></label>').join('') + '</fieldset>' +
       campo('nombre',t('lNombre'),'text',t('phNombre')) +
@@ -2531,7 +2586,10 @@ function viewPublicar(){
   }
   return '<section class="view wrap narrow"><div class="stack g28">' +
     '<div class="stack g10"><p class="eyebrow">' + esc(t('pubEyebrow')) + '</p><h1 class="pg">' + esc(t('pubH1')) + '</h1>' +
-    '<p class="lead">' + esc(t('pubLead')) + '</p></div>' + pasos +
+    '<p class="lead">' + esc(t('pubLead')) + '</p></div>' +
+    (Object.keys(state.form).length ? '<div class="borrador"><span>' + esc(t('borradorH')) + '</span>' +
+      '<button class="lnk" data-act="tirarBorrador">' + esc(t('borradorNo')) + '</button></div>' : '') +
+    pasos +
     '<form id="form-pub" class="stack g20">' + campos +
       '<div class="btn-row" style="margin-top:10px">' +
         (state.paso>1 ? '<button class="btn" type="button" data-act="paso" data-v="' + (state.paso-1) + '">' + esc(t('atras')) + '</button>' : '') +
@@ -2546,7 +2604,7 @@ function vistaPreviaHTML(){
   if(!f.titulo) return '';
   return '<div class="stack g14" style="margin-bottom:var(--s4)">' +
     '<h2 class="sec-h">' + esc(t('vistaPrevia')) + '</h2>' +
-    '<div class="grid" style="max-width:320px">' + fichaCard(f) + '</div></div>';
+    '<div class="grid" style="max-width:320px">' + fichaCard(f, true) + '</div></div>';
 }
 function descTipo(id){
   const d = { es:{ particular:'Das clases por tu cuenta, en tu casa, a domicilio u online.',
@@ -2608,7 +2666,7 @@ function viewAdmin(){
   let cuerpo = '';
   if(state.adminTab === 'pendientes'){
     cuerpo = pend.length ? '<div class="stack g20">' + pend.map(p =>
-      '<div class="pend"><div class="fcols" style="grid-template-columns:220px 1fr;gap:24px">' +
+      '<div class="pend"><div class="pend-cols">' +
         '<div class="ph" style="aspect-ratio:4/3"><img src="' + fotoS(IMG[p.id]||'elorrio1') + '" alt="" loading="lazy"></div>' +
         '<div class="stack g14">' +
           '<div class="stack g6"><p class="eyebrow">' + esc(catName(p.cat)) + ' · ' + esc(tipoName(p.tipo)) + ' · ' + esc(t('enviada') + p.enviado.toLowerCase()) + '</p>' +
@@ -2734,7 +2792,12 @@ function rutaDe(){
     if(s === 'orden' && v === 'rel') return;
     q.push(k + '=' + encodeURIComponent(v));
   });
-  if(state.view === 'guardados' && state.guardados.length) q.push('ids=' + state.guardados.join(','));
+  /* La lista que te han pasado tiene que sobrevivir a abrir una ficha y volver: va en
+     la URL igual que la tuya, y es leerURL() quien decide cuál de las dos manda. */
+  if(state.view === 'guardados'){
+    const ids = (state.compartidos && state.compartidos.length) ? state.compartidos : state.guardados;
+    if(ids.length) q.push('ids=' + ids.join(','));
+  }
   return p + (q.length ? '?' + q.join('&') : '');
 }
 function escribirURL(modo){
@@ -2802,8 +2865,9 @@ function leerURL(){
 
 function render(scroll){
   const app = $('#app');
-  const fb = $('#filterbar'); if(fb){ fb.hidden = (state.view !== 'buscar'); fb.classList.remove('abierta'); }
-  const bf = $('#btn-filtros'); if(bf) bf.setAttribute('aria-expanded','false');
+  const fb = $('#filterbar');
+  if(fb){ fb.hidden = (state.view !== 'buscar'); fb.classList.toggle('abierta', !!state.filtrosAbiertos); }
+  const bf = $('#btn-filtros'); if(bf) bf.setAttribute('aria-expanded', !!state.filtrosAbiertos);
   if(state.view === 'buscar'){ app.innerHTML = viewBuscar(); actualizar(); }
   else if(state.view === 'ficha')     app.innerHTML = viewFicha();
   else if(state.view === 'agenda')    app.innerHTML = viewAgenda();
@@ -2824,8 +2888,11 @@ function ir(v){
   if(v === 'publicar' && state.view !== 'publicar'){ state.enviada = null; state.paso = 1; }
   const veniaDeBuscar = state.view === 'buscar';
   state.view = v;
-  if(v !== 'buscar') state.compartidos = null;
+  /* Pulsar «Guardados» en el menú es pedir la lista propia; llegar a la vista por
+     cualquier otro camino (volver de una ficha) conserva la que se estaba mirando. */
+  if(v === 'guardados') state.compartidos = null;
   escribirURL('push');
+  state.propios = (state.propios || 0) + 1;
   render();
   if(v === 'buscar' && !veniaDeBuscar) window.scrollTo(0, state.scrollBuscar || 0);
 }
@@ -2866,15 +2933,21 @@ document.addEventListener('click', e => {
   switch(act){
     case 'saltar': { const m = $('#app'); if(m){ m.focus(); m.scrollIntoView(); } break; }
     case 'ficha':  state.fichaId = id; ir('ficha'); break;
-    case 'volver': ir('buscar'); break;
+    case 'volver':
+      /* Si hemos llegado aquí desde dentro de la web, el atrás del navegador es el
+         camino correcto: así no se acumulan entradas de ida y vuelta en el historial. */
+      if(state.propios > 0){ state.propios--; history.back(); }
+      else ir('buscar');
+      break;
     case 'ir':     ir(v); break;
     case 'irResultados': aResultados(); break;
     case 'abrirBusq': busqAbierta() ? cerrarBusq(true) : abrirBusq(); break;
     case 'cerrarBusq': cerrarBusq(true); break;
     case 'abrirFiltros': {
       const fb = $('#filterbar'); if(!fb) break;
-      const abierta = fb.classList.toggle('abierta');
-      b.setAttribute('aria-expanded', abierta);
+      state.filtrosAbiertos = !state.filtrosAbiertos;
+      fb.classList.toggle('abierta', state.filtrosAbiertos);
+      b.setAttribute('aria-expanded', state.filtrosAbiertos);
       break;
     }
     case 'limpiarQ': state.q = ''; syncQ(); cerrarSug(); render(false); break;
@@ -2919,6 +2992,7 @@ document.addEventListener('click', e => {
       if(k === 'mat') state.q = val;
       syncQ(); render(false); aResultados(); break;
     }
+    case 'tirarBorrador': state.form = {}; state.paso = 1; borrarForm(); render(); break;
     case 'masLista': state.tope = (state.tope || TOPE_LISTA) + TOPE_LISTA; pintarResultados(); break;
     case 'limpiar':
       limpiarFiltros(); syncQ(); cerrarSug(); render(false); break;
@@ -2927,8 +3001,11 @@ document.addEventListener('click', e => {
       if(i >= 0){ state.guardados.splice(i,1); toast(t('tQuitado')); }
       else { state.guardados.push(id); toast(t('tGuardado')); }
       grabarGuardados();
-      if(act === 'fav'){ b.setAttribute('aria-pressed', state.guardados.indexOf(id) >= 0); pintarCromo(); }
-      else render(false);
+      /* En «Guardados» la tarjeta tiene que desaparecer: si no, queda en pantalla una
+         actividad que ya no está en la lista y el enlace que copias la lleva dentro. */
+      if(act === 'fav' && state.view !== 'guardados'){
+        b.setAttribute('aria-pressed', state.guardados.indexOf(id) >= 0); pintarCromo();
+      } else render(false);
       break;
     }
     case 'vaciar':    state.guardados = []; grabarGuardados(); render(false); break;
@@ -3000,7 +3077,10 @@ document.addEventListener('keydown', e => {
     if(busqAbierta()){ cerrarBusq(true); return; }
   }
 });
-window.addEventListener('popstate', () => { leerURL(); render(false); });
+window.addEventListener('popstate', () => {
+  state.propios = Math.max(0, (state.propios || 0) - 1);
+  leerURL(); render(false);
+});
 document.addEventListener('input', e => {
   const el = e.target;
   if(el.id === 'q'){
@@ -3011,7 +3091,7 @@ document.addEventListener('input', e => {
   if(el.id === 'pet'){ el.setCustomValidity(''); return; }
   if(el.dataset.f){
     state.form[el.dataset.f] = (el.type === 'checkbox') ? el.checked : el.value;
-    const c = el.closest('.field');
+    const c = el.closest('.field') || document.getElementById('campo-' + el.dataset.f);
     if(c){
       c.classList.remove('err');
       const i = c.querySelector('input,textarea,select'); if(i) i.removeAttribute('aria-invalid');
@@ -3064,7 +3144,7 @@ function validarPaso(paso){
     const el = document.getElementById(k);
     if(!el) return;
     el.setAttribute('aria-invalid','true');
-    const c = el.closest('.field');
+    const c = el.closest('.field') || document.getElementById('campo-' + k);
     if(c){
       c.classList.add('err');
       if(!c.querySelector('.msg-err')){
