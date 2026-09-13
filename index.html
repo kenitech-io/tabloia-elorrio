@@ -516,10 +516,16 @@
   @media (max-width:680px) {
     /* En el móvil manda la fila de filtros: es la que se queda pegada arriba. */
     .bar { position:static; }
-    .bar .wrap { padding-block:var(--s3); gap:var(--s3) var(--s4); flex-wrap:nowrap; align-items:center; }
+    .bar .wrap { padding-block:var(--s3); gap:var(--s3) var(--s4); flex-wrap:wrap; align-items:center; }
     .mark .s { display:none; }
-    .barright { gap:var(--s3); flex-wrap:nowrap; margin-left:auto; }
+    .barright { gap:var(--s3); flex-wrap:wrap; justify-content:flex-end; margin-left:auto; }
     .btn-pub { padding:10px 15px; font-size:13px; }
+    /* La agenda ya está en la tira de plazos de la portada y en el pie: en el móvil
+       la cabecera se queda con lo que no está en ningún otro sitio. */
+    .bar .nav button[data-nav="agenda"] { display:none; }
+    /* Un solo botón de idioma: el que enseña es al que vas a cambiar. */
+    .langs .sl, .langs button[aria-pressed="true"] { display:none; }
+    .langs button { font-size:13px; color:var(--ink); }
     /* Agenda y Guardados pasan a icono: la palabra no cabe y el icono sí se entiende */
     .bar .nav { gap:var(--s4); }
     .bar .nav button { position:relative; font-size:0; width:24px; height:24px; padding:0;
@@ -531,14 +537,14 @@
     .searchlayer .wrap { padding-block:14px; gap:14px; }
     /* fila pegajosa: secciones + botón «Filtrar» */
     .filterbar { top:0; }
-    .filterbar .wrap { display:flex; align-items:center; flex-wrap:wrap; gap:0 var(--s4); padding-block:0; }
+    .filterbar .wrap { display:flex; align-items:center; flex-wrap:wrap; gap:0 var(--s3); padding-block:0; }
     .filterbar .flabel, .filterbar .fmeta { display:none; }
     .filterbar .fgroup { display:none; }
     .filterbar.abierta .fgroup { display:flex; order:3; flex:1 0 100%; flex-wrap:wrap; gap:var(--s3) var(--s5);
       padding-block:var(--s3) var(--s4); }
     /* la fila de ámbitos baja a la barra pegajosa: es lo único que se queda arriba */
     .bar .secs { display:none; }
-    .filterbar .secs-movil { display:flex; order:0; flex:1 1 auto; min-width:0; padding-block:11px;
+    .filterbar .secs-movil { display:flex; order:0; flex:1 1 0; min-width:0; padding-block:11px;
       margin-inline:calc(-1 * var(--gut)); padding-inline:var(--gut); gap:26px;
       mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent); }
     .btn-filtros { display:block; order:1; flex:none; margin-left:auto; background:none; border:none;
@@ -576,7 +582,9 @@
     .barra-contacto .pr { display:flex; flex-direction:column; gap:1px; flex:0 0 auto; }
     .barra-contacto .pr b { font-size:17px; color:var(--ink); font-weight:500; }
     .barra-contacto .pr span { font-size:11px; color:var(--mute); }
-    .barra-contacto .btn { flex:1 1 auto; }
+    .barra-contacto .btn { flex:1 1 auto; min-width:0; }
+    .barra-contacto .bc-fav { flex:0 0 auto; padding:13px 15px; }
+    .barra-contacto .bc-fav[aria-pressed="true"] { color:#b8443c; border-color:#b8443c; }
     body.con-barra { padding-bottom:84px; }
   }
   @media (max-width:380px) {
@@ -2012,8 +2020,8 @@ function viewFicha(){
   '<div class="barra-contacto">' +
     '<span class="pr"><b>' + (f.precio === 0 ? esc(t('gratis')) : f.precio + ' €') + '</b>' +
       '<span>' + (f.precio === 0 ? '' : esc(uni(f).l)) + '</span></span>' +
-    '<button class="btn block" data-act="guardar" data-id="' + f.id + '" aria-label="' +
-      esc(g ? t('btnQuitar') : t('btnGuardar')) + '" style="flex:0 0 auto">' + HEART_CHICO + '</button>' +
+    '<button class="btn bc-fav" data-act="guardar" data-id="' + f.id + '" aria-pressed="' + g + '" aria-label="' +
+      esc(g ? t('btnQuitar') : t('btnGuardar')) + '">' + HEART_CHICO + '</button>' +
     '<button class="btn primary" data-act="contacto">' + esc(t('contactar')) + '</button>' +
   '</div>';
 }
