@@ -1394,11 +1394,10 @@ const FICHAS = [
     desc:'Las clases teóricas son en euskera los martes y jueves y en castellano el resto de días; el examen se puede hacer en las dos lenguas. Las prácticas se cogen a la hora que se pueda, también a primera hora de la mañana para quien entra a trabajar a las diez. El examen teórico es en Durango y la autoescuela lleva y trae.',
     exp:'Abierta desde 1998 · 3 profesores · Dos coches y una moto',
     plazas:'Se empieza cualquier semana', verif:true, cert:true, tel:'946 •• •• ••', email:'anboto•••••@••••.eus',
-    idiomaClase:['eu','es'], sesionesSemana:2, grupo:12, estado:'continua', plazasLibres:null,
-    inscripcionHasta:null, empieza:null, prueba:false,
+    idiomaClase:['eu','es'], grupo:12, estado:'continua', prueba:false,
     extras:[{que:'Matrícula y teórica completa', eur:390, cuando:'una vez'},
             {que:'Tasas de Tráfico', eur:96, cuando:'una vez'}],
-    ayudas:[], zona:'casco' },
+    ayudas:[] },
 
   { id:47, lang:'eu', titulo:'Berbalagun: euskaraz hitz egiteko taldeak', proveedor:'Elorrioko Euskara Elkartea', tipo:'asociacion', cat:'idiomas',
     materias:['euskara','mintzapraktika','berbalagun','helduak'], edad:[18,99], precio:0, unidad:'mes',
@@ -1407,9 +1406,8 @@ const FICHAS = [
     desc:'Euskara ikasi bai, baina praktikatzeko lekurik ez? Astean behin ordubetez elkartzen gara lau edo bost lagun, euskaraz berba egiteko besterik ez. Ez da klaserik, ez da azterketarik: kafea hartu eta hitz egin. Maila guztietako taldeak daude, eta euskaldun zaharrak ere behar ditugu taldeak osatzeko.',
     exp:'Euskara elkarteak antolatuta · Udalaren laguntzarekin · 12 talde',
     plazas:'Urte osoan sar daiteke', verif:true, cert:false, tel:'946 •• •• ••', email:'euskara•••••@••••.eus',
-    idiomaClase:['eu'], sesionesSemana:1, grupo:5, estado:'continua', plazasLibres:null,
-    inscripcionHasta:null, empieza:null, prueba:true,
-    extras:[], ayudas:[], zona:'casco' },
+    idiomaClase:['eu'], grupo:5, estado:'continua', prueba:true,
+    extras:[], ayudas:[] },
 
   { id:48, lang:'eu', titulo:'Aisialdiko begirale titulua', proveedor:'Herriko Udala · Gazteria (adibidea)', tipo:'municipal', cat:'titulos',
     materias:['begirale titulua','aisialdia','udalekuak','lehen lana'], edad:[16,30], precio:280, unidad:'trimestre',
@@ -1418,10 +1416,9 @@ const FICHAS = [
     desc:'Eusko Jaurlaritzak aitortutako begirale titulua: 150 orduko teoria eta 160 orduko praktikaldia. Praktikak herriko udalekuetan eta ludotekan egiten dira. Titulua duenak lan egin dezake udalekuetan, jantokian eta eskolaz kanpoko jardueretan. Elorrion erroldatuta daudenei udalak matrikularen erdia ordaintzen die.',
     exp:'Eusko Jaurlaritzak homologatutako aisialdi eskola · Urtean talde bat',
     plazas:'20 plaza · izena emateko epea urrian', verif:true, cert:true, tel:'946 •• •• ••', email:'gazteria@•••••.eus',
-    idiomaClase:['eu'], sesionesSemana:2, grupo:20, estado:'cerrada', plazasLibres:null,
-    inscripcionHasta:'2026-10-20', empieza:'2026-11-06', prueba:false,
+    idiomaClase:['eu'], grupo:20, estado:'cerrada', prueba:false,
     extras:[{que:'Materiala eta aseguruak', eur:0, cuando:'barne'}],
-    ayudas:['municipal'], zona:'casco' },
+    ayudas:['municipal'] },
 
   /* ---------- artea eta musika ---------- */
   { id:49, lang:'eu', titulo:'Bertso eskola: haurrak, gazteak eta helduak', proveedor:'Elorrioko Bertso Eskola', tipo:'asociacion', cat:'arte',
@@ -1431,9 +1428,8 @@ const FICHAS = [
     desc:'Doako bertso eskola. Errimarekin eta neurriarekin jolasten hasten gara, eta gero doinuak eta gaiak lantzen dira. Ez da beharrezkoa kantuan ondo egitea; euskaraz moldatzea bai. Urtean behin herriko bertso saioa antolatzen dugu, eta eskolarteko txapelketara joaten dira nahi dutenak.',
     exp:'Bertsozale Elkartearen sareko eskola · Bi irakasle · 24 ikasle',
     plazas:'Urte osoan zabalik', verif:true, cert:true, tel:'688 •• •• ••', email:'bertsoeskola@•••••.eus',
-    idiomaClase:['eu'], sesionesSemana:1, grupo:12, estado:'continua', plazasLibres:null,
-    inscripcionHasta:null, empieza:null, prueba:true,
-    extras:[], ayudas:[], zona:'casco' },
+    idiomaClase:['eu'], grupo:12, estado:'continua', prueba:true,
+    extras:[], ayudas:[] },
 
   { id:50, lang:'eu', titulo:'Herriko abesbatza eta haur korua', proveedor:'Elorrioko Abesbatza', tipo:'asociacion', cat:'musica',
     materias:['abesbatza','korua','kantua','ahotsa'], edad:[8,99], precio:15, unidad:'trimestre',
@@ -1442,10 +1438,9 @@ const FICHAS = [
     desc:'Bi talde daude: haur korua, zortzi urtetik hamalaura, eta abesbatza nagusia, hamabost urtetik aurrera. Ez da musika ikasketarik behar, entzumena eta etortzeko gogoa baizik. Urtean zehar Santa Zezilian, Gabonetan eta herriko jaietan abesten dugu, eta udaberrian eskualdeko beste abesbatza batzuekin topaketa egiten dugu.',
     exp:'1978tik · 45 abeslari · Zuzendari tituluduna',
     plazas:'Irailean eta urtarrilean sartzen da', verif:true, cert:true, tel:'946 •• •• ••', email:'abesbatza@•••••.eus',
-    idiomaClase:['eu'], sesionesSemana:1, grupo:null, estado:'cerrada', plazasLibres:null,
-    inscripcionHasta:'2026-09-30', empieza:'2026-10-02', prueba:true,
+    idiomaClase:['eu'], grupo:null, estado:'cerrada', prueba:true,
     extras:[{que:'Partiturak eta jantzia', eur:0, cuando:'taldeak jarrita'}],
-    ayudas:[], zona:'casco' },
+    ayudas:[] },
 
   /* ---------- kirola ---------- */
   { id:51, lang:'eu', titulo:'Errugbi eskola: 6 urtetik 16ra', proveedor:'Elorrioko Errugbi Taldea', tipo:'club', cat:'deporte',
@@ -1455,11 +1450,10 @@ const FICHAS = [
     desc:'Kontakturik gabeko errugbia txikienekin (tag errugbia), eta kontaktua hamar urtetik aurrera, teknika ondo ikasi ondoren. Talde mistoak infantil mailara arte. Kuotan federazio-fitxa, asegurua eta elastikoa sartzen dira; botak norberak ekartzen ditu. Larunbatetan eskualdeko topaketetara joaten gara.',
     exp:'Federatutako kluba · 60 jokalari · 5 entrenatzaile titulodun',
     plazas:'Izena emateko epea irailaren 30era arte', verif:true, cert:true, tel:'632 •• •• ••', email:'errugbia@•••••.eus',
-    idiomaClase:['eu'], sesionesSemana:null, grupo:null, estado:'libre', plazasLibres:null,
-    inscripcionHasta:'2026-09-30', empieza:'2026-10-02', prueba:true,
+    idiomaClase:['eu'], grupo:null, estado:'libre', prueba:true,
     extras:[{que:'Federazio-fitxa, asegurua eta elastikoa', eur:0, cuando:'barne'},
             {que:'Botak', eur:null, cuando:'norberak'}],
-    ayudas:['municipal'], zona:'casco' },
+    ayudas:['municipal'] },
 
   /* ---------- ongizatea / bienestar ---------- */
   { id:52, lang:'eu', titulo:'Gimnasia eta oreka 60 urtetik gorakoentzat', proveedor:'Herriko Udala · Kirolak (adibidea)', tipo:'municipal', cat:'bienestar',
@@ -1469,9 +1463,8 @@ const FICHAS = [
     desc:'Zutik eta aulkian egiteko ariketak: oreka, indarra eta ibiltzeko segurtasuna. Helburua erorikoak saihestea eta eskailerak beldurrik gabe igotzea da. Hamabosteko taldeak, bakoitzak ahal duena eginda. Monitoreak euskaraz eta gaztelaniaz azaltzen du. Osasun zentroak gomendatuta datozenentzat lehen hilabetea doakoa da.',
     exp:'Udal kirol zerbitzua · Monitore tituluduna · Osasun zentroarekin koordinatuta',
     plazas:'15 plaza txandako · goizeko bi txanda', verif:true, cert:false, tel:'946 •• •• ••', email:'kiroldegia@•••••.eus',
-    idiomaClase:['eu','es'], sesionesSemana:null, grupo:15, estado:'libre', plazasLibres:6,
-    inscripcionHasta:null, empieza:'2026-10-05', prueba:true,
-    extras:[], ayudas:['renta'], zona:'casco' },
+    idiomaClase:['eu','es'], grupo:15, estado:'libre', prueba:true,
+    extras:[], ayudas:['renta'] },
 
   { id:53, lang:'es', titulo:'Aquagym y natación terapéutica para adultos', proveedor:'Herriko Igerilekua (adibidea)', tipo:'municipal', cat:'bienestar',
     materias:['aquagym','natación','espalda','rehabilitación','adultos'], edad:[18,99], precio:35, unidad:'mes',
@@ -1480,10 +1473,9 @@ const FICHAS = [
     desc:'Trabajo en el agua sin impacto, para quien tiene problemas de espalda o de rodillas o vuelve de una lesión. No hace falta saber nadar: se hace todo haciendo pie. Grupos de doce. Hay un turno de mañana pensado para quien está jubilado y otro de tarde para quien sale del trabajo.',
     exp:'Monitora con formación en actividad acuática terapéutica · Instalación municipal',
     plazas:'Plazas libres en el turno de mañana', verif:true, cert:false, tel:'946 •• •• ••', email:'kiroldegia@•••••.eus',
-    idiomaClase:['es','eu'], sesionesSemana:null, grupo:12, estado:'libre', plazasLibres:4,
-    inscripcionHasta:null, empieza:'2026-10-06', prueba:true,
+    idiomaClase:['es','eu'], grupo:12, estado:'libre', prueba:true,
     extras:[{que:'Entrada a la piscina los demás días', eur:null, cuando:'aparte'}],
-    ayudas:[], zona:'casco' },
+    ayudas:[] },
 
   { id:54, lang:'es', titulo:'Paseos saludables: una hora andando, sin cuestas', proveedor:'Osasun Eskola · Herriko Udala (adibidea)', tipo:'municipal', cat:'bienestar',
     materias:['paseos','salud','corazón','diabetes','mayores'], edad:[50,99], precio:0, unidad:'mes',
@@ -1492,9 +1484,8 @@ const FICHAS = [
     desc:'Una hora andando por el paseo del río y por el casco, en llano y a ritmo de conversación. Lo lleva una persona voluntaria con formación y van dos personas del grupo cerrando la fila, para que nadie se quede atrás. Está pensado para quien el médico le ha dicho que ande y no sabe con quién. Se viene el día que se puede, sin apuntarse a nada.',
     exp:'Programa de la Osasun Eskola con el centro de salud · Voluntariado del pueblo',
     plazas:'Entrada libre, sin inscripción', verif:true, cert:false, tel:'946 •• •• ••', email:'osasuna@•••••.eus',
-    idiomaClase:['es','eu'], sesionesSemana:null, grupo:null, estado:'continua', plazasLibres:null,
-    inscripcionHasta:null, empieza:null, prueba:false,
-    extras:[], ayudas:[], zona:'casco' },
+    idiomaClase:['es','eu'], grupo:null, estado:'continua', prueba:false,
+    extras:[], ayudas:[] },
 
   /* ---------- aisia eta uda / ocio y verano ---------- */
   { id:55, lang:'eu', titulo:'Asteburuko aisialdi taldea', proveedor:'Txiribuelta Aisialdi Taldea', tipo:'asociacion', cat:'campamentos',
@@ -1504,10 +1495,9 @@ const FICHAS = [
     desc:'Larunbat arratsaldeetan elkartzen gara: jolasak, tailerrak, jinkanak eta hilean behin irteera bat. Dena euskaraz eta begirale tituludunekin. Uztailean bost eguneko kanpaldia egiten dugu aterpetxe batean; hori aparte ordaintzen da. Hiruhileko kuota sinbolikoa da eta materiala barne hartzen du.',
     exp:'Begirale boluntario tituludunak · Erantzukizun zibileko asegurua · 1994tik',
     plazas:'Hiru talde: 6-9, 10-12 eta 13-14 urte', verif:true, cert:true, tel:'658 •• •• ••', email:'txiribuelta@•••••.eus',
-    idiomaClase:['eu'], sesionesSemana:null, grupo:15, estado:'libre', plazasLibres:8,
-    inscripcionHasta:'2026-09-30', empieza:'2026-10-03', prueba:true,
+    idiomaClase:['eu'], grupo:15, estado:'libre', prueba:true,
     extras:[{que:'Uztaileko kanpaldia', eur:160, cuando:'aparte'}],
-    ayudas:['renta'], zona:'casco' },
+    ayudas:['renta'] },
 
   { id:56, lang:'eu', titulo:'Gabonetako eta Aste Santuko udalekuak', proveedor:'Herriko Udala (adibidea)', tipo:'municipal', cat:'campamentos',
     materias:['udalekuak','gabonak','aste santua','kontziliazioa'], edad:[3,12], precio:45, unidad:'semana',
@@ -1516,10 +1506,9 @@ const FICHAS = [
     desc:'Eskola itxita dagoen asteetarako: Gabonetan bi aste eta Aste Santuan bat. Tailerrak, jolasak, asteko irteera bat eta txokolate-jana azken egunean. Dena euskaraz. Goizeko zaintza 8:00etan hasten da, lanera joan behar dutenentzat. Diru-sarrera txikiagoko familientzat hobaria dago.',
     exp:'Aisialdi enpresa aseguruduna · Monitore bat hamar haurreko',
     plazas:'Izena ematea azaroan eta martxoan · 60 plaza', verif:true, cert:true, tel:'946 •• •• ••', email:'gazteria@•••••.eus',
-    idiomaClase:['eu'], sesionesSemana:null, grupo:10, estado:'cerrada', plazasLibres:null,
-    inscripcionHasta:'2026-11-27', empieza:'2026-12-23', prueba:false,
+    idiomaClase:['eu'], grupo:10, estado:'cerrada', prueba:false,
     extras:[{que:'Goizeko zaintza', eur:10, cuando:'asteko'}],
-    ayudas:['renta'], zona:'casco' },
+    ayudas:['renta'] },
 
   { id:57, lang:'eu', titulo:'Eskolaz kanpoko jarduerak eta goizeko zaintza', proveedor:'Guraso Elkartea', tipo:'asociacion', cat:'campamentos',
     materias:['eskolaz kanpokoak','goizeko zaintza','kontziliazioa','ingelesa','dantza'], edad:[3,12], precio:18, unidad:'mes',
@@ -1528,10 +1517,9 @@ const FICHAS = [
     desc:'Guraso elkarteak antolatzen ditu: goizeko zaintza lanera goiz joan behar dutenentzat, eta arratsaldeko jarduerak eskolan bertan (ingelesa, saskibaloia, dantza eta antzerkia). Hilabeteko kuota bakarra da, jarduera bat egin edo hiru. Bazkide ez direnek gehiago ordaintzen dute.',
     exp:'Guraso elkarteak kudeatuta · Begirale tituludunak · 180 familia bazkide',
     plazas:'Izena ematea irailean eta urtarrilean', verif:true, cert:true, tel:'946 •• •• ••', email:'gurasoak@•••••.eus',
-    idiomaClase:['eu'], sesionesSemana:null, grupo:null, estado:'libre', plazasLibres:null,
-    inscripcionHasta:'2026-09-30', empieza:'2026-10-01', prueba:false,
+    idiomaClase:['eu'], grupo:null, estado:'libre', prueba:false,
     extras:[{que:'Guraso elkarteko kuota', eur:25, cuando:'urtean'}],
-    ayudas:['familia'], zona:'casco' }
+    ayudas:['familia'] }
 ];
 
 /* ---- fichas pendientes de revisión ---- */
@@ -1686,6 +1674,8 @@ Object.assign(T.eu, {
 Object.assign(T.es, {
   edadQ:'¿Qué edad tiene?', saltar:'Ir al contenido', fIdiomaL:'Idioma de la clase',
   ademas:'Además del precio', incluido:'incluido', aparte:'aparte', verMas:'Ver más actividades',
+  fGrupo:'Cuántos en clase', grupoUno:'Individual', grupoN:'Hasta § personas',
+  hayPrueba:'Primera clase de prueba, gratis',
   borradorH:'Hemos guardado lo que habías escrito en este navegador.', borradorNo:'Empezar de cero',
   seguro:'¿Seguro? Pulsa otra vez',
   fPlaza:'Plazas', soloPlaza:'Sólo con plaza libre', estadoCerrada:'Cerrada',
@@ -1715,6 +1705,8 @@ Object.assign(T.es, {
 Object.assign(T.eu, {
   edadQ:'Zenbat urte ditu?', saltar:'Edukira joan', fIdiomaL:'Klasearen hizkuntza',
   ademas:'Prezioaz gain', incluido:'barne', aparte:'aparte', verMas:'Jarduera gehiago ikusi',
+  fGrupo:'Zenbat klasean', grupoUno:'Banakakoa', grupoN:'§ lagun gehienez',
+  hayPrueba:'Lehen klasea probatzeko, doan',
   borradorH:'Idatzi zenuena gorde dugu nabigatzaile honetan.', borradorNo:'Hutsetik hasi',
   seguro:'Ziur? Sakatu berriro',
   fPlaza:'Plazak', soloPlaza:'Plaza librea dutenak bakarrik', estadoCerrada:'Itxita',
@@ -1772,6 +1764,12 @@ const EXTRAS = {
 const AYUDAS = {
   2:['devolucion'], 13:['familia'], 19:['municipal'], 41:['estudiantes','paro'], 43:['renta']
 };
+/* Cuánta gente hay en clase y si se puede probar antes de pagar: sale de lo que ya
+   dicen las descripciones, pero enterrado en el tercer párrafo. */
+const GRUPO = { 1:1, 2:12, 3:7, 5:3, 8:3, 10:8, 11:1, 14:3, 17:1, 21:8, 22:6, 26:4, 29:12, 32:30, 35:6, 38:15, 39:12, 42:1 };
+const PRUEBA = [3,11];
+const grupoDe  = f => f.grupo || GRUPO[f.id] || null;
+const pruebaDe = f => f.prueba === true || PRUEBA.indexOf(f.id) >= 0;
 const extrasDe = f => f.extras || EXTRAS[f.id] || [];
 const ayudasDe = f => f.ayudas || AYUDAS[f.id] || [];
 
@@ -1863,7 +1861,7 @@ function leerGuardados(){
     /* Sólo ids numéricos. Cualquier otra cosa se descarta en silencio: es preferible
        perder la lista de guardados a dejar la web en blanco hasta que alguien entre
        en las herramientas del navegador. */
-    return Array.isArray(v) ? v.map(Number).filter(Number.isFinite) : [];
+    return Array.isArray(v) ? v.map(Number).filter(n => Number.isFinite(n) && n > 0) : [];
   } catch(e){ return []; }
 }
 function grabarGuardados(){ try { localStorage.setItem('tablon.guardados', JSON.stringify(state.guardados)); } catch(e){} }
@@ -2436,6 +2434,7 @@ function viewFicha(){
           fact(t('fCuando'), esc(diasTxt(f.dias)) + '<br><span style="color:var(--mute);font-size:13px">' + esc(f.horario) + '</span>') +
           fact(t('fComoF'), esc(modTxt(f.mod))) + fact(t('fDonde'), esc(f.lugar)) +
           (f.idiomaClase ? fact(t('fIdiomaL'), esc(idiomasTxt(f))) : '') +
+          (grupoDe(f) ? fact(t('fGrupo'), esc(grupoDe(f) == 1 ? t('grupoUno') : t('grupoN').replace('§', grupoDe(f)))) : '') +
           fact(t('fPlazas'), (estadoTxt(f) ? '<b>' + esc(estadoTxt(f)) + '</b><br>' : '') +
             '<span style="color:var(--mute);font-size:13px">' + esc(f.plazas) + '</span>') +
         '</div>' +
@@ -2466,6 +2465,8 @@ function viewFicha(){
             esc(estadoTxt(f) || f.plazas) + '</b></span>' +
           '<span class="card-s" style="white-space:normal">' + esc(f.plazas) + '</span>' +
           '</div>' +
+        (pruebaDe(f) ? '<span class="card-s" style="white-space:normal;color:var(--accent)">' +
+          esc(t('hayPrueba')) + '</span>' : '') +
         contacto +
         '<p class="note" style="font-size:12px">' + esc(t('sinComision')) + '</p>' +
         '<p class="note" style="font-size:12px">' + esc(t('contactoNota')) + '</p>' +
@@ -2882,7 +2883,6 @@ function leerURL(){
     }
   }
   if(state.view === 'ficha' && !state.fichas.some(f => f.id === state.fichaId)) state.view = 'buscar';
-  if(state.view === 'admin' && !state.admin) state.admin = false;
 }
 
 function render(scroll){
