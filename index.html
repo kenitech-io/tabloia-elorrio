@@ -1,0 +1,2150 @@
+<title>Elorrioko Tabloia</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gut:clamp(18px,2.6vw,44px);
+    --ground:#ffffff; --ground-warm:#f6f3ed; --ink:#111111; --body:#444444;
+    --mute:#8d8a84; --hair:#e7e3dc; --hair-soft:#f1ede6;
+    --accent:#14453d; --accent-dim:#5c7a70; --accent-soft:#eaf0ed;
+    --star:#14453d;
+    --r:10px; --r-s:5px;
+    --sh:0 1px 2px rgba(20,30,25,.05), 0 10px 30px -12px rgba(20,30,25,.18);
+    --sh-hi:0 2px 6px rgba(20,30,25,.07), 0 18px 40px -14px rgba(20,30,25,.28);
+    --scrim:linear-gradient(to top, rgba(10,16,13,.80) 0%, rgba(10,16,13,.40) 40%, rgba(10,16,13,.05) 80%),
+      linear-gradient(to right, rgba(10,16,13,.52) 0%, rgba(10,16,13,.22) 46%, rgba(10,16,13,0) 72%);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:#141714; --ground-warm:#1c201c; --ink:#f2efe9; --body:#a8a49c;
+      --mute:#7d7a72; --hair:#2c312c; --hair-soft:#232823;
+      --accent:#8fc0b0; --accent-dim:#6d9184; --accent-soft:#1e2723; --star:#8fc0b0;
+      --sh:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -12px rgba(0,0,0,.6);
+      --sh-hi:0 2px 6px rgba(0,0,0,.5), 0 18px 40px -14px rgba(0,0,0,.75);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground:#141714; --ground-warm:#1c201c; --ink:#f2efe9; --body:#a8a49c;
+    --mute:#7d7a72; --hair:#2c312c; --hair-soft:#232823;
+    --accent:#8fc0b0; --accent-dim:#6d9184; --accent-soft:#1e2723; --star:#8fc0b0;
+    --sh:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -12px rgba(0,0,0,.6);
+    --sh-hi:0 2px 6px rgba(0,0,0,.5), 0 18px 40px -14px rgba(0,0,0,.75);
+    color-scheme: dark;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  img { display:block; max-width:100%; }
+
+  body { font-family:'Inter',-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;
+    font-weight:300; background:var(--ground); color:var(--body); line-height:1.65;
+    -webkit-font-smoothing:antialiased; font-variant-numeric:tabular-nums; }
+
+  .wrap { max-width:1800px; margin:0 auto; padding-inline:var(--gut); }
+  .wrap.view { max-width:1560px; }
+  .wrap.narrow { max-width:940px; }
+  .stack { display:flex; flex-direction:column; }
+  .g6{gap:6px} .g10{gap:10px} .g14{gap:14px} .g20{gap:20px} .g28{gap:28px} .g40{gap:40px} .g56{gap:56px} .g72{gap:72px}
+
+  /* ---------- cabecera ---------- */
+  .demo-strip { background:var(--accent); color:#f3f7f5; }
+  :root[data-theme="dark"] .demo-strip, :root:not([data-theme="light"]) .demo-strip { color:#0f1512; }
+  @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .demo-strip { color:#f3f7f5; } }
+  .demo-strip .wrap { padding-block:7px; font-size:11px; display:flex; gap:6px 14px; flex-wrap:wrap;
+    align-items:baseline; justify-content:center; text-align:center; }
+  .demo-strip b { font-weight:600; letter-spacing:.12em; text-transform:uppercase; font-size:9.5px; }
+
+  .bar { position:sticky; top:0; z-index:40; background:var(--ground);
+    border-bottom:1px solid var(--hair); }
+  .bar .wrap { display:flex; align-items:center; gap:10px 34px; padding-block:15px; flex-wrap:wrap; }
+  .mark { background:none; border:none; padding:0; cursor:pointer; display:flex; align-items:baseline; gap:9px; flex:0 0 auto; }
+  .mark .w { font-size:19px; font-weight:500; letter-spacing:-.035em; color:var(--accent); }
+  .mark .s { font-size:9.5px; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:var(--mute); }
+  @media (max-width:430px) { .mark .s { display:none; } }
+
+  /* secciones = ámbitos, como los departamentos de una tienda */
+  .secs { display:flex; gap:30px; flex:1 1 0; min-width:0; overflow-x:auto; scrollbar-width:none; }
+  .secs::-webkit-scrollbar { display:none; }
+  .secs button { background:none; border:none; border-bottom:1.5px solid transparent; cursor:pointer;
+    font:inherit; font-size:13.5px; font-weight:400; color:var(--body); padding:2px 0 3px;
+    white-space:nowrap; transition:color .15s, border-color .15s; }
+  .secs button:hover { color:var(--ink); }
+  .secs button[aria-pressed="true"] { color:var(--ink); border-bottom-color:var(--ink); }
+
+  .barright { display:flex; align-items:center; gap:10px 22px; flex:0 0 auto; margin-left:auto; }
+  .ibtn { background:none; border:none; padding:0; cursor:pointer; color:var(--ink);
+    display:grid; place-items:center; transition:opacity .15s; }
+  .ibtn:hover { opacity:.6; }
+  .ibtn svg { width:17px; height:17px; display:block; }
+  .nav { display:flex; gap:22px; }
+  .nav button { background:none; border:none; border-bottom:1.5px solid transparent; cursor:pointer;
+    font:inherit; font-size:13.5px; font-weight:400; color:var(--body); padding:2px 0 3px;
+    transition:color .15s, border-color .15s; }
+  .nav button:hover { color:var(--ink); }
+  .nav button[aria-current="page"] { color:var(--ink); border-bottom-color:var(--ink); }
+  .nav button .c { color:var(--mute); }
+  .langs { display:flex; align-items:baseline; gap:7px; }
+  .langs .sl { color:var(--hair); font-size:11px; }
+  .langs button { background:none; border:none; cursor:pointer; font:inherit; font-size:11.5px; font-weight:400;
+    letter-spacing:.06em; color:var(--mute); padding:0; transition:color .15s; }
+  .langs button:hover { color:var(--body); }
+  .langs button[aria-pressed="true"] { color:var(--ink); font-weight:500; }
+  .btn-pub { border:none; background:none; padding:0; font:inherit; font-size:13.5px; color:var(--accent);
+    cursor:pointer; white-space:nowrap; transition:opacity .15s; }
+  .btn-pub:hover { opacity:.7; }
+
+  /* ---------- capa de búsqueda, se abre desde la lupa ---------- */
+  .searchlayer { border-top:1px solid var(--hair); background:var(--ground); }
+  .searchlayer .wrap { display:flex; align-items:center; gap:20px; padding-block:20px; }
+  .qbox { position:relative; flex:1 1 auto; min-width:0; }
+  .searchlayer input[type=text] { width:100%; border:none; background:none; padding:0; border-radius:0;
+    font:inherit; font-size:clamp(19px,2.1vw,26px); font-weight:300; letter-spacing:-.022em; color:var(--ink); }
+  .searchlayer input[type=text]:focus { outline:none; }
+  .searchlayer input::placeholder { color:var(--mute); }
+  .searchlayer .qbox .sugp { left:0; right:auto; width:min(620px,100%); top:calc(100% + 18px); }
+  .tira { width:100%; height:210px; object-fit:cover; object-position:50% 46%; }
+
+  /* ---------- barra de filtros, pegada bajo la navegación ---------- */
+  .filterbar { position:sticky; top:var(--barh,58px); z-index:30; background:var(--ground);
+    border-bottom:1px solid var(--hair); }
+  .filterbar .wrap { display:flex; align-items:center; gap:6px 26px; padding-block:12px; flex-wrap:wrap; }
+  .filterbar .flabel { font-size:9.5px; font-weight:500; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--mute); }
+  .fgroup { display:flex; gap:24px; flex-wrap:wrap; align-items:center; }
+  .fdrop { position:relative; }
+  .fbtn { border:none; border-bottom:1.5px solid transparent; padding:2px 0 3px; background:none;
+    font:inherit; font-size:13px; color:var(--body); cursor:pointer; white-space:nowrap;
+    display:flex; gap:6px; align-items:center; transition:color .15s, border-color .15s; }
+  .fbtn:hover { color:var(--ink); }
+  .fbtn .ar { font-size:7px; opacity:.4; }
+  .fbtn.act, .fdrop.on .fbtn { color:var(--ink); border-bottom-color:var(--ink); }
+  .fbtn.act .ar, .fdrop.on .fbtn .ar { opacity:.65; }
+  .qchip { display:flex; align-items:center; gap:8px; border:none; background:var(--accent-soft);
+    color:var(--accent); border-radius:999px; padding:5px 12px; font:inherit; font-size:12.5px; cursor:pointer; }
+  .qchip b { font-weight:500; }
+  .qchip span { font-size:13px; opacity:.7; }
+  .fpanel { position:absolute; top:calc(100% + 12px); left:0; z-index:50; background:var(--ground);
+    border:1px solid var(--hair); border-radius:var(--r); box-shadow:var(--sh-hi); padding:7px;
+    min-width:208px; display:none; max-height:330px; overflow-y:auto; }
+  .fdrop.on .fpanel { display:block; }
+  .fopt { display:block; width:100%; text-align:left; background:none; border:none; padding:9px 12px;
+    border-radius:var(--r-s); font:inherit; font-size:13.5px; color:var(--body); cursor:pointer; }
+  .fopt:hover { background:var(--ground-warm); color:var(--ink); }
+  .fopt[aria-pressed="true"] { color:var(--accent); font-weight:500; }
+  .fopt .n { float:right; color:var(--mute); font-size:11.5px; font-weight:300; }
+  .fhead { font-size:9.5px; font-weight:500; letter-spacing:.13em; text-transform:uppercase; color:var(--mute);
+    padding:11px 12px 5px; }
+  .sugp { position:absolute; top:calc(100% + 10px); left:0; width:min(430px, 74vw); background:var(--ground);
+    border:1px solid var(--hair); border-radius:var(--r); box-shadow:var(--sh-hi); padding:7px; z-index:60;
+    display:none; max-height:350px; overflow-y:auto; }
+  .qbox .sugp { width:min(380px, 80vw); }
+  .sugp.on { display:block; }
+  .sug { display:flex; gap:11px; align-items:center; width:100%; text-align:left; background:none; border:none;
+    padding:8px 11px; border-radius:var(--r-s); cursor:pointer; font:inherit; }
+  .sug:hover, .sug.sel { background:var(--ground-warm); }
+  .sug img { width:40px; height:32px; object-fit:cover; border-radius:4px; flex:none; }
+  .sug .dot { width:32px; height:32px; border-radius:6px; background:var(--accent-soft); color:var(--accent);
+    display:grid; place-items:center; font-size:13px; flex:none; }
+  .sug .t { font-size:13.5px; color:var(--ink); line-height:1.3; }
+  .sug .s { font-size:11.5px; color:var(--mute); }
+  .fmeta { margin-left:auto; display:flex; align-items:center; gap:16px; flex-wrap:wrap; font-size:12.5px; color:var(--mute); }
+  .fmeta b { color:var(--ink); font-weight:500; }
+  .sel { border:none; background:none; font:inherit; font-size:12.5px; color:var(--ink); cursor:pointer;
+    border-bottom:1px solid var(--hair); padding:3px 0; border-radius:0; }
+  .lnk { background:none; border:none; padding:0; cursor:pointer; font:inherit; font-size:12.5px;
+    color:var(--accent); text-decoration:underline; text-underline-offset:3px; }
+
+  /* ---------- categorías ---------- */
+  .cats { display:flex; gap:10px; overflow-x:auto; scroll-snap-type:x proximity; padding-bottom:4px;
+    scrollbar-width:none; }
+  .cats::-webkit-scrollbar { display:none; }
+  .cat-tile { position:relative; flex:1 0 138px; height:92px; scroll-snap-align:start;
+    border-radius:var(--r); overflow:hidden; cursor:pointer;
+    border:none; padding:0; background:var(--ground-warm); transition:box-shadow .18s; }
+  .cat-tile img { width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
+  .cat-tile:hover img { transform:scale(1.07); }
+  .cat-tile .lbl { position:absolute; inset:auto 0 0 0; padding:24px 11px 8px; text-align:left;
+    color:#fff; font-size:11.5px; font-weight:500; line-height:1.22; letter-spacing:-.005em;
+    background:linear-gradient(to top, rgba(6,12,9,.92) 18%, rgba(6,12,9,.55) 58%, rgba(6,12,9,0)); }
+  .cat-tile .lbl span { display:block; font-weight:300; font-size:10.5px; opacity:.9; margin-top:1px; }
+  .cat-tile[aria-pressed="true"] { box-shadow:0 0 0 2px var(--accent); }
+
+  /* ---------- tarjetas ---------- */
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(228px,1fr)); gap:28px 20px; }
+  .card { display:flex; flex-direction:column; gap:9px; background:none; border:none; padding:0;
+    font:inherit; color:inherit; text-align:left; cursor:pointer; }
+  .ph { position:relative; aspect-ratio:3/2; border-radius:var(--r); overflow:hidden; background:var(--ground-warm); }
+  .ph img { width:100%; height:100%; object-fit:cover; transition:transform .55s ease; }
+  .card:hover .ph img { transform:scale(1.045); }
+  .fav { position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%; border:none;
+    background:rgba(255,255,255,.92); cursor:pointer; display:grid; place-items:center; transition:transform .15s; }
+  .fav:hover { transform:scale(1.09); }
+  .fav svg { width:15px; height:15px; fill:none; stroke:#333; stroke-width:1.8; }
+  .fav[aria-pressed="true"] svg { fill:#b8443c; stroke:#b8443c; }
+  .badge { position:absolute; top:10px; left:10px; background:rgba(255,255,255,.94); color:#14453d;
+    font-size:9px; font-weight:600; letter-spacing:.11em; text-transform:uppercase; padding:5px 9px; border-radius:3px; }
+  .badge.free { background:var(--accent); color:#fff; }
+  .card-top { display:flex; justify-content:space-between; gap:12px; align-items:baseline; }
+  .card-t { font-size:14px; font-weight:500; color:var(--ink); line-height:1.32; letter-spacing:-.008em;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .card-s { font-size:12.5px; color:var(--mute); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .card-p { font-size:13.5px; color:var(--ink); }
+  .card-p b { font-weight:500; }
+  .card-p .u { color:var(--mute); font-weight:300; font-size:12px; }
+  .stars { display:flex; align-items:center; gap:4px; font-size:12.5px; color:var(--ink); white-space:nowrap; }
+  .stars i { font-style:normal; color:var(--star); }
+  .stars em { font-style:normal; color:var(--mute); font-weight:300; }
+
+  /* ---------- ficha ---------- */
+  .gal { display:grid; grid-template-columns:2fr 1fr; grid-template-rows:1fr 1fr; gap:8px;
+    border-radius:var(--r); overflow:hidden; aspect-ratio:2.9/1; max-height:440px; }
+  .gal img { width:100%; height:100%; object-fit:cover; }
+  .gal .g1 { grid-row:span 2; }
+  .fcols { display:grid; grid-template-columns:minmax(0,1fr) 372px; gap:72px; align-items:start; }
+  .sidebox { position:sticky; top:86px; border:1px solid var(--hair); border-radius:var(--r);
+    padding:24px; box-shadow:var(--sh); display:flex; flex-direction:column; gap:18px; background:var(--ground); }
+  .price-xl { font-size:26px; font-weight:400; color:var(--ink); letter-spacing:-.02em; }
+  .price-xl .u { font-size:13px; color:var(--mute); font-weight:300; }
+  .btn { border:1px solid var(--hair); background:none; color:var(--ink); cursor:pointer; font:inherit;
+    font-size:13px; padding:12px 20px; border-radius:var(--r-s); transition:border-color .15s, background-color .15s; }
+  .btn:hover { border-color:var(--ink); }
+  .btn.primary { background:var(--accent); border-color:var(--accent); color:var(--ground); font-weight:500; }
+  .btn.primary:hover { opacity:.88; }
+  .btn.block { width:100%; text-align:center; }
+  .btn.small { padding:8px 14px; font-size:12px; }
+  .btn-row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; }
+  .chipx { border:1px solid var(--hair); border-radius:999px; padding:6px 13px; font-size:12.5px; color:var(--body); }
+  .facts { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:20px 28px; }
+  .fact { display:flex; flex-direction:column; gap:3px; }
+  .fact .k { font-size:10px; font-weight:500; letter-spacing:.13em; text-transform:uppercase; color:var(--mute); }
+  .fact .v { font-size:14px; color:var(--ink); line-height:1.45; }
+  .sec-h { font-size:17px; font-weight:500; color:var(--ink); letter-spacing:-.015em; }
+  .rule { height:1px; background:var(--hair); border:none; }
+  .rev { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:26px 34px; }
+  .rev .who { display:flex; align-items:center; gap:11px; margin-bottom:8px; }
+  .av { width:36px; height:36px; border-radius:50%; background:var(--accent-soft); color:var(--accent);
+    display:grid; place-items:center; font-size:12.5px; font-weight:500; flex:none; }
+  .rev .nm { font-size:13.5px; color:var(--ink); font-weight:500; line-height:1.3; }
+  .rev .dt { font-size:11.5px; color:var(--mute); }
+  .rev p { font-size:13.5px; line-height:1.6; }
+  .who-box { display:flex; gap:16px; align-items:center; }
+  .av.big { width:52px; height:52px; font-size:17px; }
+
+  /* ---------- agenda ---------- */
+  .ag { display:grid; grid-template-columns:58px 1fr auto; gap:4px 20px; padding:16px 0;
+    border-bottom:1px solid var(--hair-soft); align-items:center; }
+  .ag .dt { font-size:12.5px; color:var(--mute); text-align:center; line-height:1.25; }
+  .ag .dt b { display:block; font-size:19px; font-weight:400; color:var(--ink); }
+  .ag.soon .dt b { color:var(--accent); }
+  .ag .ti { font-size:14.5px; color:var(--ink); line-height:1.4; }
+  .ag .pr { font-size:12.5px; color:var(--mute); }
+  .ag .tag { font-size:10px; font-weight:500; letter-spacing:.11em; text-transform:uppercase; color:var(--mute);
+    border:1px solid var(--hair); border-radius:999px; padding:5px 11px; white-space:nowrap; }
+  .ag.soon .tag { color:var(--accent); border-color:var(--accent); }
+
+  /* ---------- formularios ---------- */
+  .field { display:flex; flex-direction:column; gap:7px; }
+  .field > label { font-size:11px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--mute); }
+  .field .hint { font-size:12px; color:var(--mute); line-height:1.5; }
+  input[type=text], input[type=tel], input[type=email], input[type=number], textarea, select.inp {
+    width:100%; background:var(--ground); border:1px solid var(--hair); border-radius:var(--r-s);
+    font-family:inherit; font-size:14px; font-weight:300; color:var(--ink); padding:12px 14px;
+    transition:border-color .15s; appearance:none; }
+  textarea { resize:vertical; min-height:100px; line-height:1.6; }
+  select.inp { cursor:pointer; }
+  input:focus, textarea:focus, select:focus { outline:none; border-color:var(--accent); }
+  ::placeholder { color:var(--mute); font-weight:300; opacity:1; }
+  .field.err input, .field.err textarea, .field.err select { border-color:#b8443c; }
+  input[type=checkbox], input[type=radio] { appearance:none; width:17px; height:17px; flex:none;
+    border:1px solid var(--hair); background:var(--ground); cursor:pointer; border-radius:3px; transition:all .14s; }
+  input[type=radio] { border-radius:50%; }
+  input[type=checkbox]:checked, input[type=radio]:checked { background:var(--accent); border-color:var(--accent); }
+  .opt { display:flex; align-items:center; gap:10px; font-size:13.5px; cursor:pointer; color:var(--body); }
+  .opt:hover { color:var(--ink); }
+  .opt-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(165px,1fr)); gap:13px 24px; }
+  .pick { display:grid; grid-template-columns:17px 1fr; gap:13px; align-items:start; padding:15px;
+    border:1px solid var(--hair); border-radius:var(--r-s); cursor:pointer; transition:border-color .15s; }
+  .pick:hover { border-color:var(--mute); }
+  .pick input { margin-top:2px; }
+  .pick .pk-t { font-size:14px; color:var(--ink); font-weight:500; }
+  .pick .pk-d { font-size:12.5px; color:var(--mute); line-height:1.5; }
+  .file { border:1px dashed var(--hair); border-radius:var(--r-s); padding:16px 18px; display:flex;
+    justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; }
+  .file .fn { font-size:13.5px; color:var(--ink); font-weight:500; }
+  .file .fd { font-size:12px; color:var(--mute); line-height:1.5; }
+  .steps { display:flex; gap:8px; flex-wrap:wrap; }
+  .step { flex:1 1 140px; padding:12px 14px; border-radius:var(--r-s); background:var(--ground-warm);
+    display:flex; gap:9px; align-items:baseline; }
+  .step .n { font-size:11px; font-weight:500; color:var(--mute); }
+  .step .l { font-size:12.5px; color:var(--mute); line-height:1.35; }
+  .step.on { background:var(--accent); } .step.on .n, .step.on .l { color:var(--ground); }
+  .step.done .n, .step.done .l { color:var(--ink); }
+  fieldset { border:none; display:flex; flex-direction:column; gap:12px; }
+
+  /* ---------- varios ---------- */
+  h1.pg { font-size:clamp(26px,3.6vw,38px); font-weight:300; letter-spacing:-.03em; line-height:1.14;
+    color:var(--ink); text-wrap:balance; }
+  h2.pg { font-size:21px; font-weight:500; color:var(--ink); letter-spacing:-.02em; }
+  .eyebrow { font-size:10px; font-weight:500; letter-spacing:.19em; text-transform:uppercase; color:var(--accent); }
+  .lead { font-size:16px; line-height:1.6; max-width:58ch; }
+  p { font-size:14.5px; max-width:68ch; }
+  .note { font-size:12.5px; color:var(--mute); line-height:1.55; max-width:72ch; }
+  .back { background:none; border:none; padding:0; cursor:pointer; font:inherit; font-size:13px;
+    color:var(--body); align-self:flex-start; }
+  .back:hover { color:var(--accent); }
+  .view { padding-block:40px 88px; }
+  .band { background:var(--ground-warm); padding-block:44px; }
+  .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:26px; }
+  .kpi .n { font-size:34px; font-weight:300; color:var(--ink); letter-spacing:-.04em; line-height:1; }
+  .kpi .n.hi { color:var(--accent); }
+  .kpi .c { font-size:12.5px; color:var(--mute); margin-top:6px; line-height:1.4; }
+  .empty { padding:56px 0; display:flex; flex-direction:column; gap:14px; align-items:flex-start; }
+  .tabs { display:flex; gap:8px; flex-wrap:wrap; }
+  .tabs button { background:none; border:1px solid var(--hair); border-radius:999px; padding:9px 16px;
+    cursor:pointer; font:inherit; font-size:12.5px; color:var(--body); }
+  .tabs button[aria-selected="true"] { background:var(--ink); border-color:var(--ink); color:var(--ground); }
+  .pend { border:1px solid var(--hair); border-radius:var(--r); padding:24px; display:flex;
+    flex-direction:column; gap:16px; }
+  .toast { position:fixed; left:50%; bottom:26px; transform:translateX(-50%); z-index:60; background:var(--ink);
+    color:var(--ground); font-size:13px; padding:13px 22px; border-radius:var(--r-s); max-width:calc(100vw - 32px);
+    opacity:0; pointer-events:none; transition:opacity .2s; box-shadow:var(--sh-hi); }
+  .toast.on { opacity:1; }
+
+  footer.foot { border-top:1px solid var(--hair); margin-top:20px; background:var(--ground-warm); }
+  footer.foot .wrap { padding-block:44px 36px; display:grid; grid-template-columns:1.4fr 1fr 1fr;
+    gap:32px 40px; }
+  footer.foot h4 { font-size:11px; font-weight:500; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--ink); margin-bottom:12px; }
+  footer.foot p, footer.foot li { font-size:12.5px; color:var(--mute); line-height:1.7; }
+  footer.foot ul { list-style:none; }
+  footer.foot button { background:none; border:none; padding:0; cursor:pointer; font:inherit;
+    font-size:12.5px; color:var(--mute); text-align:left; }
+  footer.foot button:hover { color:var(--accent); }
+  .credits { border-top:1px solid var(--hair); }
+  .credits .wrap { padding-block:16px 40px; font-size:11px; color:var(--mute); line-height:1.6; }
+
+  /* ---------- entrada ---------- */
+  .splash { position:fixed; inset:0; z-index:100; background:#14453d; display:grid; place-items:center;
+    transition:transform .62s cubic-bezier(.76,0,.24,1), opacity .45s ease .12s; }
+  .splash.off { transform:translateY(-101%); opacity:0; pointer-events:none; }
+  .sp-in { text-align:center; padding:24px; }
+  .sp-1 { display:block; color:#fff; font-size:clamp(46px,9.5vw,112px); font-weight:600;
+    letter-spacing:-.05em; line-height:1; animation:spUp .72s cubic-bezier(.2,.72,.28,1) both; }
+  .sp-2 { display:block; margin-top:18px; color:rgba(255,255,255,.66); font-size:clamp(9.5px,1.3vw,12px);
+    font-weight:500; letter-spacing:.3em; text-transform:uppercase;
+    animation:spUp .72s cubic-bezier(.2,.72,.28,1) .17s both; }
+  @keyframes spUp { from { opacity:0; transform:translateY(15px); } to { opacity:1; transform:none; } }
+  @media (prefers-reduced-motion: reduce) { .splash { display:none; } }
+
+  :focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  @media (prefers-reduced-motion: reduce) { * { transition:none !important; animation:none !important; } }
+
+  @media (max-width:1179px) {
+    .secs { order:3; flex:1 0 100%; margin-inline:calc(-1 * var(--gut)); padding-inline:var(--gut); }
+    .bar .wrap { padding-block:12px; gap:12px 26px; }
+  }
+  @media (max-width:900px) {
+    .fcols { grid-template-columns:1fr; gap:36px; }
+    .sidebox { position:static; }
+    footer.foot .wrap { grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width:680px) {
+    /* En el móvil manda la fila de filtros: es la que se queda pegada arriba. */
+    .bar { position:static; }
+    .bar .wrap { padding-block:12px; gap:10px 16px; }
+    .mark { flex:0 0 auto; }
+    .barright { flex:1 1 auto; flex-wrap:wrap; justify-content:flex-end; gap:10px 16px; }
+    .nav { gap:16px; }
+    .nav button { font-size:13px; }
+    .btn-pub { display:none; }
+    .searchlayer .wrap { padding-block:14px; gap:14px; }
+    .secs { order:4; margin-inline:calc(-1 * var(--gut)); padding-inline:var(--gut);
+      mask-image:linear-gradient(to right, #000 calc(100% - 24px), transparent); }
+    .filterbar { top:0; }
+    .filterbar .wrap { gap:8px 16px; padding-block:10px; }
+    .fgroup { flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; width:100%; gap:20px;
+      mask-image:linear-gradient(to right, #000 calc(100% - 22px), transparent); }
+    .fgroup::-webkit-scrollbar { display:none; }
+    .fbtn { font-size:12.5px; }
+    .fdrop.on .fpanel { position:fixed; left:16px; right:16px; top:auto; bottom:16px;
+      width:auto; min-width:0; max-height:58vh; z-index:60; }
+    .fmeta { margin-left:0; width:100%; justify-content:space-between; }
+    .tira { height:150px; }
+    .gal { grid-template-columns:1fr; grid-template-rows:auto; aspect-ratio:auto; }
+    .gal .g1 { grid-row:auto; aspect-ratio:3/2; }
+    .gal .gs { display:none; }
+    .grid { grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:26px 18px; }
+    .ag { grid-template-columns:52px 1fr; }
+    .ag .tag { display:none; }
+    footer.foot .wrap { grid-template-columns:1fr; }
+    .view { padding-block:28px 64px; }
+  }
+</style>
+
+<div class="splash" id="splash" aria-hidden="true">
+  <div class="sp-in">
+    <span class="sp-1">ELORRIO</span>
+    <span class="sp-2" id="sp-2">Tabloia · actividades del pueblo</span>
+  </div>
+</div>
+
+<div class="demo-strip">
+  <div class="wrap"><b id="demo-1">Demo</b><span id="demo-2"></span></div>
+</div>
+
+<header class="bar" id="bar">
+  <div class="wrap">
+    <button class="mark" id="mark"><span class="w">Tabloia</span><span class="s">Elorrio</span></button>
+    <nav class="secs" id="secs"></nav>
+    <div class="barright">
+      <button class="ibtn" id="abrir-busq" data-act="abrirBusq">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+      </button>
+      <nav class="nav" id="nav"></nav>
+      <div class="langs" id="langs"></div>
+      <button class="btn-pub" id="cta-pub"></button>
+    </div>
+  </div>
+  <div class="searchlayer" id="searchlayer" hidden><div class="wrap">
+    <div class="qbox">
+      <input type="text" id="q" autocomplete="off" role="combobox" aria-expanded="false">
+      <div class="sugp" id="sug1"></div>
+    </div>
+    <button class="ibtn" id="cerrar-busq" data-act="cerrarBusq">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+  </div></div>
+</header>
+
+<div class="filterbar" id="filterbar" hidden><div class="wrap">
+  <span class="flabel" id="flabel"></span>
+  <div class="fgroup" id="fgroup"></div><div class="fmeta" id="fmeta"></div>
+</div></div>
+
+<main id="app"></main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div>
+      <h4 id="f-h0">Elorrioko Tabloia</h4>
+      <p id="foot-p"></p>
+    </div>
+    <div>
+      <h4 id="f-h1"></h4>
+      <ul class="stack g6">
+        <li><button data-nav="buscar" id="f-l1"></button></li>
+        <li><button data-nav="agenda" id="f-l2"></button></li>
+        <li><button data-nav="guardados" id="f-l3"></button></li>
+      </ul>
+    </div>
+    <div>
+      <h4 id="f-h2"></h4>
+      <ul class="stack g6">
+        <li><button data-nav="publicar" id="f-l4"></button></li>
+        <li><button data-foot="admin" id="f-l5"></button></li>
+        <li><button data-foot="tema" id="foot-tema"></button></li>
+      </ul>
+    </div>
+  </div>
+  <div class="credits"><div class="wrap" id="creditos"></div></div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const PUEBLO = 'Elorrio';
+const LANG_INICIAL = 'es';          // 'eu' para que abra en euskera
+const HABITANTES = '7.277';
+
+/* ---------- taxonomías ---------- */
+const CATS = [
+  { id:'idiomas',     es:'Idiomas',                eu:'Hizkuntzak' },
+  { id:'apoyo',       es:'Apoyo escolar',          eu:'Eskola-laguntza' },
+  { id:'musica',      es:'Música',                 eu:'Musika' },
+  { id:'deporte',     es:'Deporte',                eu:'Kirola' },
+  { id:'danza',       es:'Danza y baile',          eu:'Dantza' },
+  { id:'arte',        es:'Arte y teatro',          eu:'Artea eta antzerkia' },
+  { id:'tecnologia',  es:'Tecnología',             eu:'Teknologia' },
+  { id:'bienestar',   es:'Bienestar',              eu:'Ongizatea' },
+  { id:'campamentos', es:'Campamentos y ludoteca', eu:'Udalekuak eta ludoteka' }
+];
+/* familias grandes: lo primero que elige un padre */
+const AMBITOS = [
+  { id:'estudios',  es:'Estudios',      eu:'Ikasketak',        cats:['idiomas','apoyo','tecnologia'] },
+  { id:'deporte',   es:'Deporte',       eu:'Kirola',           cats:['deporte'] },
+  { id:'artes',     es:'Arte y música', eu:'Artea eta musika', cats:['musica','danza','arte'] },
+  { id:'bienestar', es:'Bienestar',     eu:'Ongizatea',        cats:['bienestar'] },
+  { id:'ocio',      es:'Ocio y verano', eu:'Aisia eta uda',    cats:['campamentos'] }
+];
+const TIPOS = [
+  { id:'particular', es:'Particular',  eu:'Partikularra' },
+  { id:'academia',   es:'Academia',    eu:'Akademia' },
+  { id:'club',       es:'Club',        eu:'Kluba' },
+  { id:'municipal',  es:'Ayuntamiento',eu:'Udala' },
+  { id:'asociacion', es:'Asociación',  eu:'Elkartea' }
+];
+const EDADES = [
+  { id:'0-3',   es:'0–3',     eu:'0–3',      min:0,  max:3  },
+  { id:'4-6',   es:'4–6',     eu:'4–6',      min:4,  max:6  },
+  { id:'7-11',  es:'7–11',    eu:'7–11',     min:7,  max:11 },
+  { id:'12-17', es:'12–17',   eu:'12–17',    min:12, max:17 },
+  { id:'18+',   es:'Adultos', eu:'Helduak',  min:18, max:99 }
+];
+const MODOS = [
+  { id:'presencial', es:'Presencial',  eu:'Aurrez aurre' },
+  { id:'domicilio',  es:'A domicilio', eu:'Etxez etxe' },
+  { id:'online',     es:'Online',      eu:'Online' }
+];
+const DIAS = ['L','M','X','J','V','S','D'];
+const DIAS_LARGO = {
+  es:{ L:'lunes', M:'martes', X:'miércoles', J:'jueves', V:'viernes', S:'sábado', D:'domingo' },
+  eu:{ L:'astelehena', M:'asteartea', X:'asteazkena', J:'osteguna', V:'ostirala', S:'larunbata', D:'igandea' }
+};
+const UNIDADES = {
+  hora:      { es:{s:'/h', l:'por hora'},            eu:{s:'/ordu', l:'orduko'},             mes:4   },
+  sesion:    { es:{s:'/sesión', l:'por sesión'},     eu:{s:'/saio', l:'saioko'},             mes:4   },
+  mes:       { es:{s:'/mes', l:'al mes'},            eu:{s:'/hil', l:'hilean'},              mes:1   },
+  trimestre: { es:{s:'/trim.', l:'al trimestre'},    eu:{s:'/hiruhil.', l:'hiruhilekoan'},   mes:1/3 },
+  temporada: { es:{s:'/temporada', l:'por temporada'},eu:{s:'/denboraldi', l:'denboraldiko'},mes:1/9 },
+  semana:    { es:{s:'/semana', l:'por semana'},     eu:{s:'/aste', l:'asteko'},             mes:1   }
+};
+
+/* ==========================================================================
+   TEXTOS DE LA INTERFAZ
+   ========================================================================== */
+const T = {
+es:{
+  buscar:'Buscar', agenda:'Agenda', guardados:'Guardados', publicar:'Publicar',
+  demo1:'Demostración',
+  demo2:'Las fichas, las personas, los teléfonos y los precios son inventados. Sirve para ver cómo funcionaría.',
+  heroEyebrow:'Directorio de actividades · ' + HABITANTES + ' habitantes',
+  heroH1:'Todo lo que se puede aprender, entrenar y bailar en Elorrio, en un solo sitio.',
+  heroLead:'Clases particulares, academias, clubes, escuelas municipales y elkarteak. Sin preguntar en el grupo de WhatsApp quién da francés: se busca, se compara y se contacta directamente.',
+  qPh:'Busca «francés», «pilota», «apoyo mates»…', borrar:'Borrar', seBusca:'Se busca mucho',
+  sugs:['francés','euskara helduentzat','pilota','apoyo matemáticas','yoga','trikitixa','gratis'],
+  fMateria:'Materia', fEdad:'Edad', fQuien:'Quién', fComo:'Cómo', fDia:'Qué día',
+  soloGratis:'Solo gratuitas', ordenar:'Ordenar',
+  oRel:'Relevancia', oPrecio:'Precio', oEdad:'Edad', oAz:'A–Z', quitar:'Quitar filtros',
+  actividad:'actividad', actividades:'actividades', conFiltros:' con estos filtros', enPueblo:' en Elorrio',
+  vacioH2:'No hay nada así todavía en Elorrio.',
+  vacioP:'Prueba a quitar algún filtro, o pídelo abajo: si alguien del pueblo lo ofrece, aparecerá aquí.',
+  vacioBtn:'Quitar los filtros',
+  faltaLbl:'¿Falta algo en el tablón?',
+  faltaP:'Si buscas algo que no encuentras, dilo. Se anota en el tablón de peticiones y, cuando alguien de Elorrio lo ofrece, avisamos a quien lo pidió. Así han salido la mitad de las actividades de esta lista.',
+  faltaCampo:'Qué buscas', faltaPh:'Por ejemplo: clases de chino para niños de 8 años', faltaBtn:'Pedirlo',
+  verificada:'Verificada', sinVerificar:'Sin verificar',
+  gratis:'Gratis', gratuita:'Gratuita', anos:' años', desde:'Desde ', adultos:'Adultos',
+  deLaV:'De lunes a viernes', todosDias:'Todos los días',
+  volver:'← Volver a la búsqueda',
+  secActividad:'La actividad', secContacto:'Contacto', contactoSub:'Directo, sin intermediarios',
+  kImparte:'Imparte', kEdades:'Edades', kComo:'Cómo', kDonde:'Dónde', kCuando:'Cuándo',
+  kPrecio:'Precio', kPlazas:'Plazas', kQuien:'Quién la da',
+  kTel:'Teléfono', kMail:'Correo', aprox:' al mes aprox.',
+  selloVerif:'Verificada · DNI y titulación comprobados', selloCert:' · Certificado de delitos sexuales vigente',
+  selloPend:'Pendiente de verificar',
+  btnWhats:'Escribir por WhatsApp', btnLlamar:'Llamar', btnGuardar:'Guardar', btnQuitar:'Quitar de guardados',
+  contactoNota:'En esta demostración los teléfonos están ocultos porque las fichas son inventadas. En la web real el botón abre WhatsApp con el mensaje ya empezado: «Kaixo, te escribo desde el tablón de Elorrio por las clases de…».',
+  loDemas:'Lo demás de ', otrasDe:'Otras opciones de ',
+  fichaNota:'La información la facilita el anunciante y el ayuntamiento comprueba la documentación antes de publicarla. El precio y los horarios pueden cambiar: conviene confirmarlos al contactar.',
+  enEuskera:'Ficha escrita en euskera', enCastellano:'Ficha escrita en castellano',
+  agEyebrow:'Agenda', agH1:'Las fechas que no conviene pasar por alto.',
+  agLead:'Plazos de inscripción, comienzos de curso, sorteos de plaza y muestras. Lo que uno se entera por el grupo del colegio o por el bando, aquí escrito.',
+  agNota:'Las fechas las comunican los propios centros, clubes y elkarteak. Si organizas algo y quieres que salga aquí, publícalo desde tu ficha.',
+  deAno:' de 2026',
+  guEyebrow:'Guardados', guH1:'Tu lista corta.',
+  guLead:'Lo que has ido guardando mientras mirabas, para decidirlo en casa con calma o enseñárselo a quien haga falta.',
+  compartir:'Compartir la lista', vaciar:'Vaciar',
+  guVacioH2:'Todavía no has guardado nada.',
+  guVacioP:'Al abrir una actividad, el botón «Guardar» la deja aquí. Se queda en este navegador, sin cuenta ni registro.',
+  irBuscar:'Ir a buscar',
+  pubEyebrow:'Publicar', pubH1:'Das clases en Elorrio. Que se sepa.',
+  pubLead:'Publicar es gratis, no hay comisión y el contacto llega directo a tu teléfono. Se tarda cinco minutos y lo revisamos en menos de 48 horas.',
+  pasos:['Quién eres','Qué ofreces','Precio y horario','Documentación'],
+  pQueEres:'Qué eres',
+  lNombre:'Nombre y apellidos o razón social', phNombre:'Nerea Goikoetxea Uriarte',
+  lDni:'DNI o NIF', phDni:'12345678X', hDni:'Solo lo ve quien revisa la ficha. No se publica nunca.',
+  lTel:'Teléfono', phTel:'600 00 00 00', lMail:'Correo electrónico', phMail:'nerea@correo.eus',
+  lDir:'Dirección en Elorrio', phDir:'Amilleta kalea, 3', hDir:'Hace falta para comprobar que la actividad se da aquí.',
+  lTitulo:'Título de la actividad', phTitulo:'Apoyo escolar de primaria y técnicas de estudio',
+  hTitulo:'Di qué das y a quién, como lo dirías por teléfono.',
+  lCat:'Materia', optCat:'Elige una',
+  lMaterias:'Qué se aprende', phMaterias:'deberes, lectura, técnicas de estudio',
+  hMaterias:'Separado por comas. Es lo que los padres escriben en el buscador.',
+  lDesc:'Explícalo con tus palabras', phDesc:'Cómo son las clases, con cuántos niños, qué material hace falta…',
+  hDesc:'Tres o cuatro frases. Las fichas que cuentan cómo es la clase reciben el triple de llamadas.',
+  lIdioma:'Idioma de la ficha', hIdioma:'Se publica tal como la escribes. La mayoría de las familias leen las dos.',
+  lEdadMin:'Edad mínima', lEdadMax:'Edad máxima', lExp:'Tu experiencia y titulación', phExp:'Maestra en activo, 15 años',
+  lPrecio:'Precio', lUnidad:'Unidad', lMod:'Cómo se dan las clases', lLugar:'Dónde', phLugar:'En su casa o a domicilio',
+  lDias:'Qué días', lHorario:'Horario', phHorario:'De 16:30 a 19:30', lPlazas:'Plazas libres', phPlazas:'Quedan 3 plazas',
+  docIntro:'Antes de publicar, el ayuntamiento comprueba estos documentos. Se guardan cifrados, no se publican y se borran si das de baja la ficha.',
+  doc1:'DNI o NIF', doc1d:'Para comprobar que eres quien dices.',
+  doc2:'Titulación o acreditación', doc2d:'Título, certificado federativo o lo que corresponda. Si no tienes titulación, se publica igual pero la ficha lo dirá.',
+  doc3:'Certificado de delitos de naturaleza sexual', doc3d:'Obligatorio por ley para cualquier actividad con menores de edad. Se pide gratis en el Ministerio de Justicia.',
+  doc4:'Seguro de responsabilidad civil', doc4d:'Recomendable, obligatorio para academias y clubes.',
+  oblig:'obligatorio', adjuntar:'Adjuntar',
+  ok1:'Declaro que los datos son ciertos y que soy responsable de la actividad que anuncio.',
+  ok2:'Acepto que mi nombre, la actividad y el contacto que he dado se publiquen en el tablón. El DNI y los documentos no se publican.',
+  atras:'Atrás', continuar:'Continuar', enviar:'Enviar para revisión', pasoDe:'Paso § de 4',
+  envH1:'Ficha enviada. Ahora la revisamos.',
+  envLead:'Hemos recibido «§». Una persona del ayuntamiento comprueba el DNI y los certificados y la publica, normalmente en menos de 48 horas. Te avisamos al correo que has dado.',
+  kEstado:'Estado', vEstado:'Pendiente de revisión',
+  kComprueba:'Qué se comprueba', vComprueba:'Que la persona existe, que la actividad se da en Elorrio y que el certificado de delitos sexuales está en vigor si hay menores.',
+  kFalta:'Si falta algo', vFalta:'Te escribimos pidiendo el documento que falte, sin volver a empezar el formulario.',
+  volverTablon:'Volver al tablón', verRevision:'Ver cómo se revisa (demo)',
+  admEyebrow:'Administración', admGateH1:'Quien revisa el tablón entra por aquí.',
+  admGateLead:'Una sola persona del ayuntamiento o de una elkarte revisa lo que llega: comprueba el DNI, los certificados y que la actividad se dé de verdad en el pueblo. Es el trabajo que sostiene la confianza de todo lo demás.',
+  lPass:'Contraseña', phPass:'escribe: demo', hPass:'En la demostración la contraseña es <em>demo</em>.', entrar:'Entrar',
+  admH1:'Panel de revisión.',
+  nPub:'actividades publicadas', nPend:'fichas por revisar', nPet:'peticiones de familias', nVis:'visitas esta semana',
+  tabPend:'Por revisar', tabPub:'Publicadas', tabPet:'Peticiones',
+  enviada:'enviada ', kCert:'Certificado de delitos sexuales',
+  certSi:'Aportado y en vigor', certNo:'No aportado', certNoX:' — no se puede publicar una actividad con menores sin él',
+  alRevisar:'Al revisar: ', bPublicar:'Publicar', bPedir:'Pedir lo que falta', bRechazar:'Rechazar', bOcultar:'Ocultar',
+  nadaH2:'No queda nada por revisar.',
+  nadaP:'Cuando alguien envíe una ficha aparecerá aquí. Prueba a rellenar el formulario de «Publicar» y vuelve.',
+  petNota:'Lo que las familias buscan y no encuentran. Es la lista de lo que le falta al pueblo, y sirve para ir a buscar a quien pueda darlo.',
+  pedido:'lo han pedido ', vez:' vez', veces:' veces', salir:'Salir del panel',
+  footP:'Los datos los facilita cada anunciante. El Tablón no organiza las clases, no cobra comisión y no interviene en el pago: solo reúne lo que hay en Elorrio.',
+  footPub:'Publicar una actividad', footOscuro:'Cambiar a modo oscuro', footClaro:'Cambiar a modo claro', footAdm:'Acceso administración',
+  tGuardado:'Guardado. Lo tienes en «Guardados».', tQuitado:'Quitado de tus guardados.',
+  tCompartir:'En la web real esto copia un enlace con tu lista para mandarlo por WhatsApp.',
+  tContacto:'Contactos ocultos en la demostración: las fichas son inventadas.',
+  tAdjuntar:'En la web real se abre el explorador para subir el documento.',
+  tAnotado:'Anotado. Si alguien de Elorrio lo ofrece, te avisamos.',
+  tPass:'La contraseña de la demostración es: demo',
+  tPublicada:'Publicada. Ya aparece en el buscador del tablón.',
+  tCert:'No se puede publicar: falta el certificado de delitos sexuales y la actividad es con menores.',
+  tPedir:'Se le ha escrito pidiendo lo que falta. La ficha sigue pendiente.',
+  tRechazada:'Rechazada. Se le avisa por correo con el motivo.',
+  tOculta:'Ficha oculta. Deja de verse en el buscador.',
+  tFalta:'Falta ', tFaltaMas:', entre otras cosas.', y:' y ',
+  rQue:['qué eres','tu nombre','el DNI','el teléfono','el correo','la dirección'],
+  rQue2:['el título','la materia','la explicación','la edad mínima','la edad máxima'],
+  rQue3:['el precio','dónde','el horario'],
+  rQue4:['la declaración de veracidad','el permiso de publicación']
+},
+eu:{
+  buscar:'Bilatu', agenda:'Agenda', guardados:'Gordeak', publicar:'Argitaratu',
+  demo1:'Demostrazioa',
+  demo2:'Fitxak, pertsonak, telefonoak eta prezioak asmatuak dira. Nola funtzionatuko lukeen ikusteko balio du.',
+  heroEyebrow:'Jardueren direktorioa · ' + HABITANTES + ' biztanle',
+  heroH1:'Elorrion ikasi, entrenatu eta dantzatu daitekeen guztia, leku bakarrean.',
+  heroLead:'Klase partikularrak, akademiak, klubak, udal eskolak eta elkarteak. WhatsApp taldean nork ematen duen frantsesa galdetu beharrik gabe: bilatu, konparatu eta zuzenean harremanetan jarri.',
+  qPh:'Bilatu «frantsesa», «pilota», «matematika»…', borrar:'Ezabatu', seBusca:'Asko bilatzen da',
+  sugs:['frantsesa','euskara helduentzat','pilota','matematika','yoga','trikitixa','doan'],
+  fMateria:'Gaia', fEdad:'Adina', fQuien:'Nork', fComo:'Nola', fDia:'Zein egunetan',
+  soloGratis:'Doakoak bakarrik', ordenar:'Ordenatu',
+  oRel:'Garrantzia', oPrecio:'Prezioa', oEdad:'Adina', oAz:'A–Z', quitar:'Iragazkiak kendu',
+  actividad:'jarduera', actividades:'jarduera', conFiltros:' iragazki hauekin', enPueblo:' Elorrion',
+  vacioH2:'Oraindik ez dago halakorik Elorrion.',
+  vacioP:'Kendu iragazkiren bat, edo eskatu behean: herriko norbaitek eskaintzen badu, hemen agertuko da.',
+  vacioBtn:'Iragazkiak kendu',
+  faltaLbl:'Zerbait falta da tabloian?',
+  faltaP:'Aurkitzen ez duzun zerbaiten bila bazabiltza, esan. Eskaeren zerrendan idazten da eta Elorrioko norbaitek eskaintzen duenean, eskatu duenari abisatzen diogu. Horrela atera dira zerrenda honetako jardueren erdiak.',
+  faltaCampo:'Zeren bila zabiltza', faltaPh:'Adibidez: txinera klaseak 8 urteko haurrentzat', faltaBtn:'Eskatu',
+  verificada:'Egiaztatuta', sinVerificar:'Egiaztatu gabe',
+  gratis:'Doan', gratuita:'Doakoa', anos:' urte', desde:'', adultos:'Helduak',
+  deLaV:'Astelehenetik ostiralera', todosDias:'Egunero',
+  volver:'← Bilaketara itzuli',
+  secActividad:'Jarduera', secContacto:'Harremana', contactoSub:'Zuzenean, bitartekaririk gabe',
+  kImparte:'Zer ematen den', kEdades:'Adinak', kComo:'Nola', kDonde:'Non', kCuando:'Noiz',
+  kPrecio:'Prezioa', kPlazas:'Plazak', kQuien:'Nork ematen duen',
+  kTel:'Telefonoa', kMail:'Posta', aprox:' hilean gutxi gorabehera',
+  selloVerif:'Egiaztatuta · NAN eta titulazioa egiaztatuta', selloCert:' · Sexu-delituen ziurtagiria indarrean',
+  selloPend:'Egiaztatzeke',
+  btnWhats:'WhatsAppez idatzi', btnLlamar:'Deitu', btnGuardar:'Gorde', btnQuitar:'Gordeetatik kendu',
+  contactoNota:'Demostrazio honetan telefonoak ezkutatuta daude, fitxak asmatuak direlako. Benetako webean botoiak WhatsApp irekitzen du mezua hasita: «Kaixo, Elorrioko tabloitik idazten dizut, klaseengatik…».',
+  loDemas:'Hauek ere ematen ditu: ', otrasDe:'Beste aukera batzuk: ',
+  fichaNota:'Informazioa iragarleak berak ematen du eta udalak dokumentazioa egiaztatzen du argitaratu aurretik. Prezioa eta ordutegia alda daitezke: hobe harremanetan jartzean berrestea.',
+  enEuskera:'Euskaraz idatzitako fitxa', enCastellano:'Gaztelaniaz idatzitako fitxa',
+  agEyebrow:'Agenda', agH1:'Ahaztu behar ez diren datak.',
+  agLead:'Izena emateko epeak, ikasturtearen hasierak, plaza zozketak eta emanaldiak. Ikastolako taldetik edo bandoz jakiten dena, hemen idatzita.',
+  agNota:'Datak zentroek, klubek eta elkarteek berek jakinarazten dituzte. Zerbait antolatzen baduzu eta hemen agertzea nahi baduzu, zure fitxatik argitaratu.',
+  deAno:'a, 2026',
+  guEyebrow:'Gordeak', guH1:'Zure zerrenda laburra.',
+  guLead:'Begiratzen ari zinela gorde duzuna, etxean lasai erabakitzeko edo behar duenari erakusteko.',
+  compartir:'Zerrenda partekatu', vaciar:'Hustu',
+  guVacioH2:'Oraindik ez duzu ezer gorde.',
+  guVacioP:'Jarduera bat irekitzean, «Gorde» botoiak hemen uzten du. Nabigatzaile honetan gelditzen da, konturik eta izen-ematerik gabe.',
+  irBuscar:'Bilatzera joan',
+  pubEyebrow:'Argitaratu', pubH1:'Elorrion klaseak ematen dituzu. Jakin dezatela.',
+  pubLead:'Argitaratzea doakoa da, ez dago komisiorik eta harremana zuzenean zure telefonora iristen da. Bost minutu behar dira eta 48 ordu baino lehen berrikusten dugu.',
+  pasos:['Nor zaren','Zer eskaintzen duzun','Prezioa eta ordutegia','Dokumentazioa'],
+  pQueEres:'Zer zaren',
+  lNombre:'Izen-abizenak edo sozietatearen izena', phNombre:'Nerea Goikoetxea Uriarte',
+  lDni:'NAN edo IFZ', phDni:'12345678X', hDni:'Fitxa berrikusten duenak bakarrik ikusten du. Ez da inoiz argitaratzen.',
+  lTel:'Telefonoa', phTel:'600 00 00 00', lMail:'Helbide elektronikoa', phMail:'nerea@posta.eus',
+  lDir:'Helbidea Elorrion', phDir:'Amilleta kalea, 3', hDir:'Jarduera hemen ematen dela egiaztatzeko behar da.',
+  lTitulo:'Jardueraren izenburua', phTitulo:'Lehen Hezkuntzako eskola-laguntza eta ikasteko teknikak',
+  hTitulo:'Esan zer ematen duzun eta nori, telefonoz esango zenukeen bezala.',
+  lCat:'Gaia', optCat:'Aukeratu bat',
+  lMaterias:'Zer ikasten den', phMaterias:'etxeko lanak, irakurketa, ikasteko teknikak',
+  hMaterias:'Komaz banatuta. Hori da gurasoek bilatzailean idazten dutena.',
+  lDesc:'Azaldu zure hitzekin', phDesc:'Nolakoak diren klaseak, zenbat haurrekin, zer material behar den…',
+  hDesc:'Hiru edo lau esaldi. Klasea nolakoa den kontatzen duten fitxek hiru aldiz dei gehiago jasotzen dituzte.',
+  lIdioma:'Fitxaren hizkuntza', hIdioma:'Idazten duzun bezala argitaratzen da. Familia gehienek biak irakurtzen dituzte.',
+  lEdadMin:'Gutxieneko adina', lEdadMax:'Gehieneko adina', lExp:'Zure esperientzia eta titulazioa', phExp:'Irakaslea, 15 urte',
+  lPrecio:'Prezioa', lUnidad:'Unitatea', lMod:'Nola ematen diren klaseak', lLugar:'Non', phLugar:'Bere etxean edo etxez etxe',
+  lDias:'Zein egunetan', lHorario:'Ordutegia', phHorario:'16:30etik 19:30era', lPlazas:'Plaza libreak', phPlazas:'3 plaza gelditzen dira',
+  docIntro:'Argitaratu aurretik, udalak dokumentu hauek egiaztatzen ditu. Zifratuta gordetzen dira, ez dira argitaratzen eta fitxa kentzen baduzu ezabatu egiten dira.',
+  doc1:'NAN edo IFZ', doc1d:'Diozuna zarela egiaztatzeko.',
+  doc2:'Titulazioa edo egiaztagiria', doc2d:'Titulua, federazioko ziurtagiria edo dagokiona. Titulaziorik ez baduzu, berdin argitaratzen da baina fitxak hala esango du.',
+  doc3:'Sexu-delituen ziurtagiria', doc3d:'Legez nahitaezkoa adingabeekin egiten den edozein jardueratarako. Doan eskatzen da Justizia Ministerioan.',
+  doc4:'Erantzukizun zibileko asegurua', doc4d:'Gomendagarria; nahitaezkoa akademia eta klubentzat.',
+  oblig:'nahitaezkoa', adjuntar:'Erantsi',
+  ok1:'Datuak egiazkoak direla eta iragartzen dudan jardueraren arduraduna naizela adierazten dut.',
+  ok2:'Nire izena, jarduera eta emandako harremana tabloian argitaratzea onartzen dut. NANa eta dokumentuak ez dira argitaratzen.',
+  atras:'Atzera', continuar:'Jarraitu', enviar:'Bidali berrikusteko', pasoDe:'§. urratsa, 4tik',
+  envH1:'Fitxa bidalita. Orain berrikusiko dugu.',
+  envLead:'«§» jaso dugu. Udaleko pertsona batek NANa eta ziurtagiriak egiaztatuko ditu eta argitaratuko du, normalean 48 ordu baino lehen. Eman duzun postara abisatuko dizugu.',
+  kEstado:'Egoera', vEstado:'Berrikusteke',
+  kComprueba:'Zer egiaztatzen den', vComprueba:'Pertsona existitzen dela, jarduera Elorrion ematen dela eta sexu-delituen ziurtagiria indarrean dagoela adingabeak badaude.',
+  kFalta:'Zerbait falta bada', vFalta:'Falta den dokumentua eskatuz idazten dizugu, formularioa berriro hasi gabe.',
+  volverTablon:'Tabloira itzuli', verRevision:'Ikusi nola berrikusten den (demoa)',
+  admEyebrow:'Administrazioa', admGateH1:'Tabloia berrikusten duena hemendik sartzen da.',
+  admGateLead:'Udaleko edo elkarte bateko pertsona bakar batek berrikusten du iristen dena: NANa, ziurtagiriak eta jarduera benetan herrian ematen den. Lan horrek eusten dio gainerako guztiaren konfiantzari.',
+  lPass:'Pasahitza', phPass:'idatzi: demo', hPass:'Demostrazioan pasahitza <em>demo</em> da.', entrar:'Sartu',
+  admH1:'Berrikuspen panela.',
+  nPub:'jarduera argitaratuta', nPend:'fitxa berrikusteko', nPet:'familien eskaera', nVis:'bisita aste honetan',
+  tabPend:'Berrikusteko', tabPub:'Argitaratuta', tabPet:'Eskaerak',
+  enviada:'bidalia: ', kCert:'Sexu-delituen ziurtagiria',
+  certSi:'Aurkeztuta eta indarrean', certNo:'Aurkeztu gabe', certNoX:' — ezin da adingabeekiko jarduerarik argitaratu hori gabe',
+  alRevisar:'Berrikustean: ', bPublicar:'Argitaratu', bPedir:'Falta dena eskatu', bRechazar:'Ezetsi', bOcultar:'Ezkutatu',
+  nadaH2:'Ez da ezer gelditzen berrikusteko.',
+  nadaP:'Norbaitek fitxa bat bidaltzen duenean hemen agertuko da. Bete «Argitaratu» formularioa eta itzuli.',
+  petNota:'Familiek bilatzen dutena eta aurkitzen ez dutena. Herriari zer falta zaion esaten duen zerrenda da, eta hori eman dezakeenaren bila joateko balio du.',
+  pedido:'eskatu dute ', vez:' aldiz', veces:' aldiz', salir:'Paneletik irten',
+  footP:'Datuak iragarle bakoitzak ematen ditu. Tabloiak ez ditu klaseak antolatzen, ez du komisiorik kobratzen eta ez du ordainketan parte hartzen: Elorrion dagoena biltzen du, besterik ez.',
+  footPub:'Jarduera bat argitaratu', footOscuro:'Modu ilunera aldatu', footClaro:'Modu argira aldatu', footAdm:'Administrazio sarbidea',
+  tGuardado:'Gordeta. «Gordeak» atalean duzu.', tQuitado:'Zure gordeetatik kenduta.',
+  tCompartir:'Benetako webean honek zure zerrendaren esteka kopiatzen du WhatsAppez bidaltzeko.',
+  tContacto:'Harremanak ezkutatuta daude demostrazioan: fitxak asmatuak dira.',
+  tAdjuntar:'Benetako webean fitxategi-arakatzailea irekitzen da dokumentua igotzeko.',
+  tAnotado:'Idatzita. Elorrioko norbaitek eskaintzen badu, abisatuko dizugu.',
+  tPass:'Demostrazioko pasahitza hau da: demo',
+  tPublicada:'Argitaratuta. Tabloiko bilatzailean agertzen da jada.',
+  tCert:'Ezin da argitaratu: sexu-delituen ziurtagiria falta da eta jarduera adingabeekin da.',
+  tPedir:'Falta dena eskatuz idatzi zaio. Fitxa berrikusteke dago oraindik.',
+  tRechazada:'Ezetsita. Postaz abisatzen zaio arrazoiarekin.',
+  tOculta:'Fitxa ezkutatuta. Ez da gehiago bilatzailean ikusten.',
+  tFalta:'Hau falta da: ', tFaltaMas:', beste zerbaiten artean.', y:' eta ',
+  rQue:['zer zaren','zure izena','NANa','telefonoa','posta','helbidea'],
+  rQue2:['izenburua','gaia','azalpena','gutxieneko adina','gehieneko adina'],
+  rQue3:['prezioa','non','ordutegia'],
+  rQue4:['egiazkotasun-adierazpena','argitaratzeko baimena']
+}
+};
+
+/* ==========================================================================
+   FICHAS — datos de ejemplo de Elorrio
+   Cada ficha va en el idioma en que la habría escrito quien la publica.
+   ========================================================================== */
+const FICHAS = [
+  /* ---------------- hizkuntzak / idiomas ---------------- */
+  { id:1, lang:'es', titulo:'Francés con profesora nativa', proveedor:'Claire Deschamps', tipo:'particular', cat:'idiomas',
+    materias:['francés','conversación','DELF'], edad:[6,18], precio:16, unidad:'hora',
+    mod:['domicilio','presencial','online'], lugar:'A domicilio o en su casa (Berrio-Otxoa kalea)',
+    dias:['M','J'], horario:'Tardes, de 16:30 a 20:00',
+    desc:'Soy de Lyon y llevo nueve años viviendo en Elorrio. Doy clases de francés a niños desde primaria y preparo el DELF A1, A2 y B1. Las clases son habladas desde el primer día: nada de traducir listas de palabras. Con los pequeños trabajo con juegos, canciones y cuentos. Puedo explicar en castellano o en euskera básico.',
+    exp:'9 años dando clase · Licenciada en Filología · Examinadora DELF acreditada',
+    plazas:'Quedan 4 plazas', verif:true, cert:true, tel:'612 •• •• ••', email:'claire.•••••@••••.com' },
+
+  { id:2, lang:'eu', titulo:'Euskara helduentzat: A1etik C1era', proveedor:'Udal Euskaltegia', tipo:'municipal', cat:'idiomas',
+    materias:['euskara','EGA','C1','B2','helduak'], edad:[16,99], precio:30, unidad:'mes',
+    mod:['presencial'], lugar:'Kultur Etxea, Anduetxeta kalea',
+    dias:['L','M','X','J'], horario:'Goizez 9:30-11:30 eta arratsaldez 18:00-20:00',
+    desc:'Udal euskaltegia da, HABEk homologatua. Mailaka antolatutako taldeak, gehienez hamabi lagunekoak. Maila gainditzen bada, matrikularen zati handi bat itzultzen da. Euskaraz hitz egiten hasteko talde berezia dago, inoiz ikasi ez dutenentzat.',
+    exp:'HABEk homologatutako euskaltegia · Irakasle tituludunak',
+    plazas:'Matrikula irailean eta urtarrilean', verif:true, cert:false, tel:'946 •• •• ••', email:'euskaltegia@•••••.eus' },
+
+  { id:3, lang:'es', titulo:'Inglés por niveles, de A1 a C1', proveedor:'Hitz Hizkuntza Akademia', tipo:'academia', cat:'idiomas',
+    materias:['inglés','Cambridge','adultos'], edad:[6,99], precio:52, unidad:'mes',
+    mod:['presencial'], lugar:'Herriko Plaza, 4',
+    dias:['L','M','X','J'], horario:'De 16:00 a 21:30, dos días por semana',
+    desc:'Centro preparador de Cambridge. Grupos de seis a ocho alumnos por nivel, con prueba de nivel gratuita antes de matricularse. Hay grupo de adultos a las 20:30 para quien sale tarde del trabajo y grupo de conversación los viernes.',
+    exp:'Abierta desde 2009 · 4 profesores · Centro preparador Cambridge',
+    plazas:'Matrícula abierta hasta el 30 de septiembre', verif:true, cert:true, tel:'946 •• •• ••', email:'info@•••••.eus' },
+
+  { id:4, lang:'es', titulo:'Alemán desde cero (A1–B1)', proveedor:'Hitz Hizkuntza Akademia', tipo:'academia', cat:'idiomas',
+    materias:['alemán','Goethe'], edad:[14,99], precio:58, unidad:'mes',
+    mod:['presencial','online'], lugar:'Herriko Plaza, 4',
+    dias:['M','J'], horario:'De 19:00 a 20:30',
+    desc:'Un único grupo por nivel, pensado sobre todo para quien se plantea estudiar o trabajar fuera. Se abre grupo nuevo cada septiembre si hay al menos seis personas.',
+    exp:'Profesora nativa · Preparación de exámenes Goethe',
+    plazas:'Faltan 2 personas para abrir el grupo', verif:true, cert:true, tel:'946 •• •• ••', email:'info@•••••.eus' },
+
+  { id:5, lang:'eu', titulo:'Ingeleseko errefortzua eta Cambridge azterketak', proveedor:'Maite Uriarte', tipo:'particular', cat:'idiomas',
+    materias:['ingelesa','Cambridge','B1','B2','errefortzua'], edad:[8,17], precio:14, unidad:'hora',
+    mod:['presencial','online'], lugar:'Bere etxean (Amilleta kalea) edo online',
+    dias:['L','X'], horario:'17:00etatik 20:30era',
+    desc:'Ikastolako ingeleseko irakaslea naiz. Arratsaldez etxeko lanekin eta institutuko azterketekin laguntzen dut, eta Cambridgeko B1 eta B2 prestatzen ditut aurreko urteetako azterketa errealekin. Bi edo hiru laguneko taldeak, denek hitz egin dezaten.',
+    exp:'12 urte irakasten · C2 Proficiency · Lehen Hezkuntzako irakaslea, ingeles espezialitatea',
+    plazas:'Itxaron-zerrenda arratsaldeko taldeetan', verif:true, cert:true, tel:'645 •• •• ••', email:'maite.•••••@••••.eus' },
+
+  { id:6, lang:'eu', titulo:'EGA eta C1 azterketa prestatzeko klaseak', proveedor:'Josu Etxebarria', tipo:'particular', cat:'idiomas',
+    materias:['euskara','EGA','C1','idazmena'], edad:[16,99], precio:15, unidad:'hora',
+    mod:['presencial','online'], lugar:'Anduetxeta kalea, 11',
+    dias:['M','J'], horario:'19:00etatik 21:00era',
+    desc:'Idazmena eta mintzamena lantzen ditugu, azterketaren formatu berarekin. Hamabost urtean oposizioetarako eta lanerako titulua behar duen jendearekin aritu naiz. Talde txikiak edo banakako klaseak.',
+    exp:'Euskal Filologian lizentziatua · EGA zuzentzaile ohia',
+    plazas:'2 plaza libre', verif:true, cert:false, tel:'688 •• •• ••', email:'josu.•••••@••••.eus' },
+
+  /* ---------------- eskola-laguntza / apoyo escolar ---------------- */
+  { id:7, lang:'eu', titulo:'Matematika eta Fisika-Kimika, DBH eta Batxilergoa', proveedor:'Iker Arriola', tipo:'particular', cat:'apoyo',
+    materias:['matematika','fisika','kimika','selektibitatea'], edad:[12,18], precio:15, unidad:'hora',
+    mod:['presencial','online'], lugar:'Bere etxean (Gazeta auzoa, 7)',
+    dias:['L','M','X','J'], horario:'16:00etatik 21:00era',
+    desc:'Ingeniari industriala naiz. Institututik ekartzen dituzten ariketekin lan egiten dut eta, behar denean, atzera egiten dugu hanka-motz gelditu zenera. Gurasoei abisatzen diet arazoa matematika ez dela baizik eta antolaketa ikusten badut.',
+    exp:'7 urte klaseak ematen · Ingeniari Industriala',
+    plazas:'3 plaza gelditzen dira', verif:true, cert:true, tel:'677 •• •• ••', email:'iker.•••••@••••.eus' },
+
+  { id:8, lang:'eu', titulo:'Lehen Hezkuntzako laguntza eta ikasteko teknikak', proveedor:'Nerea Goikoetxea', tipo:'particular', cat:'apoyo',
+    materias:['etxeko lanak','irakurketa','ikasteko teknikak','lehen hezkuntza'], edad:[6,12], precio:12, unidad:'hora',
+    mod:['presencial','domicilio'], lugar:'Etxez etxe edo bere etxean (Aldape auzoa)',
+    dias:['L','M','X','J','V'], horario:'16:30etik 19:30era',
+    desc:'Herriko eskolan irakaslea naiz eta arratsaldez Lehen Hezkuntzako haurrei laguntzen diet etxeko lanekin, irakurketarekin eta, batez ere, antolatzen ikastearekin. Hiruko taldeak nahiago ditut, elkarri laguntzeko, baina etxeetara ere joaten naiz.',
+    exp:'15 urte irakasle · Ikasteko zailtasunetan espezializatua',
+    plazas:'Astelehen eta asteazkenetan beteta', verif:true, cert:true, tel:'689 •• •• ••', email:'nerea.•••••@••••.eus' },
+
+  { id:9, lang:'es', titulo:'Aula de deberes y refuerzo', proveedor:'Ikasgela Ikasketa Zentroa', tipo:'academia', cat:'apoyo',
+    materias:['deberes','refuerzo','todas las asignaturas'], edad:[6,16], precio:85, unidad:'mes',
+    mod:['presencial'], lugar:'Anduetxeta kalea, 22',
+    dias:['L','M','X','J','V'], horario:'De 16:00 a 20:00, entrada y salida libres',
+    desc:'Aula abierta toda la tarde con dos profesores, uno de ellos euskaldun para quienes estudian en modelo D. Se viene los días que haga falta dentro del horario contratado. Informe mensual a las familias con lo trabajado y lo que queda pendiente.',
+    exp:'Abierto desde 2014 · 5 profesores · Seguro de responsabilidad civil',
+    plazas:'Plazas disponibles', verif:true, cert:true, tel:'946 •• •• ••', email:'ikasgela@•••••.eus' },
+
+  { id:10, lang:'eu', titulo:'Selektibitatea prestatzeko ikastaroa', proveedor:'Ikasgela Ikasketa Zentroa', tipo:'academia', cat:'apoyo',
+    materias:['selektibitatea','batxilergoa','EBAU'], edad:[16,19], precio:120, unidad:'mes',
+    mod:['presencial'], lugar:'Anduetxeta kalea, 22',
+    dias:['M','J','S'], horario:'Astearte eta ostegun arratsaldez, larunbat goizez',
+    desc:'Ikasgaika antolatutako ikastaro trinkoa, hamabostean behin kronometratutako simulakroekin eta benetako irizpideekin zuzenduta. Notak eta graduak aukeratzeko orientazioa ere sartzen da.',
+    exp:'Iaz ikasleen batez bestekoa: 11,2 (14tik)',
+    plazas:'8 laguneko taldeak · plazak Zientzietan', verif:true, cert:true, tel:'946 •• •• ••', email:'ikasgela@•••••.eus' },
+
+  { id:11, lang:'es', titulo:'Logopedia infantil', proveedor:'Amaia Zabala', tipo:'particular', cat:'apoyo',
+    materias:['logopedia','lenguaje','lectoescritura','dislalia'], edad:[3,14], precio:30, unidad:'sesion',
+    mod:['presencial','domicilio'], lugar:'Consulta en San Agustín auzoa, 5',
+    dias:['L','M','X','J'], horario:'De 16:00 a 20:00',
+    desc:'Sesiones de 45 minutos para dificultades del habla, retraso del lenguaje y problemas de lectoescritura, en euskera o en castellano según el niño. Primera valoración sin coste y coordinación con la ikastola o el colegio si la familia lo autoriza.',
+    exp:'Logopeda colegiada · 10 años · Colabora con el equipo de orientación',
+    plazas:'Tres semanas de espera', verif:true, cert:true, tel:'657 •• •• ••', email:'amaia.•••••@••••.eus' },
+
+  { id:12, lang:'es', titulo:'Graduado en ESO y castellano para personas recién llegadas', proveedor:'Helduen Hezkuntza', tipo:'municipal', cat:'apoyo',
+    materias:['graduado ESO','castellano','alfabetización','adultos'], edad:[18,99], precio:0, unidad:'mes',
+    mod:['presencial'], lugar:'Kultur Etxea, Anduetxeta kalea',
+    dias:['L','M','X','J'], horario:'De 18:00 a 21:00',
+    desc:'Enseñanza pública y gratuita para personas adultas: graduado en ESO, preparación de la prueba de acceso a grado medio y clases de castellano y euskera para quienes han llegado hace poco al pueblo.',
+    exp:'Profesorado del Departamento de Educación',
+    plazas:'Matrícula en septiembre y enero', verif:true, cert:false, tel:'946 •• •• ••', email:'helduak@•••••.eus' },
+
+  /* ---------------- musika ---------------- */
+  { id:13, lang:'eu', titulo:'Musika hizkuntza eta pianoa', proveedor:'Udal Musika Eskola', tipo:'municipal', cat:'musica',
+    materias:['pianoa','musika hizkuntza','solfeoa'], edad:[6,18], precio:28, unidad:'mes',
+    mod:['presencial'], lugar:'Kultur Etxea, Anduetxeta kalea',
+    dias:['L','X'], horario:'17:00etatik 20:00era',
+    desc:'Udalaren musika eskola. Musika hizkuntza taldeka eta astean ordu erdi instrumentua banaka. Entzunaldia familientzat Gabonetan eta ekainean. Familia ugariek % 50eko hobaria dute.',
+    exp:'Kontserbatorioan titulatutako irakasleak · 1998tik zabalik',
+    plazas:'8 plaza pianoan · zozketa eskaera gehiago badago', verif:true, cert:true, tel:'946 •• •• ••', email:'musika@•••••.eus' },
+
+  { id:14, lang:'eu', titulo:'Gitarra klasikoa eta modernoa', proveedor:'Udal Musika Eskola', tipo:'municipal', cat:'musica',
+    materias:['gitarra','akonpainamendua'], edad:[8,99], precio:28, unidad:'mes',
+    mod:['presencial'], lugar:'Kultur Etxea, Anduetxeta kalea',
+    dias:['M','J'], horario:'17:30etik 21:00era',
+    desc:'Hiruko taldeetan. Akordeekin akonpainatzen hasten gara eta nahi duenak klasikoarekin eta irakurketarekin jarraitzen du. Helduen taldea 20:00etan.',
+    exp:'Kontserbatorioan titulatutako irakasleak',
+    plazas:'Plaza libreak helduen taldean', verif:true, cert:true, tel:'946 •• •• ••', email:'musika@•••••.eus' },
+
+  { id:15, lang:'eu', titulo:'Trikitixa eta panderoa', proveedor:'Trikitixa Eskola', tipo:'asociacion', cat:'musica',
+    materias:['trikitixa','panderoa','soinu txikia'], edad:[7,99], precio:25, unidad:'mes',
+    mod:['presencial'], lugar:'Elkartearen lokala, Berriozabaleta',
+    dias:['M','V'], horario:'17:30etik 20:30era',
+    desc:'Herriko trikitixa eskola. Hasteko soinua utzi egiten dugu, erosi beharrik ez dago lehen urtean. Ikasturtean zehar erromerietan eta jaietan jotzen dugu, eta udaberrian txapelketara joaten dira nahi dutenak.',
+    exp:'Bi irakasle · 30 ikasle · Federazioko kide',
+    plazas:'Plazak panderoan', verif:true, cert:true, tel:'620 •• •• ••', email:'trikitixa@•••••.eus' },
+
+  { id:16, lang:'eu', titulo:'Txistua eta danbolina', proveedor:'Txistulari Taldea', tipo:'asociacion', cat:'musica',
+    materias:['txistua','danbolina','dultzaina'], edad:[8,99], precio:0, unidad:'mes',
+    mod:['presencial'], lugar:'Kultur Etxeko entsegu gela',
+    dias:['V','S'], horario:'Ostiraletan 19:00etatik 20:30era',
+    desc:'Taldeak txistua uzten du eta klasea doakoa da taldearekin jotzen den bitartean. Urtean zehar herriko ekitaldietan, danborradan eta jaietan jotzen dugu. Ez da musika ezagutzarik behar hasteko.',
+    exp:'1964tik · 22 txistulari · Instrumentua utzita',
+    plazas:'Urte osoan zabalik', verif:true, cert:true, tel:'946 •• •• ••', email:'txistulariak@•••••.eus' },
+
+  { id:17, lang:'es', titulo:'Batería y guitarra eléctrica', proveedor:'Ibai Mendizabal', tipo:'particular', cat:'musica',
+    materias:['batería','guitarra eléctrica','rock'], edad:[9,60], precio:18, unidad:'hora',
+    mod:['presencial'], lugar:'Local insonorizado en el polígono',
+    dias:['M','J','V'], horario:'De 17:00 a 21:00',
+    desc:'Clases individuales con batería y amplificadores en el local. No hace falta tener instrumento en casa para empezar. Trabajo con las canciones que trae cada uno y montamos un grupo con los que llevan un par de años.',
+    exp:'Batería en dos grupos de Durangaldea · 6 años dando clase',
+    plazas:'Quedan 2 huecos los jueves', verif:true, cert:true, tel:'633 •• •• ••', email:'ibai.•••••@••••.eus' },
+
+  /* ---------------- kirola ---------------- */
+  { id:18, lang:'eu', titulo:'Esku pilota eskola', proveedor:'Pilota Elkartea', tipo:'club', cat:'deporte',
+    materias:['pilota','esku pilota','frontoia'], edad:[6,18], precio:60, unidad:'temporada',
+    mod:['presencial'], lugar:'Udal frontoia',
+    dias:['M','J'], horario:'17:30etik 19:30era adinaren arabera',
+    desc:'Herriko pilota eskola. Sei urtetik aurrera hasten dira, eta federatuta dauden neska-mutilek Bizkaiko txapelketan jokatzen dute. Kuotak federazio-fitxa eta asegurua barne hartzen ditu. Eskularruak elkarteak uzten ditu lehen urtean.',
+    exp:'Federatutako elkartea · 55 pilotari · 4 entrenatzaile',
+    plazas:'Izena emateko epea irailean', verif:true, cert:true, tel:'946 •• •• ••', email:'pilota@•••••.eus' },
+
+  { id:19, lang:'eu', titulo:'Futbol eskola: benjaminetik kadeteraino', proveedor:'Elorrioko Futbol Taldea', tipo:'club', cat:'deporte',
+    materias:['futbola','futbol 7','futbol 11'], edad:[5,16], precio:120, unidad:'temporada',
+    mod:['presencial'], lugar:'Udal futbol zelaia',
+    dias:['M','J'], horario:'Entrenamendua 17:30etik 19:00era · partida larunbatean',
+    desc:'Zortzi talde federatu adinaren arabera. Kuotak ekipazioa, fitxa eta kirol asegurua barne hartzen ditu. Gizarte zerbitzuen txostena duten familientzat udalaren laguntza dago.',
+    exp:'Federatutako kluba · 140 neska-mutil · 11 entrenatzaile titulodun',
+    plazas:'Izena emateko epea irailaren 25era arte', verif:true, cert:true, tel:'946 •• •• ••', email:'futbola@•••••.eus' },
+
+  { id:20, lang:'eu', titulo:'Saskibaloia: mini, infantil eta kadete', proveedor:'Saskibaloi Kluba', tipo:'club', cat:'deporte',
+    materias:['saskibaloia','minibasket'], edad:[7,16], precio:110, unidad:'temporada',
+    mod:['presencial'], lugar:'Udal kiroldegia',
+    dias:['L','X'], horario:'18:00etatik 19:30era · partida igande goizean',
+    desc:'Talde mistoak infantil mailara arte. Astean bi egunetan entrenatzen dugu eta eskualdeko ligan jokatzen da. Kuotak jokoko elastikoa eta asegurua barne hartzen ditu.',
+    exp:'Federatutako kluba · 4 talde · Federazioko titulua duten entrenatzaileak',
+    plazas:'Jendea falta da kadete mailan', verif:true, cert:true, tel:'661 •• •• ••', email:'saskibaloia@•••••.eus' },
+
+  { id:21, lang:'eu', titulo:'Igeriketa ikastaroak', proveedor:'Udal Igerilekua', tipo:'municipal', cat:'deporte',
+    materias:['igeriketa','ikastaroa'], edad:[4,99], precio:45, unidad:'mes',
+    mod:['presencial'], lugar:'Udal kiroldegiko igerilekua',
+    dias:['L','X','V'], horario:'17:00, 18:00 eta 19:00etako txandak',
+    desc:'Mailaka antolatutako ikastaroak, hasieratik hobekuntzara, zortziko taldeetan. Helduen txanda 20:00etan dago eta hastapen txanda berezia inoiz uretara sartu ez denarentzat.',
+    exp:'Sorosle eta monitore tituludunak · Udal instalazioa',
+    plazas:'Plazak hiruhilekoro zozketatzen dira', verif:true, cert:true, tel:'946 •• •• ••', email:'kiroldegia@•••••.eus' },
+
+  { id:22, lang:'eu', titulo:'Igeriketa haurtxoentzat', proveedor:'Udal Igerilekua', tipo:'municipal', cat:'deporte',
+    materias:['igeriketa','haurtxoak','matronatazioa'], edad:[0,3], precio:38, unidad:'mes',
+    mod:['presencial'], lugar:'Udal kiroldegiko igerilekua',
+    dias:['S'], horario:'Larunbatetan 11:00etatik 11:45era',
+    desc:'45 minutuko saioak, ura 32 gradutan, aita edo ama uraren barruan dela. Sei haurtxoko taldeak.',
+    exp:'Matronatazioan espezializatutako monitorea',
+    plazas:'6 plaza txandako', verif:true, cert:true, tel:'946 •• •• ••', email:'kiroldegia@•••••.eus' },
+
+  { id:23, lang:'eu', titulo:'Herri kirolak: aizkora, harri-jasotzea eta sokatira', proveedor:'Herri Kirol Elkartea', tipo:'asociacion', cat:'deporte',
+    materias:['herri kirolak','aizkora','harri-jasotzea','sokatira'], edad:[12,99], precio:20, unidad:'mes',
+    mod:['presencial'], lugar:'Probalekua',
+    dias:['X','S'], horario:'Asteazkenetan 19:00etan eta larunbat goizetan',
+    desc:'Probalekuan entrenatzen dugu, teknika eta indarra landuz eta beti norberaren neurrira. Hamabi urtetik aurrera hasten dira, pisu arinekin. Jaietan eta eskualdeko apustuetan erakustaldiak egiten ditugu.',
+    exp:'Elkarte federatua · 3 entrenatzaile · Materiala elkarteak jarrita',
+    plazas:'Zabalik urte osoan', verif:true, cert:true, tel:'615 •• •• ••', email:'herrikirolak@•••••.eus' },
+
+  { id:24, lang:'eu', titulo:'Mendi irteerak familientzat', proveedor:'Mendi Taldea', tipo:'asociacion', cat:'deporte',
+    materias:['mendia','ibilaldiak','Urkiola','natura'], edad:[6,99], precio:25, unidad:'temporada',
+    mod:['presencial'], lugar:'Irteera Herriko Plazatik',
+    dias:['D'], horario:'Hilean behin, igande goizetan',
+    desc:'Hilean behingo irteera, gehienetan Urkiola inguruan, haurrekin joateko moduko ibilbideekin. Urteko kuotak asegurua eta autobusa barne hartzen ditu. Ez da esperientziarik behar, botak eta gogoa bakarrik.',
+    exp:'Elkarte federatua · 1971tik · 180 bazkide',
+    plazas:'Bazkide egitea urte osoan', verif:true, cert:false, tel:'946 •• •• ••', email:'menditaldea@•••••.eus' },
+
+  { id:25, lang:'es', titulo:'Judo infantil y juvenil', proveedor:'Judo Kluba', tipo:'club', cat:'deporte',
+    materias:['judo','defensa personal'], edad:[5,17], precio:30, unidad:'mes',
+    mod:['presencial'], lugar:'Sala de tatami del kiroldegia',
+    dias:['M','J'], horario:'De 17:30 a 18:30 los pequeños · de 18:30 a 20:00 los mayores',
+    desc:'Se empieza a los cinco años con juegos de equilibrio y caídas. Exámenes de cinturón dos veces al año y competiciones de Bizkaia para quien quiera. El judogi se compra una vez y dura años.',
+    exp:'Cinturón negro 3º dan · Entrenador nacional',
+    plazas:'Plazas libres en el grupo pequeño', verif:true, cert:true, tel:'699 •• •• ••', email:'judo@•••••.eus' },
+
+  { id:26, lang:'es', titulo:'Escuela de pádel', proveedor:'Padel Elorrio', tipo:'club', cat:'deporte',
+    materias:['pádel'], edad:[8,99], precio:35, unidad:'mes',
+    mod:['presencial'], lugar:'Pistas del kiroldegia',
+    dias:['M','J','S'], horario:'Tardes y sábados por la mañana',
+    desc:'Grupos de cuatro por nivel, una hora a la semana. Hay grupo infantil, grupo de iniciación de adultos y grupo de competición. Las palas de préstamo están incluidas el primer mes.',
+    exp:'Monitor titulado por la federación',
+    plazas:'Quedan 2 plazas en infantil', verif:true, cert:true, tel:'654 •• •• ••', email:'padel•••••@••••.eus' },
+
+  { id:27, lang:'eu', titulo:'Atletismoa eta krosa', proveedor:'Atletismo Taldea', tipo:'club', cat:'deporte',
+    materias:['atletismoa','krosa','korrika'], edad:[8,18], precio:20, unidad:'mes',
+    mod:['presencial'], lugar:'Kiroldegia eta ibaiertzeko bidea',
+    dias:['M','J'], horario:'18:00etatik 19:30era',
+    desc:'Oinarrizko entrenamendua espezializatu gabe: abiadura, jauziak eta hondoa. Urritik martxora Bizkaiko kros zirkuituan lehiatzen da, klubaren autobusarekin joanda.',
+    exp:'Federatutako kluba · 2 entrenatzaile nazional',
+    plazas:'Urte osoan zabalik', verif:true, cert:true, tel:'644 •• •• ••', email:'atletismoa@•••••.eus' },
+
+  { id:28, lang:'es', titulo:'Gimnasia rítmica', proveedor:'Errito Gimnasia Taldea', tipo:'club', cat:'deporte',
+    materias:['gimnasia rítmica','aro','cinta'], edad:[5,16], precio:32, unidad:'mes',
+    mod:['presencial'], lugar:'Kiroldegia, sala 2',
+    dias:['L','X'], horario:'De 17:00 a 18:30',
+    desc:'Escuela y grupo de competición. Las de escuela hacen una exhibición en junio; las de competición van a los campeonatos de Euskadi. El maillot de competición se paga aparte.',
+    exp:'Entrenadora titulada · 38 gimnastas',
+    plazas:'Plazas en escuela', verif:true, cert:false, tel:'688 •• •• ••', email:'erritmo@•••••.eus' },
+
+  { id:29, lang:'eu', titulo:'Txirrindularitza eta BTT eskola', proveedor:'Txirrindulari Elkartea', tipo:'club', cat:'deporte',
+    materias:['txirrindularitza','BTT','mendiko bizikleta'], edad:[8,16], precio:30, unidad:'mes',
+    mod:['presencial'], lugar:'Irteera kiroldegitik',
+    dias:['S'], horario:'Larunbatetan 10:00etatik 12:30era',
+    desc:'Bizikletan segurtasunez ibiltzen ikasteko eskola: bidea, oreka eta mendiko teknika. Bizikleta norberak ekartzen du; kaskoa nahitaezkoa da. Udaberrian eskolarteko probetara joaten gara.',
+    exp:'Federatutako elkartea · 2 entrenatzaile · Laguntza autoa irteeretan',
+    plazas:'12 plaza', verif:true, cert:true, tel:'627 •• •• ••', email:'txirrindulariak@•••••.eus' },
+
+  /* ---------------- dantza ---------------- */
+  { id:30, lang:'eu', titulo:'Euskal dantzak: haurrak eta helduak', proveedor:'Dantza Taldea', tipo:'asociacion', cat:'danza',
+    materias:['euskal dantzak','dantzari txiki','aurresku'], edad:[4,99], precio:10, unidad:'trimestre',
+    mod:['presencial'], lugar:'Kultur Etxeko dantza gela',
+    dias:['X','V'], horario:'Haurrak 17:30ean · helduak 20:00etan',
+    desc:'Herriko dantza taldea. Lau urtetik aurrera hasten dira dantzari txikiekin eta gero taldera pasatzen dira. Urtean zehar jaietan, San Adriango erromerian eta Korpus egunean dantzatzen dugu. Kuota sinbolikoa da eta jantziak taldeak uzten ditu.',
+    exp:'1955etik · 90 dantzari · Irakasle boluntarioak',
+    plazas:'Irailean eta urtarrilean sartzen da', verif:true, cert:true, tel:'946 •• •• ••', email:'dantzataldea@•••••.eus' },
+
+  { id:31, lang:'es', titulo:'Ballet y danza contemporánea', proveedor:'Estudio de Danza Aurrera', tipo:'academia', cat:'danza',
+    materias:['ballet','danza clásica','contemporánea'], edad:[4,18], precio:38, unidad:'mes',
+    mod:['presencial'], lugar:'Berrio-Otxoa kalea, 9',
+    dias:['L','X'], horario:'De 17:00 a 20:30 por edades',
+    desc:'Iniciación desde los cuatro años y ballet por niveles a partir de los siete. Preparamos los exámenes de la Royal Academy of Dance para quien quiera presentarse. Festival de fin de curso en el Kultur Etxea.',
+    exp:'Directora titulada superior en Danza Clásica · Estudio abierto desde 2011',
+    plazas:'Completo en el grupo de 4-6 años', verif:true, cert:true, tel:'666 •• •• ••', email:'aurrera@•••••.eus' },
+
+  { id:32, lang:'es', titulo:'Zumba y baile fitness', proveedor:'Oihana Larrañaga', tipo:'particular', cat:'danza',
+    materias:['zumba','fitness','baile'], edad:[16,99], precio:25, unidad:'mes',
+    mod:['presencial'], lugar:'Salón del Kultur Etxea',
+    dias:['M','J'], horario:'De 20:00 a 21:00',
+    desc:'Una hora de baile sin coreografías imposibles: se entra y se sale cuando se quiere. Grupo de treinta personas, ambiente de pueblo y ninguna exigencia de nivel.',
+    exp:'Instructora certificada Zumba · 5 años',
+    plazas:'Se paga por meses sueltos', verif:true, cert:false, tel:'672 •• •• ••', email:'oihana.•••••@••••.eus' },
+
+  /* ---------------- artea ---------------- */
+  { id:33, lang:'es', titulo:'Dibujo y pintura', proveedor:'Taller de Izaskun Bilbao', tipo:'particular', cat:'arte',
+    materias:['dibujo','pintura','acuarela','óleo'], edad:[7,99], precio:30, unidad:'mes',
+    mod:['presencial'], lugar:'Taller en Aldape auzoa, 5',
+    dias:['M','J'], horario:'Niños de 17:30 a 19:00 · adultos de 19:30 a 21:30',
+    desc:'Los niños trabajan del natural y con materiales distintos cada mes. Los adultos van con su propio proyecto y yo voy pasando. El material básico está incluido; los bastidores se pagan aparte.',
+    exp:'Licenciada en Bellas Artes · Taller abierto desde 2015',
+    plazas:'Quedan plazas en el grupo de niños', verif:true, cert:true, tel:'637 •• •• ••', email:'izaskun.•••••@••••.eus' },
+
+  { id:34, lang:'eu', titulo:'Antzerki taldea gazteentzat', proveedor:'Kultur Elkartea', tipo:'asociacion', cat:'arte',
+    materias:['antzerkia','gorputz adierazpena','ahotsa'], edad:[8,17], precio:10, unidad:'trimestre',
+    mod:['presencial'], lugar:'Kultur Etxeko antzokia',
+    dias:['V'], horario:'Ostiraletan 18:00etatik 20:00era',
+    desc:'Urtean muntaia bat egiten dugu, jaietan estreinatzen dena eta gero zaharren egoitzan errepikatzen dena. Ahotsa, gorputza eta inprobisazioa lantzen dira. Hiruhileko kuota sinbolikoa da eta jantziak estaltzen ditu.',
+    exp:'18 urteko ibilbidea duen taldea · Elkarteko boluntarioek zuzendua',
+    plazas:'Irailean eta urtarrilean sartzen da', verif:true, cert:true, tel:'946 •• •• ••', email:'kulturelkartea@•••••.eus' },
+
+  { id:35, lang:'es', titulo:'Cerámica y torno', proveedor:'Buztin Tailerra', tipo:'particular', cat:'arte',
+    materias:['cerámica','torno','esmaltes'], edad:[12,99], precio:45, unidad:'mes',
+    mod:['presencial'], lugar:'Taller en el barrio de Berriozabaleta',
+    dias:['X','V'], horario:'De 17:00 a 20:00',
+    desc:'Torno y modelado a mano. La cocción de las piezas en el horno del taller está incluida; el esmalte se paga por kilo. Grupos de seis como mucho porque solo hay cuatro tornos.',
+    exp:'30 años de oficio · Taller propio',
+    plazas:'Lista de espera de un mes', verif:true, cert:false, tel:'946 •• •• ••', email:'buztin•••••@••••.eus' },
+
+  /* ---------------- teknologia ---------------- */
+  { id:36, lang:'eu', titulo:'Robotika eta programazioa haurrentzat', proveedor:'Bit Akademia', tipo:'academia', cat:'tecnologia',
+    materias:['robotika','Scratch','Arduino','programazioa','3D inprimaketa'], edad:[8,16], precio:45, unidad:'mes',
+    mod:['presencial'], lugar:'Anduetxeta kalea, 51',
+    dias:['M','J'], horario:'17:30etik 19:00era',
+    desc:'Scratch-ekin hasi eta Arduinorekin robota muntatu eta programatzen amaitzen da. Handienek hiruhilekoan proiektu propio bat egiten dute eta familiei aurkezten diete. Ordenagailuak eta kitak akademiak jartzen ditu.',
+    exp:'2019tik zabalik · Ingeniari irakasleak',
+    plazas:'4 plaza gelditzen dira', verif:true, cert:true, tel:'946 •• •• ••', email:'bit@•••••.eus' },
+
+  { id:37, lang:'eu', titulo:'Xakea', proveedor:'Xake Taldea', tipo:'asociacion', cat:'tecnologia',
+    materias:['xakea','logika','kontzentrazioa'], edad:[6,99], precio:12, unidad:'mes',
+    mod:['presencial'], lugar:'Kultur Etxeko gela',
+    dias:['V'], horario:'Ostiraletan 18:00etatik 20:30era',
+    desc:'Mahai berean jolastu eta ikasten da: handiek txikiei erakusten diete. Herriko txapelketa abuztuan eta Bizkaiko taldekako liga urtean zehar.',
+    exp:'Federatutako taldea · 25 bazkide',
+    plazas:'Edonorentzat zabalik', verif:true, cert:false, tel:'946 •• •• ••', email:'xakea@•••••.eus' },
+
+  { id:38, lang:'es', titulo:'Móvil e internet para mayores', proveedor:'Udal Liburutegia', tipo:'municipal', cat:'tecnologia',
+    materias:['informática','móvil','cita médica','banca online','trámites'], edad:[55,99], precio:0, unidad:'mes',
+    mod:['presencial'], lugar:'Biblioteca municipal, Herriko Plaza',
+    dias:['M'], horario:'Martes de 11:00 a 12:30',
+    desc:'Taller gratuito para perder el miedo al móvil: pedir la cita médica, usar el certificado digital, hacer videollamadas y no caer en estafas por SMS. Se va despacio y se repite lo que haga falta. En euskera o castellano, según el grupo.',
+    exp:'Impartido por el técnico municipal · Plan de alfabetización digital',
+    plazas:'15 plazas por turno', verif:true, cert:false, tel:'946 •• •• ••', email:'liburutegia@•••••.eus' },
+
+  /* ---------------- ongizatea ---------------- */
+  { id:39, lang:'es', titulo:'Yoga para todos los cuerpos', proveedor:'Ane Urkiola', tipo:'particular', cat:'bienestar',
+    materias:['yoga','hatha','respiración','espalda'], edad:[16,99], precio:40, unidad:'mes',
+    mod:['presencial','online'], lugar:'Sala en Gazeta auzoa, 2',
+    dias:['L','X'], horario:'De 9:30 a 10:45 y de 19:30 a 20:45',
+    desc:'Hatha yoga tranquilo, con mucha atención a la espalda y a las rodillas. Vienen desde chicas de veinte hasta señoras de setenta y cinco, y cada una hace su versión de la postura. Las esterillas están en la sala. Clases en euskera los lunes.',
+    exp:'Formación de 500 horas · 8 años dando clase',
+    plazas:'Grupos de 12 · quedan plazas por la mañana', verif:true, cert:false, tel:'628 •• •• ••', email:'ane.•••••@••••.eus' },
+
+  { id:40, lang:'es', titulo:'Pilates de suelo', proveedor:'Ane Urkiola', tipo:'particular', cat:'bienestar',
+    materias:['pilates','suelo pélvico','postura'], edad:[16,99], precio:40, unidad:'mes',
+    mod:['presencial'], lugar:'Sala en Gazeta auzoa, 2',
+    dias:['M','J'], horario:'De 10:00 a 11:00 y de 20:00 a 21:00',
+    desc:'Trabajo de suelo con material pequeño, en grupos reducidos. Hay un grupo específico para después del parto y otro para quien viene con dolor lumbar tras hablarlo con su médico.',
+    exp:'Formación específica en pilates terapéutico',
+    plazas:'Quedan 3 plazas', verif:true, cert:false, tel:'628 •• •• ••', email:'ane.•••••@••••.eus' },
+
+  { id:41, lang:'es', titulo:'Sala de musculación y clases dirigidas', proveedor:'Gimnasio Aro', tipo:'academia', cat:'bienestar',
+    materias:['gimnasio','musculación','spinning','body pump'], edad:[16,99], precio:32, unidad:'mes',
+    mod:['presencial'], lugar:'Polígono industrial',
+    dias:['L','M','X','J','V','S'], horario:'De 7:00 a 22:00',
+    desc:'Sala de máquinas y peso libre, más cuatro clases dirigidas al día. Cuota mensual sin permanencia y tarifa reducida para estudiantes y personas en paro.',
+    exp:'Abierto desde 2016 · 2 entrenadores en sala',
+    plazas:'Sin lista de espera', verif:true, cert:false, tel:'946 •• •• ••', email:'aro@•••••.eus' },
+
+  { id:42, lang:'eu', titulo:'Entrenamendu pertsonala eta berreskurapena', proveedor:'Unai Olabarria', tipo:'particular', cat:'bienestar',
+    materias:['entrenamendu pertsonala','indarra','lesioak'], edad:[15,99], precio:25, unidad:'sesion',
+    mod:['presencial','domicilio'], lugar:'Kiroldegian, parkean edo etxez etxe',
+    dias:['L','M','X','J','V'], horario:'Goizez eta 17:00etatik 21:00era',
+    desc:'Banakako saioak edo biko taldeak, bakarrik entrenatzen den egunetarako plana idatzita. Lesio baten ondoren itzultzen den jendearekin edo inoiz kirolik egin ez duenarekin lan egiten dut gehienbat.',
+    exp:'Jarduera Fisikoaren Zientzietan graduatua · Elkargokidea',
+    plazas:'Agenda zabalik', verif:true, cert:true, tel:'615 •• •• ••', email:'unai.•••••@••••.eus' },
+
+  /* ---------------- udalekuak ---------------- */
+  { id:43, lang:'eu', titulo:'Udalekuak: udako hiri-kanpaldia', proveedor:'Elorrioko Udala', tipo:'municipal', cat:'campamentos',
+    materias:['udalekuak','uda','kontziliazioa','igerilekua'], edad:[4,12], precio:60, unidad:'semana',
+    mod:['presencial'], lugar:'Herri eskola eta udal igerilekua',
+    dias:['L','M','X','J','V'], horario:'8:00etatik 15:00era, goizeko zaintzarekin',
+    desc:'Uztaila eta abuztuko hamaika asteak, aste solteka. Igerilekua hiru egunetan, tailerrak eta txangoa ostiraletan. Jantokia aukeran eta diru-sarrera txikiagoko familientzat hobaria. Dena euskaraz.',
+    exp:'Aisialdi enpresa asegurudun · Monitore bat hamar haurreko',
+    plazas:'Izena ematea maiatzean · 120 plaza', verif:true, cert:true, tel:'946 •• •• ••', email:'gazteria@•••••.eus' },
+
+  { id:44, lang:'eu', titulo:'Gaztelekua eta ludoteka', proveedor:'Elorrioko Udala', tipo:'municipal', cat:'campamentos',
+    materias:['ludoteka','gaztelekua','jolasa','kontziliazioa'], edad:[3,17], precio:0, unidad:'mes',
+    mod:['presencial'], lugar:'Gazte Lokala, Anduetxeta kalea',
+    dias:['L','M','X','J','V'], horario:'Ludoteka 17:00-19:00 · gaztelekua 17:00-20:30',
+    desc:'Doako jolas gunea bi begiralerekin. Haurrak ordutegi horretan utzi daitezke ezer apuntatu gabe: mahai jolasak, eskulanak eta patioa. Gazteagoentzat ludoteka eta 12 urtetik gorakoentzat gaztelekua.',
+    exp:'Aisialdian tituludunak diren begiraleak',
+    plazas:'Sarrera librea lekua bete arte', verif:true, cert:true, tel:'946 •• •• ••', email:'gazteria@•••••.eus' },
+
+  { id:45, lang:'es', titulo:'Campamento de inglés en verano', proveedor:'Hitz Hizkuntza Akademia', tipo:'academia', cat:'campamentos',
+    materias:['inglés','campamento','verano'], edad:[6,14], precio:85, unidad:'semana',
+    mod:['presencial'], lugar:'Herriko Plaza, 4',
+    dias:['L','M','X','J','V'], horario:'De 9:00 a 14:00',
+    desc:'Semanas temáticas en inglés con juegos, teatro y cocina. Todo el rato se habla inglés, incluso en el almuerzo. Grupos por edad y por nivel.',
+    exp:'Monitores nativos y bilingües',
+    plazas:'20 plazas por semana', verif:true, cert:true, tel:'946 •• •• ••', email:'info@•••••.eus' }
+];
+
+/* ---- fichas pendientes de revisión ---- */
+const PENDIENTES_INICIALES = [
+  { id:101, lang:'eu', titulo:'Biolin klaseak etxez etxe', proveedor:'Andoni Lizarralde', tipo:'particular', cat:'musica',
+    materias:['biolina'], edad:[7,18], precio:20, unidad:'hora', mod:['domicilio'], lugar:'Etxez etxe',
+    dias:['M','J'], horario:'Arratsaldez',
+    desc:'Kontserbatorio profesionaleko laugarren mailako ikaslea naiz. Hasten diren haurrei klaseak ematen dizkiet.',
+    exp:'Maila Profesionaleko 4. maila · Irakasle esperientziarik gabe',
+    plazas:'3 plaza', verif:false, cert:false, tel:'611 •• •• ••', email:'andoni.•••••@••••.eus',
+    dni:'•••••123X', enviado:'Atzo, 21:14',
+    aviso:'Ez du sexu-delituen ziurtagiria erantsi. Nahitaezkoa da adingabeei klaseak emateko.' },
+
+  { id:102, lang:'eu', titulo:'Patinaje eskola', proveedor:'Irrist Patinaje Eskola', tipo:'club', cat:'deporte',
+    materias:['patinajea','patinak'], edad:[5,14], precio:25, unidad:'mes', mod:['presencial'],
+    lugar:'Kiroldegiko kanpoko pista', dias:['S'], horario:'Larunbatetan 10:00etatik 11:30era',
+    desc:'Haurrentzako patinaje eskola berria. Urrian hasiko gara bi talderekin, mailaren arabera. Patinak eta babesak uzten ditugu lehen asteetan.',
+    exp:'Patinaje federazioko monitore titulodune · Erantzukizun zibileko asegurua kontratatuta',
+    plazas:'20 plaza', verif:false, cert:true, tel:'623 •• •• ••', email:'irrist@•••••.eus',
+    dni:'•••••887M', enviado:'Duela 2 egun',
+    aviso:'Dokumentazioa osatuta. Egiaztatu behar da udalak pista larunbatetan lagatzen duela.' },
+
+  { id:103, lang:'es', titulo:'Clases de guitarra eléctrica online', proveedor:'Marcos Ferrán', tipo:'particular', cat:'musica',
+    materias:['guitarra eléctrica','rock'], edad:[10,40], precio:15, unidad:'hora', mod:['online'],
+    lugar:'Online', dias:['L','X','V'], horario:'A convenir',
+    desc:'Clases por videollamada. Doy clase desde hace tres años a alumnos de toda España.',
+    exp:'Autodidacta · 3 años dando clase online',
+    plazas:'Sin límite', verif:false, cert:false, tel:'600 •• •• ••', email:'marcos.•••••@••••.com',
+    dni:'•••••045P', enviado:'Duela 4 egun',
+    aviso:'Ez du Elorrion helbiderik ez jarduerarik. Tabloia herrian klaseak ematen dituenarentzat baino ez da.' }
+];
+
+const PETICIONES_INICIALES = [
+  { id:201, texto:'Txinera klaseak 8 urteko haurrentzat', veces:3, fecha:'Iraila' },
+  { id:202, texto:'Natación para niños con autismo, en grupo pequeño', veces:2, fecha:'Iraila' },
+  { id:203, texto:'Latina eta grekoa 2. Batxilergoan', veces:1, fecha:'Abuztua' }
+];
+
+/* ---- agenda ---- */
+const AGENDA = [
+  { mes:{es:'Septiembre',eu:'Iraila'}, dia:'18', wd:{es:'jue',eu:'og'},
+    titulo:{es:'Prueba de nivel de inglés, gratuita', eu:'Ingeleseko maila proba, doan'},
+    prov:'Hitz Hizkuntza Akademia', tag:{es:'Plazo',eu:'Epea'}, soon:true },
+  { mes:{es:'Septiembre',eu:'Iraila'}, dia:'20', wd:{es:'sáb',eu:'lr'},
+    titulo:{es:'Último día para apuntarse a la Musika Eskola', eu:'Musika Eskolan izena emateko azken eguna'},
+    prov:'Udal Musika Eskola', tag:{es:'Cierra',eu:'Ixten da'}, soon:true },
+  { mes:{es:'Septiembre',eu:'Iraila'}, dia:'25', wd:{es:'jue',eu:'og'},
+    titulo:{es:'Cierra la inscripción del futbol eskola', eu:'Futbol eskolan izena emateko epea amaitzen da'},
+    prov:'Elorrioko Futbol Taldea', tag:{es:'Cierra',eu:'Ixten da'}, soon:true },
+  { mes:{es:'Septiembre',eu:'Iraila'}, dia:'27', wd:{es:'sáb',eu:'lr'},
+    titulo:{es:'Puertas abiertas en el kiroldegia: pilota, saskibaloia y judo', eu:'Ate irekiak kiroldegian: pilota, saskibaloia eta judo'},
+    prov:'Herriko kirol klubak', tag:{es:'Jornada',eu:'Jardunaldia'}, soon:true },
+  { mes:{es:'Septiembre',eu:'Iraila'}, dia:'30', wd:{es:'mar',eu:'ar'},
+    titulo:{es:'Fin de la matrícula de idiomas', eu:'Hizkuntzetako matrikula amaitzen da'},
+    prov:'Hitz Hizkuntza Akademia', tag:{es:'Cierra',eu:'Ixten da'}, soon:false },
+  { mes:{es:'Octubre',eu:'Urria'}, dia:'01', wd:{es:'mié',eu:'az'},
+    titulo:{es:'Empieza el curso en casi todas las actividades', eu:'Ikasturtea hasten da jarduera gehienetan'},
+    prov:'Elorrio', tag:{es:'Comienza',eu:'Hasten da'}, soon:false },
+  { mes:{es:'Octubre',eu:'Urria'}, dia:'04', wd:{es:'sáb',eu:'lr'},
+    titulo:{es:'Primera jornada del circuito de cross de Bizkaia', eu:'Bizkaiko kros zirkuituko lehen jardunaldia'},
+    prov:'Atletismo Taldea', tag:{es:'Competición',eu:'Lehiaketa'}, soon:false },
+  { mes:{es:'Octubre',eu:'Urria'}, dia:'07', wd:{es:'mar',eu:'ar'},
+    titulo:{es:'Empieza el taller de móvil para mayores', eu:'Nagusientzako mugikor tailerra hasten da'},
+    prov:'Udal Liburutegia', tag:{es:'Comienza',eu:'Hasten da'}, soon:false },
+  { mes:{es:'Octubre',eu:'Urria'}, dia:'15', wd:{es:'mié',eu:'az'},
+    titulo:{es:'Sorteo de plazas de natación del primer trimestre', eu:'Lehen hiruhilekoko igeriketa plazen zozketa'},
+    prov:'Udal Igerilekua', tag:{es:'Sorteo',eu:'Zozketa'}, soon:false },
+  { mes:{es:'Noviembre',eu:'Azaroa'}, dia:'15', wd:{es:'sáb',eu:'lr'},
+    titulo:{es:'Se abre la inscripción del campamento de Navidad', eu:'Gabonetako udalekuetan izena emateko epea zabaltzen da'},
+    prov:'Elorrioko Udala', tag:{es:'Abre',eu:'Zabaltzen da'}, soon:false },
+  { mes:{es:'Diciembre',eu:'Abendua'}, dia:'20', wd:{es:'sáb',eu:'lr'},
+    titulo:{es:'Audición de Navidad de la Musika Eskola', eu:'Musika Eskolaren Gabonetako entzunaldia'},
+    prov:'Udal Musika Eskola', tag:{es:'Muestra',eu:'Emanaldia'}, soon:false },
+  { mes:{es:'Diciembre',eu:'Abendua'}, dia:'21', wd:{es:'dom',eu:'ig'},
+    titulo:{es:'Santo Tomás en Mendraka', eu:'Santo Tomas Mendrakan'},
+    prov:'Mendrakako auzoa', tag:{es:'Fiesta',eu:'Jaia'}, soon:false }
+];
+
+/* ==========================================================================
+   TEXTOS NUEVOS DE LA VERSIÓN VISUAL
+   ========================================================================== */
+Object.assign(T.es, {
+  heroKicker:'Elorrio · Durangaldea',
+  heroH1:'Todo lo que tus hijos pueden hacer en Elorrio.',
+  heroSub:'Clases particulares, academias, clubes, escuelas municipales y elkarteak. Un solo sitio, todo el pueblo.',
+  sQue:'Qué buscas', sQuePh:'Francés, pilota, piano…', sEdad:'Para quién', sTodas:'Cualquier edad', sBtn:'Buscar',
+  catsH:'Empieza por aquí', catsSub:'Nueve maneras de llenar una tarde.',
+  todo:'Todo', masFiltros:'Más filtros', verTodo:'Ver las 45',
+  resH:'Actividades en Elorrio', nuevo:'Nuevo',
+  valora:'valoraciones', sinValora:'Sin valoraciones todavía',
+  kpi1:'actividades', kpi2:'gratuitas o casi', kpi3:'academias, clubes y elkarteak', kpi4:'dan clase en euskera',
+  secDesc:'Sobre la actividad', secQue:'Qué se aprende', secOpi:'Lo que dicen las familias',
+  secMismo:'Más de', secParecidas:'Actividades parecidas',
+  respuesta:'Suele contestar el mismo día', sinComision:'Sin comisiones: hablas directamente con quien da la clase',
+  fDonde:'Dónde', fCuando:'Cuándo', fEdades:'Edades', fComoF:'Modalidad', fPlazas:'Plazas', fQuienF:'Quién la da',
+  opiDemo:'Valoraciones de ejemplo: esta web es una demostración.',
+  volverBusq:'Volver', compartirF:'Compartir',
+  fH1:'Para las familias', fH2:'Para quien enseña', fL1:'Buscar actividades', fL2:'Agenda del pueblo',
+  fL3:'Mis guardados', fL4:'Publicar mi actividad', fL5:'Acceso administración',
+  creditos:'Demostración sin valor real. Las fichas, las personas, los precios y las valoraciones son inventados. Las fotografías de las actividades son de archivo, con licencia libre (Wikimedia Commons y Openverse), y no corresponden a las actividades ni a las personas que aparecen en las fichas.',
+  pubFotos:'Fotos de la actividad', pubFotosD:'Dos o tres fotos reales. Las fichas con foto reciben cinco veces más visitas.',
+  subirFoto:'Subir fotos', guardadoEn:'Guardado'
+});
+Object.assign(T.eu, {
+  heroKicker:'Elorrio · Durangaldea',
+  heroH1:'Zure seme-alabek Elorrion egin dezaketen guztia.',
+  heroSub:'Klase partikularrak, akademiak, klubak, udal eskolak eta elkarteak. Leku bakarra, herri osoa.',
+  sQue:'Zeren bila', sQuePh:'Frantsesa, pilota, pianoa…', sEdad:'Norentzat', sTodas:'Edozein adin', sBtn:'Bilatu',
+  catsH:'Hasi hemendik', catsSub:'Arratsalde bat betetzeko bederatzi modu.',
+  todo:'Dena', masFiltros:'Iragazki gehiago', verTodo:'Ikusi 45ak',
+  resH:'Jarduerak Elorrion', nuevo:'Berria',
+  valora:'balorazio', sinValora:'Baloraziorik ez oraindik',
+  kpi1:'jarduera', kpi2:'doakoak edo ia', kpi3:'akademia, klub eta elkarte', kpi4:'euskaraz ematen dute',
+  secDesc:'Jarduerari buruz', secQue:'Zer ikasten den', secOpi:'Familiek diotena',
+  secMismo:'Gehiago:', secParecidas:'Antzeko jarduerak',
+  respuesta:'Egun berean erantzun ohi du', sinComision:'Komisiorik gabe: zuzenean hitz egiten duzu klasea ematen duenarekin',
+  fDonde:'Non', fCuando:'Noiz', fEdades:'Adinak', fComoF:'Modalitatea', fPlazas:'Plazak', fQuienF:'Nork ematen duen',
+  opiDemo:'Adibidezko balorazioak: web hau demostrazio bat da.',
+  volverBusq:'Itzuli', compartirF:'Partekatu',
+  fH1:'Familientzat', fH2:'Irakasten dutenentzat', fL1:'Jarduerak bilatu', fL2:'Herriko agenda',
+  fL3:'Nire gordeak', fL4:'Nire jarduera argitaratu', fL5:'Administrazio sarbidea',
+  creditos:'Baliorik gabeko demostrazioa. Fitxak, pertsonak, prezioak eta balorazioak asmatuak dira. Jardueren argazkiak artxibokoak dira, lizentzia librekoak (Wikimedia Commons eta Openverse), eta ez dagozkie fitxetan agertzen diren jarduerei ez pertsonei.',
+  pubFotos:'Jardueraren argazkiak', pubFotosD:'Bi edo hiru argazki benetako. Argazkia duten fitxek bost aldiz bisita gehiago jasotzen dituzte.',
+  subirFoto:'Argazkiak igo', guardadoEn:'Gordeta'
+});
+
+Object.assign(T.es, {
+  splashSub:'Tabloia · actividades del pueblo',
+  queBuscais:'¿Qué buscáis?', ambSub:'Elige primero el tipo de actividad. Luego afinas.',
+  porMateria:'Por materia', buscarPh2:'Buscar…',
+  qCapa:'Busca francés, pilota, piano, yoga…', cerrarBusq:'Cerrar la búsqueda', filtrar:'Filtrar', verTodas:'Ver todas',
+  fMateriaL:'Materia', fEdadL:'Edad', fQuienL:'Quién lo da', fDiaL:'Día', fComoL:'Cómo', fPrecioL:'Precio',
+  cualquiera:'Cualquiera', hasta:'Hasta ', alMes:'/mes'
+});
+Object.assign(T.eu, {
+  splashSub:'Tabloia · herriko jarduerak',
+  queBuscais:'Zeren bila zabiltzate?', ambSub:'Aukeratu lehenik jarduera mota. Gero zehaztu.',
+  porMateria:'Gaiaren arabera', buscarPh2:'Bilatu…',
+  qCapa:'Bilatu frantsesa, pilota, pianoa, yoga…', cerrarBusq:'Itxi bilaketa', filtrar:'Iragazi', verTodas:'Ikusi guztiak',
+  fMateriaL:'Gaia', fEdadL:'Adina', fQuienL:'Nork ematen duen', fDiaL:'Eguna', fComoL:'Nola', fPrecioL:'Prezioa',
+  cualquiera:'Edozein', hasta:'Gehienez ', alMes:'/hil'
+});
+
+/* ---- foto de cada ficha ---- */
+const IMG = {
+  1:'frantsesa', 2:'euskara', 3:'ikasgela', 4:'liburutegia', 5:'ikasgela2', 6:'euskara',
+  7:'matematika', 8:'ikasgela', 9:'ikasgela2', 10:'matematika', 11:'logopedia', 12:'liburutegia',
+  13:'pianoa', 14:'gitarra', 15:'trikitixa', 16:'txistu', 17:'bateria',
+  18:'pilota', 19:'futbol', 20:'saskibaloia', 21:'igeriketa', 22:'haurtxo', 23:'herrikirolak',
+  24:'mendi', 25:'judo', 26:'padel', 27:'atletismoa', 28:'gimnasia', 29:'btt',
+  30:'txistu', 31:'ballet', 32:'zumba', 33:'marrazketa', 34:'antzerkia', 35:'zeramika',
+  36:'robotika', 37:'xakea', 38:'liburutegia', 39:'yoga', 40:'pilates', 41:'gimnasioa', 42:'gimnasioa',
+  43:'udalekuak', 44:'ludoteka', 45:'udalekuak',
+  101:'biolina', 102:'gimnasia', 103:'gitarra'
+};
+const CAT_IMG = { idiomas:'euskara', apoyo:'ikasgela', musica:'trikitixa', deporte:'pilota',
+  danza:'ballet', arte:'marrazketa', tecnologia:'robotika', bienestar:'yoga', campamentos:'udalekuak' };
+const foto = k => 'fotos/' + k + '.jpg';
+
+/* ---- valoraciones de ejemplo ---- */
+const NOMBRES = ['Amaia G.','Josu L.','Maite B.','Iker A.','Nerea U.','Jon E.','Leire M.','Unai Z.',
+  'Garazi O.','Eneko S.','Miren I.','Ibai T.','Oihana P.','Aitor R.','Nagore K.','Julen V.'];
+const MESES = { es:['en septiembre','en julio','en junio','en mayo','en marzo','en enero'],
+                eu:['irailean','uztailean','ekainean','maiatzean','martxoan','urtarrilean'] };
+const OPINIONES = {
+ es:['Mi hija llevaba dos años atascada y en un trimestre ha cambiado la actitud entera. Muy pendiente de avisarnos de cómo va.',
+  'Grupos pequeños de verdad, no como en otros sitios. Se nota que conoce a cada niño por su nombre.',
+  'Puntual, seria y con mucha paciencia. Lo recomendamos a dos familias más del colegio y encantadas.',
+  'Nos vino bien el horario de tarde, que con dos trabajos era imposible cuadrar. Flexible para cambiar un día si hace falta.',
+  'El precio está muy bien para lo que es. Sin sorpresas ni material extra que pagar cada mes.',
+  'A mi hijo le costaba arrancar y ahora va contento. Eso, para nosotros, ya lo vale todo.',
+  'Explica en euskera y en castellano según quién esté, y eso en casa nos ha ayudado mucho.',
+  'Lleva años en el pueblo y se nota. Conoce a los críos y sabe cuándo apretar y cuándo no.'],
+ eu:['Nire alabak bi urte zeramatzan trabatuta eta hiruhileko batean jarrera osoa aldatu zaio. Oso adi nola doan esateko.',
+  'Talde txikiak benetan, ez beste leku batzuetan bezala. Nabari da haur bakoitza izenez ezagutzen duela.',
+  'Puntuala, serioa eta pazientzia handikoa. Ikastolako beste bi familiari gomendatu diegu eta oso pozik.',
+  'Arratsaldeko ordutegia ondo etorri zitzaigun, bi lanekin ezinezkoa baitzen. Malgua egun bat aldatzeko behar izanez gero.',
+  'Prezioa oso ondo dago eskaintzen duenerako. Sorpresarik gabe eta hilero material gehiago ordaindu beharrik gabe.',
+  'Nire semeari asko kostatzen zitzaion hastea eta orain pozik joaten da. Hori, guretzat, nahikoa da.',
+  'Euskaraz eta gaztelaniaz azaltzen du nor dagoen, eta horrek etxean asko lagundu digu.',
+  'Urteak daramatza herrian eta nabari da. Umeak ezagutzen ditu eta badaki noiz estutu eta noiz ez.']
+};
+function rating(f){ return f.verif === false ? null : (42 + (f.id * 37) % 8) / 10; }
+function nrev(f){ return 4 + (f.id * 17) % 38; }
+function opiniones(f){
+  const out = [];
+  for(let i = 0; i < 3; i++){
+    const k = (f.id * 5 + i * 7);
+    out.push({ nm:NOMBRES[k % NOMBRES.length], mes:MESES[state.lang][(k + i) % 6],
+      txt:OPINIONES[state.lang][(k + i * 3) % 8] });
+  }
+  return out;
+}
+
+/* ==========================================================================
+   ESTADO
+   ========================================================================== */
+const state = {
+  lang:LANG_INICIAL, view:'buscar', q:'', ambito:null, cat:null, edad:null, tipo:null, mod:null, dia:null,
+  precioMax:null, sugIdx:-1, orden:'rel', fichaId:null, paso:1, form:{}, enviada:null,
+  admin:false, adminTab:'pendientes',
+  fichas:FICHAS.slice(), pendientes:PENDIENTES_INICIALES.slice(), peticiones:PETICIONES_INICIALES.slice(),
+  guardados:leerGuardados()
+};
+function leerGuardados(){ try { return JSON.parse(localStorage.getItem('tablon.guardados')||'[]'); } catch(e){ return []; } }
+function grabarGuardados(){ try { localStorage.setItem('tablon.guardados', JSON.stringify(state.guardados)); } catch(e){} }
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s==null?'':s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm = s => String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+const t = k => T[state.lang][k];
+const L = o => o[state.lang];
+const catName  = id => { const c = CATS.find(x=>x.id===id);  return c ? c[state.lang] : id; };
+const tipoName = id => { const x = TIPOS.find(y=>y.id===id); return x ? x[state.lang] : id; };
+const modName  = id => { const m = MODOS.find(x=>x.id===id); return m ? m[state.lang] : id; };
+const uni = f => UNIDADES[f.unidad][state.lang];
+const num1 = n => n.toFixed(1).replace('.', ',');
+
+function precioTxt(f){
+  if(f.precio === 0) return '<b>' + t('gratis') + '</b>';
+  return '<b>' + f.precio + ' €</b><span class="u">' + uni(f).s + '</span>';
+}
+function precioLargo(f){ return f.precio === 0 ? t('gratuita') : f.precio + ' € ' + uni(f).l; }
+function precioMes(f){ return Math.round(f.precio * UNIDADES[f.unidad].mes); }
+function edadTxt(f){
+  const a = f.edad[0], b = f.edad[1];
+  if(a >= 18) return t('adultos');
+  if(b >= 99) return state.lang === 'eu' ? a + ' urtetik aurrera' : t('desde') + a + t('anos');
+  return a + '–' + b + t('anos');
+}
+function diasTxt(d){
+  if(!d || !d.length) return '';
+  if(d.length >= 6) return t('todosDias');
+  if(d.length === 5 && d.indexOf('S') < 0 && d.indexOf('D') < 0) return t('deLaV');
+  const n = d.map(x => DIAS_LARGO[state.lang][x]);
+  if(n.length === 1) return cap(n[0]);
+  return cap(n.slice(0,-1).join(', ') + t('y') + n[n.length-1]);
+}
+const modTxt = m => m.map(modName).join(' · ');
+function toast(msg){
+  const el = $('#toast'); el.textContent = msg; el.classList.add('on');
+  clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('on'), 4000);
+}
+const HEART = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.7-7.5-9.7A4.3 4.3 0 0 1 12 7.9a4.3 4.3 0 0 1 7.5 2.9c0 5-7.5 9.7-7.5 9.7z"/></svg>';
+
+/* ---------- filtrado ---------- */
+function filtrar(lista){
+  const term = norm(state.q).trim().split(/\s+/).filter(Boolean);
+  return lista.filter(f => {
+    if(state.ambito){ const a = AMBITOS.find(x => x.id === state.ambito); if(a.cats.indexOf(f.cat) < 0) return false; }
+    if(state.cat  && f.cat  !== state.cat)  return false;
+    if(state.tipo && f.tipo !== state.tipo) return false;
+    if(state.mod  && f.mod.indexOf(state.mod) < 0) return false;
+    if(state.dia  && f.dias.indexOf(state.dia) < 0) return false;
+    if(state.precioMax !== null){
+      if(state.precioMax === 0){ if(f.precio !== 0) return false; }
+      else if(precioMes(f) > state.precioMax) return false;
+    }
+    if(state.edad){
+      const b = EDADES.find(e => e.id === state.edad);
+      if(!(f.edad[0] <= b.max && f.edad[1] >= b.min)) return false;
+    }
+    if(term.length){
+      const c = CATS.find(x => x.id === f.cat), ti = TIPOS.find(x => x.id === f.tipo);
+      const heno = norm([f.titulo,f.proveedor,f.materias.join(' '),c.es,c.eu,ti.es,ti.eu,f.desc,f.lugar].join(' '));
+      return term.every(x => heno.indexOf(x) >= 0);
+    }
+    return true;
+  });
+}
+function ordenar(l){
+  l = l.slice();
+  if(state.orden === 'precio') return l.sort((a,b) => precioMes(a) - precioMes(b));
+  if(state.orden === 'edad')   return l.sort((a,b) => a.edad[0] - b.edad[0]);
+  if(state.orden === 'valor')  return l.sort((a,b) => (rating(b)||0) - (rating(a)||0));
+  return l.sort((a,b) => {
+    const d = CATS.findIndex(c=>c.id===a.cat) - CATS.findIndex(c=>c.id===b.cat);
+    return d !== 0 ? d : a.proveedor.localeCompare(b.proveedor,'es');
+  });
+}
+const hayFiltros = () => !!(state.q||state.ambito||state.cat||state.edad||state.tipo||state.mod||state.dia||state.precioMax!==null);
+function contar(k, v){ const g = state[k]; state[k] = v; const n = filtrar(state.fichas).length; state[k] = g; return n; }
+const contarCat = id => contar('cat', id);
+
+/* ---------- piezas ---------- */
+function stars(f){
+  const r = rating(f);
+  if(!r) return '<span class="stars"><em>' + t('sinValora') + '</em></span>';
+  return '<span class="stars"><i>★</i>' + num1(r) + ' <em>(' + nrev(f) + ')</em></span>';
+}
+function starsLong(f){
+  const r = rating(f);
+  if(!r) return '<span class="stars"><em>' + t('sinValora') + '</em></span>';
+  return '<span class="stars"><i>★</i>' + num1(r) + ' <em>· ' + nrev(f) + ' ' + t('valora') + '</em></span>';
+}
+function fichaCard(f){
+  const g = state.guardados.indexOf(f.id) >= 0;
+  return '<article class="card" data-act="ficha" data-id="' + f.id + '" tabindex="0" role="button">' +
+    '<div class="ph"><img src="' + foto(IMG[f.id] || 'elorrio1') + '" alt="" loading="lazy" width="900" height="600">' +
+      (f.precio === 0 ? '<span class="badge free">' + t('gratis') + '</span>'
+                      : '<span class="badge">' + esc(tipoName(f.tipo)) + '</span>') +
+      '<button class="fav" data-act="fav" data-id="' + f.id + '" aria-pressed="' + g + '" aria-label="' +
+        esc(g ? t('btnQuitar') : t('btnGuardar')) + '">' + HEART + '</button></div>' +
+    '<div class="card-top"><span class="card-t">' + esc(f.titulo) + '</span>' + stars(f) + '</div>' +
+    '<span class="card-s">' + esc(f.proveedor) + ' · ' + esc(f.lugar.split('(')[0].trim()) + '</span>' +
+    '<span class="card-s">' + esc([edadTxt(f), diasTxt(f.dias)].filter(Boolean).join(' · ')) + '</span>' +
+    '<span class="card-p">' + precioTxt(f) + '</span>' +
+  '</article>';
+}
+function fact(k, v){ return '<div class="fact"><span class="k">' + esc(k) + '</span><span class="v">' + v + '</span></div>'; }
+
+/* ==========================================================================
+   VISTA · BUSCAR
+   ========================================================================== */
+function viewBuscar(){
+  return '<section class="wrap" style="padding-block:14px 8px"><div class="stack g10">' +
+      '<p class="eyebrow" id="cats-h"></p>' +
+      '<div class="cats" id="cats"></div>' +
+    '</div></section>' +
+
+    '<section class="wrap" id="anchor-res" style="padding-block:14px 72px"><div class="stack g40">' +
+      '<div class="grid" id="resultados"></div>' +
+      '<div class="stack g14" style="border:1px solid var(--hair);border-radius:var(--r);padding:28px;max-width:620px">' +
+        '<h3 class="sec-h">' + esc(t('faltaLbl')) + '</h3>' +
+        '<p class="note">' + esc(t('faltaP')) + '</p>' +
+        '<form id="form-pedir" class="stack g10">' +
+          '<input type="text" id="pet" placeholder="' + esc(t('faltaPh')) + '" required>' +
+          '<div class="btn-row"><button class="btn primary" type="submit">' + esc(t('faltaBtn')) + '</button></div>' +
+        '</form></div>' +
+    '</div></section>' +
+
+    '<img class="tira" src="' + foto('elorrio') + '" alt="Elorrio, con Udalatx al fondo" width="1500" height="1000" loading="lazy">' +
+    '<div class="band"><div class="wrap kpis">' +
+      kpi(state.fichas.length, t('kpi1'), true) +
+      kpi(state.fichas.filter(f => f.precio === 0 || precioMes(f) <= 15).length, t('kpi2')) +
+      kpi(new Set(state.fichas.filter(f => f.tipo !== 'particular').map(f => f.proveedor)).size, t('kpi3')) +
+      kpi(state.fichas.filter(f => f.lang === 'eu').length, t('kpi4')) +
+    '</div></div>';
+}
+function kpi(n, c, hi){
+  return '<div class="kpi"><div class="n' + (hi?' hi':'') + '">' + n + '</div><div class="c">' + esc(c) + '</div></div>';
+}
+function pintarSecs(){
+  const c = $('#secs'); if(!c) return;
+  c.innerHTML = '<button data-act="amb" data-v="" aria-pressed="' + (!state.ambito && state.view === 'buscar') + '">' +
+      esc(t('todo')) + '</button>' +
+    AMBITOS.map(a => '<button data-act="amb" data-v="' + a.id + '" aria-pressed="' +
+      (state.ambito === a.id && state.view === 'buscar') + '">' + esc(a[state.lang]) + '</button>').join('');
+}
+function catsVisibles(){
+  if(!state.ambito) return CATS;
+  const a = AMBITOS.find(x => x.id === state.ambito);
+  return CATS.filter(c => a.cats.indexOf(c.id) >= 0);
+}
+function pintarCats(){
+  const c = $('#cats'); if(!c) return;
+  const h = $('#cats-h');
+  if(h) h.textContent = state.ambito ? AMBITOS.find(x=>x.id===state.ambito)[state.lang] + ' — ' + t('porMateria') : t('porMateria');
+  c.innerHTML = catsVisibles().map(x =>
+    '<button class="cat-tile" data-act="cat" data-v="' + x.id + '" aria-pressed="' + (state.cat===x.id) + '">' +
+      '<img src="' + foto(CAT_IMG[x.id]) + '" alt="" loading="lazy" width="900" height="600">' +
+      '<span class="lbl">' + esc(x[state.lang]) + '<span>' + contarCat(x.id) + '</span></span></button>').join('');
+}
+function drop(k, label, valor, opciones){
+  const act = valor !== null && valor !== undefined && valor !== '';
+  const txt = act ? label + ': ' + valor : label;
+  return '<div class="fdrop" data-d="' + k + '">' +
+    '<button class="fbtn' + (act?' act':'') + '" data-act="drop" data-v="' + k + '" aria-expanded="false">' +
+      esc(txt) + '<span class="ar">▼</span></button>' +
+    '<div class="fpanel">' + opciones + '</div></div>';
+}
+function opt(k, v, label, n){
+  const on = (state[k] === v) || (v === '' && !state[k]) || (k === 'precioMax' && state.precioMax === v);
+  return '<button class="fopt" data-act="setf" data-k="' + k + '" data-v="' + v + '" aria-pressed="' + on + '">' +
+    esc(label) + (n !== undefined ? '<span class="n">' + n + '</span>' : '') + '</button>';
+}
+function pintarFiltros(){
+  const g = $('#fgroup'); if(!g) return;
+  const fl = $('#flabel'); if(fl) fl.textContent = t('filtrar');
+  const catAct = state.cat ? catName(state.cat) : (state.ambito ? AMBITOS.find(x=>x.id===state.ambito)[state.lang] : null);
+  let matOpts = opt('cat','',t('cualquiera'));
+  AMBITOS.forEach(a => {
+    matOpts += '<div class="fhead">' + esc(a[state.lang]) + '</div>';
+    CATS.filter(c => a.cats.indexOf(c.id) >= 0).forEach(c => { matOpts += opt('cat', c.id, c[state.lang], contarCat(c.id)); });
+  });
+  g.innerHTML =
+    (state.q ? '<button class="qchip" data-act="limpiarQ"><b>' + esc(state.q) + '</b><span>&times;</span></button>' : '') +
+    drop('cat', t('fMateriaL'), catAct, matOpts) +
+    drop('edad', t('fEdadL'), state.edad ? EDADES.find(e=>e.id===state.edad)[state.lang] : null,
+      opt('edad','',t('cualquiera')) + EDADES.map(e => opt('edad', e.id, e[state.lang], contar('edad', e.id))).join('')) +
+    drop('tipo', t('fQuienL'), state.tipo ? tipoName(state.tipo) : null,
+      opt('tipo','',t('cualquiera')) + TIPOS.map(x => opt('tipo', x.id, x[state.lang], contar('tipo', x.id))).join('')) +
+    drop('dia', t('fDiaL'), state.dia ? cap(DIAS_LARGO[state.lang][state.dia]) : null,
+      opt('dia','',t('cualquiera')) + DIAS.map(d => opt('dia', d, cap(DIAS_LARGO[state.lang][d]), contar('dia', d))).join('')) +
+    drop('mod', t('fComoL'), state.mod ? modName(state.mod) : null,
+      opt('mod','',t('cualquiera')) + MODOS.map(x => opt('mod', x.id, x[state.lang], contar('mod', x.id))).join('')) +
+    drop('precioMax', t('fPrecioL'), state.precioMax === null ? null : (state.precioMax === 0 ? t('gratis') : t('hasta') + state.precioMax + ' €'),
+      opt('precioMax','',t('cualquiera')) + opt('precioMax','0',t('soloGratis'), contar('precioMax',0)) +
+      opt('precioMax','20',t('hasta') + '20 €' + t('alMes'), contar('precioMax',20)) +
+      opt('precioMax','40',t('hasta') + '40 €' + t('alMes'), contar('precioMax',40)));
+}
+function pintarMeta(n){
+  const m = $('#fmeta'); if(!m) return;
+  m.innerHTML = '<span><b>' + n + '</b> ' + esc(n === 1 ? t('actividad') : t('actividades')) + '</span>' +
+    '<select class="sel" data-sel="orden" aria-label="' + esc(t('ordenar')) + '">' +
+      [['rel',t('oRel')],['valor',t('valora')],['precio',t('oPrecio')],['edad',t('oEdad')]]
+        .map(([v,l]) => '<option value="' + v + '"' + (state.orden===v?' selected':'') + '>' + esc(l) + '</option>').join('') + '</select>' +
+    (hayFiltros() ? '<button class="lnk" data-act="limpiar">' + esc(t('quitar')) + '</button>' : '');
+}
+
+/* ---------- sugerencias del buscador ---------- */
+const nAct = n => n + ' ' + (n === 1 ? t('actividad') : t('actividades'));
+function sugerencias(q){
+  const n = norm(q).trim(); if(!n) return [];
+  const out = [];
+  CATS.forEach(c => { if(norm(c[state.lang]).indexOf(n) >= 0)
+    out.push({ k:'cat', v:c.id, t:c[state.lang], s:nAct(contarCat(c.id)), img:CAT_IMG[c.id] }); });
+  const mats = {};
+  state.fichas.forEach(f => f.materias.forEach(m => {
+    if(norm(m).indexOf(n) >= 0){ const key = m.toLowerCase(); mats[key] = (mats[key]||0) + 1; } }));
+  Object.keys(mats).sort((a,b) => mats[b]-mats[a]).slice(0,4).forEach(m =>
+    out.push({ k:'mat', v:m, t:cap(m), s:nAct(mats[m]) }));
+  state.fichas.filter(f => norm(f.titulo + ' ' + f.proveedor).indexOf(n) >= 0).slice(0,5).forEach(f =>
+    out.push({ k:'ficha', v:f.id, t:f.titulo, s:f.proveedor + ' · ' + (f.precio===0?t('gratis'):f.precio+' €'+uni(f).s), img:IMG[f.id] }));
+  return out.slice(0,9);
+}
+function pintarSug(panelId){
+  const p = $('#' + panelId); if(!p) return;
+  const list = sugerencias(state.q);
+  state.sugIdx = -1;
+  if(!list.length){ p.classList.remove('on'); p.innerHTML = ''; return; }
+  p.innerHTML = list.map((x,i) =>
+    '<button class="sug" data-act="sug" data-k="' + x.k + '" data-v="' + esc(x.v) + '" data-i="' + i + '">' +
+      (x.img ? '<img src="' + foto(x.img) + '" alt="" loading="lazy">' : '<span class="dot">·</span>') +
+      '<span><span class="t">' + esc(x.t) + '</span><br><span class="s">' + esc(x.s) + '</span></span></button>').join('');
+  p.classList.add('on');
+}
+function cerrarSug(){ document.querySelectorAll('.sugp.on').forEach(p => p.classList.remove('on')); state.sugIdx = -1; }
+function cerrarDrops(){ document.querySelectorAll('.fdrop.on').forEach(d => {
+  d.classList.remove('on'); const b = d.querySelector('.fbtn'); if(b) b.setAttribute('aria-expanded','false'); }); }
+function syncQ(){ const el = $('#q'); if(el && el.value !== state.q) el.value = state.q; }
+function pintarResultados(){
+  const lista = ordenar(filtrar(state.fichas));
+  pintarMeta(lista.length);
+  const c = $('#resultados'); if(!c) return;
+  if(lista.length){ c.className = 'grid'; c.innerHTML = lista.map(fichaCard).join(''); }
+  else { c.className = 'empty'; c.innerHTML = '<h2 class="pg">' + esc(t('vacioH2')) + '</h2>' +
+    '<p class="note">' + esc(t('vacioP')) + '</p><button class="btn" data-act="limpiar">' + esc(t('vacioBtn')) + '</button>'; }
+}
+function actualizar(){ pintarSecs(); pintarCats(); pintarFiltros(); pintarResultados(); }
+
+/* ==========================================================================
+   VISTA · FICHA
+   ========================================================================== */
+function viewFicha(){
+  const f = state.fichas.find(x => x.id === state.fichaId);
+  if(!f) return '<section class="view wrap"><p>—</p></section>';
+  const g = state.guardados.indexOf(f.id) >= 0;
+  const mismos = state.fichas.filter(x => x.proveedor === f.proveedor && x.id !== f.id);
+  const parecidos = state.fichas.filter(x => x.cat === f.cat && x.id !== f.id && x.proveedor !== f.proveedor).slice(0,4);
+  const otro = f.lang !== state.lang;
+  const gal = [];
+  [IMG[f.id], CAT_IMG[f.cat], parecidos[0] && IMG[parecidos[0].id], parecidos[1] && IMG[parecidos[1].id],
+   mismos[0] && IMG[mismos[0].id], 'elorrio1', 'elorrio2', 'urkiola'].forEach(k => {
+    if(k && gal.indexOf(k) < 0 && gal.length < 3) gal.push(k);
+  });
+  const ini = f.proveedor.replace(/^(C\.D\.|Udal|Elorrioko)\s+/,'').trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+
+  return '<section class="view wrap"><div class="stack g28">' +
+    '<button class="back" data-act="volver">← ' + esc(t('volverBusq')) + '</button>' +
+    '<div class="stack g10">' +
+      '<p class="eyebrow">' + esc(catName(f.cat)) + ' · ' + esc(tipoName(f.tipo)) + (otro ? ' · ' + esc(f.lang==='eu'?t('enEuskera'):t('enCastellano')) : '') + '</p>' +
+      '<h1 class="pg">' + esc(f.titulo) + '</h1>' +
+      '<div class="btn-row" style="gap:8px 18px">' + starsLong(f) +
+        '<span class="card-s">' + esc(f.proveedor) + ' · ' + esc(f.lugar) + '</span></div>' +
+    '</div>' +
+    '<div class="gal"><img class="g1" src="' + foto(gal[0]) + '" alt="" width="900" height="600">' +
+      '<img class="gs" src="' + foto(gal[1]) + '" alt="" loading="lazy" width="900" height="600">' +
+      '<img class="gs" src="' + foto(gal[2]) + '" alt="" loading="lazy" width="900" height="600"></div>' +
+
+    '<div class="fcols">' +
+      '<div class="stack g28">' +
+        '<div class="stack g10"><h3 class="sec-h">' + esc(t('secDesc')) + '</h3><p>' + esc(f.desc) + '</p></div>' +
+        '<div class="stack g10"><h3 class="sec-h">' + esc(t('secQue')) + '</h3>' +
+          '<div class="chips">' + f.materias.map(m => '<span class="chipx">' + esc(cap(m)) + '</span>').join('') + '</div></div>' +
+        '<hr class="rule">' +
+        '<div class="facts">' +
+          fact(t('fEdades'), edadTxt(f)) + fact(t('fCuando'), esc(diasTxt(f.dias)) + '<br><span style="color:var(--mute);font-size:13px">' + esc(f.horario) + '</span>') +
+          fact(t('fComoF'), esc(modTxt(f.mod))) + fact(t('fDonde'), esc(f.lugar)) +
+          fact(t('fPlazas'), esc(f.plazas)) +
+        '</div>' +
+        '<hr class="rule">' +
+        '<div class="who-box"><span class="av big">' + esc(ini) + '</span>' +
+          '<span class="stack g6"><span class="card-t">' + esc(f.proveedor) + '</span>' +
+          '<span class="card-s">' + esc(f.exp) + '</span>' +
+          (f.verif ? '<span class="card-s" style="color:var(--accent)">' + esc(t('selloVerif')) + (f.cert?esc(t('selloCert')):'') + '</span>' : '') +
+          '</span></div>' +
+        '<hr class="rule">' +
+        '<div class="stack g20"><div class="stack g6">' +
+          '<h3 class="sec-h">' + esc(t('secOpi')) + '</h3>' +
+          '<p class="note">' + starsLong(f) + ' &nbsp;·&nbsp; ' + esc(t('opiDemo')) + '</p></div>' +
+          '<div class="rev">' + opiniones(f).map(o =>
+            '<div><div class="who"><span class="av">' + esc(o.nm[0]) + '</span>' +
+            '<span><span class="nm">' + esc(o.nm) + '</span><br><span class="dt">' + esc(o.mes) + '</span></span></div>' +
+            '<p>' + esc(o.txt) + '</p></div>').join('') +
+        '</div></div>' +
+      '</div>' +
+
+      '<aside class="sidebox">' +
+        '<div class="stack g6"><span class="price-xl">' + (f.precio===0 ? esc(t('gratis')) :
+            f.precio + ' €<span class="u">' + uni(f).s + '</span>') + '</span>' +
+          (f.precio ? '<span class="card-s">≈ ' + precioMes(f) + ' €' + esc(t('aprox')) + '</span>' : '') + '</div>' +
+        '<hr class="rule">' +
+        '<div class="stack g6"><span class="card-s"><b style="color:var(--ink)">' + esc(f.plazas) + '</b></span>' +
+          '<span class="card-s">' + esc(t('respuesta')) + '</span></div>' +
+        '<div class="stack g10">' +
+          '<button class="btn primary block" data-act="contacto">' + esc(t('btnWhats')) + '</button>' +
+          '<button class="btn block" data-act="contacto">' + esc(t('btnLlamar')) + ' · ' + esc(f.tel) + '</button>' +
+          '<button class="btn block" data-act="guardar" data-id="' + f.id + '">' + esc(g?t('btnQuitar'):t('btnGuardar')) + '</button>' +
+        '</div>' +
+        '<p class="note" style="font-size:11.5px">' + esc(t('sinComision')) + '</p>' +
+      '</aside>' +
+    '</div>' +
+
+    (mismos.length ? '<div class="stack g20" style="margin-top:20px"><hr class="rule">' +
+      '<h3 class="sec-h">' + esc(t('secMismo') + ' ' + f.proveedor) + '</h3>' +
+      '<div class="grid">' + mismos.map(fichaCard).join('') + '</div></div>' : '') +
+    (parecidos.length ? '<div class="stack g20"><hr class="rule"><h3 class="sec-h">' + esc(t('secParecidas')) + '</h3>' +
+      '<div class="grid">' + parecidos.map(fichaCard).join('') + '</div></div>' : '') +
+    '<p class="note">' + esc(t('fichaNota')) + '</p>' +
+  '</div></section>';
+}
+
+/* ==========================================================================
+   AGENDA · GUARDADOS
+   ========================================================================== */
+function viewAgenda(){
+  let html = '', mes = '';
+  AGENDA.forEach(a => {
+    const m = L(a.mes);
+    if(m !== mes){ mes = m;
+      html += (html ? '</div>' : '') + '<div class="stack" style="margin-top:30px"><h3 class="sec-h" style="margin-bottom:10px">' + esc(m + t('deAno')) + '</h3>'; }
+    html += '<div class="ag' + (a.soon ? ' soon' : '') + '">' +
+      '<span class="dt"><b>' + esc(a.dia) + '</b>' + esc(L(a.wd)) + '</span>' +
+      '<span class="stack g6"><span class="ti">' + esc(L(a.titulo)) + '</span><span class="pr">' + esc(a.prov) + '</span></span>' +
+      '<span class="tag">' + esc(L(a.tag)) + '</span></div>';
+  });
+  html += '</div>';
+  return '<section class="view wrap narrow"><div class="stack g20">' +
+    '<div class="stack g10"><p class="eyebrow">' + esc(t('agEyebrow')) + '</p><h1 class="pg">' + esc(t('agH1')) + '</h1>' +
+    '<p class="lead">' + esc(t('agLead')) + '</p></div>' + html +
+    '<p class="note" style="margin-top:24px">' + esc(t('agNota')) + '</p></div></section>';
+}
+function viewGuardados(){
+  const lista = state.guardados.map(id => state.fichas.find(f => f.id === id)).filter(Boolean);
+  return '<section class="view wrap"><div class="stack g28">' +
+    '<div class="stack g10"><p class="eyebrow">' + esc(t('guEyebrow')) + '</p><h1 class="pg">' + esc(t('guH1')) + '</h1>' +
+    '<p class="lead">' + esc(t('guLead')) + '</p></div>' +
+    (lista.length
+      ? '<div class="grid">' + lista.map(fichaCard).join('') + '</div>' +
+        '<div class="btn-row"><button class="btn" data-act="compartir">' + esc(t('compartir')) + '</button>' +
+        '<button class="lnk" data-act="vaciar">' + esc(t('vaciar')) + '</button></div>'
+      : '<div class="empty"><h2 class="pg">' + esc(t('guVacioH2')) + '</h2><p class="note">' + esc(t('guVacioP')) + '</p>' +
+        '<button class="btn primary" data-act="ir" data-v="buscar">' + esc(t('irBuscar')) + '</button></div>') +
+  '</div></section>';
+}
+
+/* ==========================================================================
+   PUBLICAR
+   ========================================================================== */
+function viewPublicar(){
+  if(state.enviada) return viewEnviada();
+  const f = state.form;
+  const pasos = '<div class="steps">' + t('pasos').map((p,i) =>
+    '<div class="step' + (state.paso===i+1?' on':(state.paso>i+1?' done':'')) + '">' +
+      '<span class="n">0' + (i+1) + '</span><span class="l">' + esc(p) + '</span></div>').join('') + '</div>';
+  let campos = '';
+  if(state.paso === 1){
+    campos = '<fieldset><legend class="field" style="margin-bottom:6px"><label>' + esc(t('pQueEres')) + '</label></legend>' +
+      TIPOS.map(x => '<label class="pick"><input type="radio" name="tipo" value="' + x.id + '" data-f="tipo"' +
+        (f.tipo===x.id?' checked':'') + '><span class="stack g6"><span class="pk-t">' + x[state.lang] + '</span>' +
+        '<span class="pk-d">' + descTipo(x.id) + '</span></span></label>').join('') + '</fieldset>' +
+      campo('nombre',t('lNombre'),'text',t('phNombre')) + campo('dni',t('lDni'),'text',t('phDni'),t('hDni')) +
+      dos(campo('tel',t('lTel'),'tel',t('phTel')), campo('email',t('lMail'),'email',t('phMail'))) +
+      campo('direccion',t('lDir'),'text',t('phDir'),t('hDir'));
+  }
+  if(state.paso === 2){
+    campos = campo('titulo',t('lTitulo'),'text',t('phTitulo'),t('hTitulo')) +
+      '<div class="field"><label for="cat">' + esc(t('lCat')) + '</label><select class="inp" id="cat" data-f="cat">' +
+        '<option value="">' + esc(t('optCat')) + '</option>' +
+        CATS.map(c => '<option value="' + c.id + '"' + (f.cat===c.id?' selected':'') + '>' + c[state.lang] + '</option>').join('') + '</select></div>' +
+      '<div class="field"><label>' + esc(t('lIdioma')) + '</label><div class="opt-grid">' +
+        '<label class="opt"><input type="radio" name="flang" value="eu" data-f="flang"' + (f.flang==='eu'?' checked':'') + '>Euskaraz</label>' +
+        '<label class="opt"><input type="radio" name="flang" value="es" data-f="flang"' + (f.flang==='es'?' checked':'') + '>Castellano</label>' +
+      '</div><span class="hint">' + esc(t('hIdioma')) + '</span></div>' +
+      campo('materias',t('lMaterias'),'text',t('phMaterias'),t('hMaterias')) +
+      '<div class="field"><label for="desc">' + esc(t('lDesc')) + '</label><textarea id="desc" data-f="desc" placeholder="' +
+        esc(t('phDesc')) + '">' + esc(f.desc||'') + '</textarea><span class="hint">' + esc(t('hDesc')) + '</span></div>' +
+      '<div class="field"><label>' + esc(t('pubFotos')) + '</label>' +
+        '<div class="file"><span class="stack g6"><span class="fn">' + esc(t('subirFoto')) + '</span>' +
+        '<span class="fd">' + esc(t('pubFotosD')) + '</span></span>' +
+        '<button class="btn small" type="button" data-act="adjuntar">' + esc(t('adjuntar')) + '</button></div></div>' +
+      dos(campo('edadMin',t('lEdadMin'),'number','6'), campo('edadMax',t('lEdadMax'),'number','12')) +
+      campo('exp',t('lExp'),'text',t('phExp'));
+  }
+  if(state.paso === 3){
+    campos = dos(campo('precio',t('lPrecio'),'number','12'),
+      '<div class="field"><label for="unidad">' + esc(t('lUnidad')) + '</label><select class="inp" id="unidad" data-f="unidad">' +
+        Object.keys(UNIDADES).map(u => '<option value="' + u + '"' + (f.unidad===u?' selected':'') + '>' + cap(UNIDADES[u][state.lang].l) + '</option>').join('') + '</select></div>') +
+      '<div class="field"><label>' + esc(t('lMod')) + '</label><div class="opt-grid">' +
+        MODOS.map(m => '<label class="opt"><input type="checkbox" data-fm="mod" value="' + m.id + '"' +
+          ((f.mod||[]).indexOf(m.id)>=0?' checked':'') + '>' + m[state.lang] + '</label>').join('') + '</div></div>' +
+      campo('lugar',t('lLugar'),'text',t('phLugar')) +
+      '<div class="field"><label>' + esc(t('lDias')) + '</label><div class="opt-grid">' +
+        DIAS.map(d => '<label class="opt"><input type="checkbox" data-fm="dias" value="' + d + '"' +
+          ((f.dias||[]).indexOf(d)>=0?' checked':'') + '>' + cap(DIAS_LARGO[state.lang][d]) + '</label>').join('') + '</div></div>' +
+      campo('horario',t('lHorario'),'text',t('phHorario')) + campo('plazas',t('lPlazas'),'text',t('phPlazas'));
+  }
+  if(state.paso === 4){
+    campos = '<p>' + esc(t('docIntro')) + '</p>' + doc(t('doc1'),t('doc1d'),true) + doc(t('doc2'),t('doc2d'),false) +
+      doc(t('doc3'),t('doc3d'),true) + doc(t('doc4'),t('doc4d'),false) +
+      '<div class="stack g14" style="margin-top:6px">' +
+      '<label class="opt" style="align-items:flex-start"><input type="checkbox" data-f="ok1" style="margin-top:3px"' + (f.ok1?' checked':'') +
+        '><span style="font-size:13.5px;line-height:1.55">' + esc(t('ok1')) + '</span></label>' +
+      '<label class="opt" style="align-items:flex-start"><input type="checkbox" data-f="ok2" style="margin-top:3px"' + (f.ok2?' checked':'') +
+        '><span style="font-size:13.5px;line-height:1.55">' + esc(t('ok2')) + '</span></label></div>';
+  }
+  return '<section class="view wrap narrow"><div class="stack g28">' +
+    '<div class="stack g10"><p class="eyebrow">' + esc(t('pubEyebrow')) + '</p><h1 class="pg">' + esc(t('pubH1')) + '</h1>' +
+    '<p class="lead">' + esc(t('pubLead')) + '</p></div>' + pasos +
+    '<form id="form-pub" class="stack g20">' + campos +
+      '<div class="btn-row" style="margin-top:10px">' +
+        (state.paso>1 ? '<button class="btn" type="button" data-act="paso" data-v="' + (state.paso-1) + '">' + esc(t('atras')) + '</button>' : '') +
+        (state.paso<4 ? '<button class="btn primary" type="button" data-act="paso" data-v="' + (state.paso+1) + '">' + esc(t('continuar')) + '</button>'
+                      : '<button class="btn primary" type="submit">' + esc(t('enviar')) + '</button>') +
+        '<span class="note" style="margin:0">' + esc(t('pasoDe').replace('§', state.paso)) + '</span>' +
+      '</div></form></div></section>';
+}
+function descTipo(id){
+  const d = { es:{ particular:'Das clases por tu cuenta, en tu casa, a domicilio u online.',
+      academia:'Centro con local abierto al público y varios profesores.',
+      club:'Club deportivo o federado con equipos o escuela.',
+      municipal:'Actividad del ayuntamiento o de una instalación municipal.',
+      asociacion:'Elkarte, banda, dantza taldea, AMPA o grupo sin ánimo de lucro.' },
+    eu:{ particular:'Zeure kontura ematen dituzu klaseak, etxean, etxez etxe edo online.',
+      academia:'Jendearentzat zabalik dagoen lokala eta hainbat irakasle dituen zentroa.',
+      club:'Kirol kluba edo federatutako taldea, eskola edo taldeekin.',
+      municipal:'Udalaren edo udal instalazio baten jarduera.',
+      asociacion:'Elkartea, banda, dantza taldea, guraso elkartea edo irabazi asmorik gabeko taldea.' } };
+  return d[state.lang][id];
+}
+function campo(id,label,tipo,ph,hint){
+  const v = state.form[id];
+  return '<div class="field"><label for="' + id + '">' + esc(label) + '</label>' +
+    '<input type="' + tipo + '" id="' + id + '" data-f="' + id + '" placeholder="' + esc(ph) + '" value="' + esc(v==null?'':v) + '">' +
+    (hint ? '<span class="hint">' + esc(hint) + '</span>' : '') + '</div>';
+}
+const dos = (a,b) => '<div class="opt-grid" style="gap:20px">' + a + b + '</div>';
+function doc(n,d,ob){
+  return '<div class="file"><span class="stack g6"><span class="fn">' + esc(n) +
+    (ob ? ' <span style="color:var(--accent);font-weight:400">· ' + esc(t('oblig')) + '</span>' : '') + '</span>' +
+    '<span class="fd">' + esc(d) + '</span></span>' +
+    '<button class="btn small" type="button" data-act="adjuntar">' + esc(t('adjuntar')) + '</button></div>';
+}
+function viewEnviada(){
+  return '<section class="view wrap narrow"><div class="stack g20">' +
+    '<p class="eyebrow">' + esc(t('pubEyebrow')) + '</p><h1 class="pg">' + esc(t('envH1')) + '</h1>' +
+    '<p class="lead">' + esc(t('envLead').replace('§', state.enviada.titulo || '—')) + '</p>' +
+    '<div class="facts" style="margin-top:10px">' + fact(t('kEstado'),'<b>' + esc(t('vEstado')) + '</b>') +
+      fact(t('kComprueba'), esc(t('vComprueba'))) + fact(t('kFalta'), esc(t('vFalta'))) + '</div>' +
+    '<div class="btn-row" style="margin-top:12px"><button class="btn primary" data-act="ir" data-v="buscar">' + esc(t('volverTablon')) + '</button>' +
+    '<button class="lnk" data-act="ir" data-v="admin">' + esc(t('verRevision')) + '</button></div></div></section>';
+}
+
+/* ==========================================================================
+   ADMINISTRACIÓN
+   ========================================================================== */
+function viewAdmin(){
+  if(!state.admin){
+    return '<section class="view wrap narrow"><div class="stack g20">' +
+      '<p class="eyebrow">' + esc(t('admEyebrow')) + '</p><h1 class="pg">' + esc(t('admGateH1')) + '</h1>' +
+      '<p class="lead">' + esc(t('admGateLead')) + '</p>' +
+      '<form id="form-admin" class="stack g14" style="max-width:340px;margin-top:10px">' +
+        '<div class="field"><label for="pass">' + esc(t('lPass')) + '</label>' +
+        '<input type="text" id="pass" placeholder="' + esc(t('phPass')) + '" autocomplete="off">' +
+        '<span class="hint">' + t('hPass') + '</span></div>' +
+        '<div class="btn-row"><button class="btn primary" type="submit">' + esc(t('entrar')) + '</button></div>' +
+      '</form></div></section>';
+  }
+  const pend = state.pendientes, pub = state.fichas, pet = state.peticiones;
+  let cuerpo = '';
+  if(state.adminTab === 'pendientes'){
+    cuerpo = pend.length ? '<div class="stack g20">' + pend.map(p =>
+      '<div class="pend"><div class="fcols" style="grid-template-columns:220px 1fr;gap:24px">' +
+        '<div class="ph" style="aspect-ratio:4/3"><img src="' + foto(IMG[p.id]||'elorrio1') + '" alt="" loading="lazy"></div>' +
+        '<div class="stack g14">' +
+          '<div class="stack g6"><p class="eyebrow">' + esc(catName(p.cat)) + ' · ' + esc(tipoName(p.tipo)) + ' · ' + esc(t('enviada') + p.enviado.toLowerCase()) + '</p>' +
+          '<h2 class="pg" style="font-size:20px">' + esc(p.titulo) + '</h2>' +
+          '<span class="card-s">' + esc(p.proveedor + ' · ' + p.dni + ' · ' + p.tel) + '</span></div>' +
+          '<p style="font-size:13.5px">' + esc(p.desc) + '</p>' +
+          '<div class="facts">' + fact(t('kEdades'), edadTxt(p)) + fact(t('kPrecio'), esc(precioLargo(p))) +
+            fact(t('kCuando'), esc(diasTxt(p.dias))) + fact(t('kQuien'), esc(p.exp)) +
+            fact(t('kCert'), p.cert ? '<b style="color:var(--accent)">' + esc(t('certSi')) + '</b>'
+              : '<b style="color:#b8443c">' + esc(t('certNo')) + '</b>') + '</div>' +
+          '<p class="note" style="color:var(--accent)">' + esc(t('alRevisar') + p.aviso) + '</p>' +
+          '<div class="btn-row">' +
+            '<button class="btn primary" data-act="aprobar" data-id="' + p.id + '">' + esc(t('bPublicar')) + '</button>' +
+            '<button class="btn" data-act="pedirdatos" data-id="' + p.id + '">' + esc(t('bPedir')) + '</button>' +
+            '<button class="btn" data-act="rechazar" data-id="' + p.id + '">' + esc(t('bRechazar')) + '</button>' +
+          '</div></div></div></div>').join('') + '</div>'
+      : '<div class="empty"><h2 class="pg">' + esc(t('nadaH2')) + '</h2><p class="note">' + esc(t('nadaP')) + '</p></div>';
+  }
+  if(state.adminTab === 'publicadas'){
+    cuerpo = '<div class="stack g10">' + pub.map(f =>
+      '<div class="btn-row" style="justify-content:space-between;border-bottom:1px solid var(--hair-soft);padding-bottom:10px">' +
+      '<span class="stack g6"><span class="card-t">' + esc(f.titulo) + '</span>' +
+      '<span class="card-s">' + esc(f.proveedor + ' · ' + catName(f.cat)) + '</span></span>' +
+      '<button class="btn small" data-act="ocultar" data-id="' + f.id + '">' + esc(t('bOcultar')) + '</button></div>').join('') + '</div>';
+  }
+  if(state.adminTab === 'peticiones'){
+    cuerpo = '<div class="stack g14"><p class="note">' + esc(t('petNota')) + '</p>' +
+      pet.map(p => '<div class="btn-row" style="justify-content:space-between;border-bottom:1px solid var(--hair-soft);padding-bottom:10px">' +
+        '<span class="card-t" style="font-weight:400">' + esc(p.texto) + '</span>' +
+        '<span class="card-s">' + esc(p.fecha + ' · ' + t('pedido')) + p.veces + esc(p.veces===1?t('vez'):t('veces')) + '</span></div>').join('') + '</div>';
+  }
+  return '<section class="view wrap"><div class="stack g28">' +
+    '<div class="stack g10"><p class="eyebrow">' + esc(t('admEyebrow')) + ' · Elorrio</p><h1 class="pg">' + esc(t('admH1')) + '</h1></div>' +
+    '<div class="kpis">' + kpi(pub.length, t('nPub')) + kpi(pend.length, t('nPend'), true) +
+      kpi(pet.length, t('nPet')) + kpi(312, t('nVis')) + '</div>' +
+    '<div class="tabs">' + tab('pendientes',t('tabPend'),pend.length) + tab('publicadas',t('tabPub'),pub.length) +
+      tab('peticiones',t('tabPet'),pet.length) + '</div>' + cuerpo +
+    '<div class="btn-row"><button class="lnk" data-act="salir">' + esc(t('salir')) + '</button></div></div></section>';
+}
+const tab = (id,label,n) => '<button role="tab" data-act="tab" data-v="' + id + '" aria-selected="' + (state.adminTab===id) + '">' +
+  esc(label) + ' · ' + n + '</button>';
+
+/* ==========================================================================
+   ROUTER Y EVENTOS
+   ========================================================================== */
+function pintarCromo(){
+  $('#demo-1').textContent = t('demo1');
+  $('#demo-2').textContent = t('demo2');
+  $('#cta-pub').textContent = t('publicar');
+  $('#foot-p').textContent = t('footP');
+  $('#f-h1').textContent = t('fH1'); $('#f-h2').textContent = t('fH2');
+  $('#f-l1').textContent = t('fL1'); $('#f-l2').textContent = t('fL2'); $('#f-l3').textContent = t('fL3');
+  $('#f-l4').textContent = t('fL4'); $('#f-l5').textContent = t('fL5');
+  $('#creditos').textContent = t('creditos');
+  const sp2 = $('#sp-2'); if(sp2) sp2.textContent = t('splashSub');
+  pintarBotonTema();
+  $('#langs').innerHTML = ['eu','es'].map(l =>
+    '<button data-lang="' + l + '" aria-pressed="' + (state.lang===l) + '">' + l.toUpperCase() + '</button>')
+    .join('<span class="sl">/</span>');
+  const qi = $('#q');
+  if(qi){ qi.placeholder = t('qCapa'); qi.setAttribute('aria-label', t('buscar')); }
+  const ab = $('#abrir-busq'); if(ab) ab.setAttribute('aria-label', t('buscar'));
+  const cb = $('#cerrar-busq'); if(cb) cb.setAttribute('aria-label', t('cerrarBusq'));
+  pintarSecs();
+  $('#nav').innerHTML = [['agenda','agenda'],['guardados','guardados']].map(([id,k]) =>
+    '<button data-nav="' + id + '"' + (state.view===id?' aria-current="page"':'') + '>' + esc(t(k)) +
+    (id==='guardados' && state.guardados.length ? ' <span class="c">' + state.guardados.length + '</span>' : '') + '</button>').join('');
+}
+function busqAbierta(){ const l = $('#searchlayer'); return !!l && !l.hidden; }
+function abrirBusq(){
+  const l = $('#searchlayer'); if(!l) return;
+  l.hidden = false; medirBarra();
+  const i = $('#q'); if(i){ i.focus(); i.select(); }
+}
+function cerrarBusq(){
+  const l = $('#searchlayer'); if(!l || l.hidden) return;
+  cerrarSug(); l.hidden = true; medirBarra();
+}
+function medirBarra(){
+  const b = $('#bar'); if(!b) return;
+  document.documentElement.style.setProperty('--barh', b.offsetHeight + 'px');
+}
+function render(scroll){
+  const app = $('#app');
+  const fb = $('#filterbar'); if(fb) fb.hidden = (state.view !== 'buscar');
+  if(state.view === 'buscar'){ app.innerHTML = viewBuscar(); actualizar(); }
+  else if(state.view === 'ficha')     app.innerHTML = viewFicha();
+  else if(state.view === 'agenda')    app.innerHTML = viewAgenda();
+  else if(state.view === 'guardados') app.innerHTML = viewGuardados();
+  else if(state.view === 'publicar')  app.innerHTML = viewPublicar();
+  else if(state.view === 'admin')     app.innerHTML = viewAdmin();
+  pintarCromo();
+  document.documentElement.lang = state.lang;
+  medirBarra();
+  if(scroll !== false) window.scrollTo(0,0);
+}
+function ir(v){
+  if(state.view === 'buscar' && v !== 'buscar') state.scrollBuscar = window.scrollY;
+  state.view = v; render();
+  if(v === 'buscar' && state.scrollBuscar) window.scrollTo(0, state.scrollBuscar);
+}
+function altoBarras(){
+  const b = $('#bar'), f = $('#filterbar');
+  const hb = (b && getComputedStyle(b).position === 'sticky') ? b.offsetHeight : 0;
+  return hb + (f && !f.hidden ? f.offsetHeight : 0) + 10;
+}
+function aResultados(){
+  const a = $('#anchor-res'); if(!a) return;
+  window.scrollTo({ top: Math.max(0, a.offsetTop - altoBarras()), behavior:'smooth' });
+}
+
+document.addEventListener('click', e => {
+  if(!e.target.closest('.fdrop')) cerrarDrops();
+  if(!e.target.closest('.qbox')) cerrarSug();
+  if(busqAbierta() && !e.target.closest('.searchlayer') && !e.target.closest('#abrir-busq')) cerrarBusq();
+  const b = e.target.closest('[data-act],[data-nav],[data-foot],[data-lang],#mark,#cta-pub');
+  if(!b) return;
+  if(b.id === 'mark'){ ir('buscar'); return; }
+  if(b.id === 'cta-pub'){ ir('publicar'); return; }
+  if(b.dataset.lang){ state.lang = b.dataset.lang;
+    try { localStorage.setItem('tablon.lang', b.dataset.lang); } catch(err){}
+    render(false); return; }
+  if(b.dataset.nav){ ir(b.dataset.nav); return; }
+  if(b.dataset.foot){
+    if(b.dataset.foot === 'admin') ir('admin');
+    if(b.dataset.foot === 'tema')  cambiarTema();
+    return;
+  }
+  const act = b.dataset.act, v = b.dataset.v, id = +b.dataset.id;
+  switch(act){
+    case 'ficha':  state.fichaId = id; ir('ficha'); break;
+    case 'volver': ir('buscar'); break;
+    case 'ir':     ir(v); break;
+    case 'irResultados': aResultados(); break;
+    case 'abrirBusq': busqAbierta() ? cerrarBusq() : abrirBusq(); break;
+    case 'cerrarBusq': cerrarBusq(); break;
+    case 'limpiarQ': state.q = ''; syncQ(); cerrarSug(); actualizar(); break;
+    case 'amb':
+      state.ambito = v || null;
+      if(state.cat){ const a = AMBITOS.find(x => x.id === state.ambito);
+        if(!a || a.cats.indexOf(state.cat) < 0) state.cat = null; }
+      if(state.view !== 'buscar'){ ir('buscar'); break; }
+      actualizar(); break;
+    case 'cat':
+      state.cat = (state.cat === v) ? null : v;
+      if(state.cat){ const a = AMBITOS.find(x => x.cats.indexOf(state.cat) >= 0); state.ambito = a ? a.id : null; }
+      actualizar(); break;
+    case 'edad': case 'tipo': case 'mod': case 'dia':
+      state[act] = (state[act] === v) ? null : v; actualizar(); break;
+    case 'drop': {
+      const d = b.closest('.fdrop'), abierto = d.classList.contains('on');
+      cerrarDrops();
+      if(!abierto){ d.classList.add('on'); b.setAttribute('aria-expanded','true'); }
+      break;
+    }
+    case 'setf': {
+      const k = b.dataset.k, val = b.dataset.v;
+      if(k === 'precioMax') state.precioMax = (val === '') ? null : +val;
+      else state[k] = val || null;
+      if(k === 'cat' && state.cat){ const a = AMBITOS.find(x => x.cats.indexOf(state.cat) >= 0); state.ambito = a ? a.id : null; }
+      cerrarDrops(); actualizar(); break;
+    }
+    case 'sug': {
+      const k = b.dataset.k, val = b.dataset.v;
+      cerrarSug(); cerrarBusq();
+      if(k === 'ficha'){ state.fichaId = +val; ir('ficha'); break; }
+      if(k === 'cat'){ state.q = ''; state.cat = val;
+        const a = AMBITOS.find(x => x.cats.indexOf(val) >= 0); state.ambito = a ? a.id : null; }
+      if(k === 'mat') state.q = val;
+      syncQ(); actualizar(); aResultados(); break;
+    }
+    case 'limpiar':
+      state.q=''; state.ambito=null; state.cat=null; state.edad=null; state.tipo=null;
+      state.mod=null; state.dia=null; state.precioMax=null;
+      syncQ(); cerrarSug(); actualizar(); break;
+    case 'fav': case 'guardar': {
+      const i = state.guardados.indexOf(id);
+      if(i >= 0){ state.guardados.splice(i,1); toast(t('tQuitado')); }
+      else { state.guardados.push(id); toast(t('tGuardado')); }
+      grabarGuardados();
+      if(act === 'fav'){ b.setAttribute('aria-pressed', state.guardados.indexOf(id) >= 0); pintarCromo(); }
+      else render(false);
+      break;
+    }
+    case 'vaciar':    state.guardados = []; grabarGuardados(); render(false); break;
+    case 'compartir': toast(t('tCompartir')); break;
+    case 'contacto':  toast(t('tContacto')); break;
+    case 'adjuntar':  toast(t('tAdjuntar')); break;
+    case 'paso':      if(+v > state.paso && !validarPaso(state.paso)) break; state.paso = +v; render(); break;
+    case 'tab':       state.adminTab = v; render(false); break;
+    case 'salir':     state.admin = false; ir('buscar'); break;
+    case 'aprobar': {
+      const i = state.pendientes.findIndex(p => p.id === id); if(i < 0) break;
+      const p = state.pendientes[i];
+      if(!p.cert && p.edad[0] < 18){ toast(t('tCert')); break; }
+      p.verif = true; state.fichas.unshift(p); state.pendientes.splice(i,1);
+      toast(t('tPublicada')); render(false); break;
+    }
+    case 'pedirdatos': toast(t('tPedir')); break;
+    case 'rechazar': {
+      const i = state.pendientes.findIndex(p => p.id === id);
+      if(i >= 0) state.pendientes.splice(i,1);
+      toast(t('tRechazada')); render(false); break;
+    }
+    case 'ocultar': {
+      const i = state.fichas.findIndex(f => f.id === id);
+      if(i >= 0) state.fichas.splice(i,1);
+      toast(t('tOculta')); render(false); break;
+    }
+  }
+});
+document.addEventListener('keydown', e => {
+  const el = e.target;
+  if(el.id === 'q'){
+    const p = $('#sug1');
+    const items = p ? Array.prototype.slice.call(p.querySelectorAll('.sug')) : [];
+    if(e.key === 'Escape'){ cerrarSug(); cerrarBusq(); return; }
+    if(!items.length || !p.classList.contains('on')){
+      if(e.key === 'Enter'){ e.preventDefault(); cerrarBusq(); aResultados(); }
+      return;
+    }
+    if(e.key === 'ArrowDown'){ e.preventDefault(); state.sugIdx = Math.min(state.sugIdx + 1, items.length - 1); }
+    else if(e.key === 'ArrowUp'){ e.preventDefault(); state.sugIdx = Math.max(state.sugIdx - 1, -1); }
+    else if(e.key === 'Enter'){
+      e.preventDefault();
+      if(state.sugIdx >= 0) items[state.sugIdx].click(); else { cerrarSug(); cerrarBusq(); aResultados(); }
+      return;
+    } else return;
+    items.forEach((it,i) => it.classList.toggle('sel', i === state.sugIdx));
+    if(state.sugIdx >= 0) items[state.sugIdx].scrollIntoView({ block:'nearest' });
+    return;
+  }
+  if((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('card')){
+    e.preventDefault(); state.fichaId = +e.target.dataset.id; ir('ficha');
+  }
+});
+document.addEventListener('input', e => {
+  const el = e.target;
+  if(el.id === 'q'){
+    state.q = el.value;
+    if(state.view !== 'buscar' && state.q){ state.view = 'buscar'; render(false); }
+    pintarSug('sug1'); actualizar(); return;
+  }
+  if(el.dataset.f){
+    state.form[el.dataset.f] = (el.type === 'checkbox') ? el.checked : el.value;
+    const c = el.closest('.field'); if(c) c.classList.remove('err');
+  }
+});
+document.addEventListener('change', e => {
+  const el = e.target;
+  if(el.dataset.sel){ state[el.dataset.sel] = el.value || null; if(el.dataset.sel === 'orden') state.orden = el.value; actualizar(); return; }
+  if(el.dataset.f) state.form[el.dataset.f] = (el.type === 'checkbox') ? el.checked : el.value;
+  if(el.dataset.fm){
+    const k = el.dataset.fm, arr = state.form[k] = state.form[k] || [];
+    const i = arr.indexOf(el.value);
+    if(el.checked && i < 0) arr.push(el.value);
+    if(!el.checked && i >= 0) arr.splice(i,1);
+  }
+});
+document.addEventListener('submit', e => {
+  e.preventDefault();
+  const id = e.target.id;
+  if(id === 'form-pedir'){
+    const inp = $('#pet'); if(!inp.value.trim()) return;
+    state.peticiones.unshift({ id:Date.now(), texto:inp.value.trim(), veces:1, fecha: state.lang==='eu'?'Gaur':'Hoy' });
+    inp.value = ''; toast(t('tAnotado'));
+  }
+  if(id === 'form-admin'){
+    if($('#pass').value.trim().toLowerCase() === 'demo'){ state.admin = true; render(); }
+    else toast(t('tPass'));
+  }
+  if(id === 'form-pub'){
+    if(!validarPaso(4)) return;
+    state.enviada = { titulo: state.form.titulo };
+    const n = construirFicha(); if(n) state.pendientes.unshift(n);
+    render();
+  }
+});
+const CAMPOS_REQ = { 1:['tipo','nombre','dni','tel','email','direccion'], 2:['titulo','cat','desc','edadMin','edadMax'],
+  3:['precio','lugar','horario'], 4:['ok1','ok2'] };
+function validarPaso(paso){
+  const claves = CAMPOS_REQ[paso], nombres = t('rQue' + (paso === 1 ? '' : paso)), falta = [];
+  claves.forEach((k,i) => { const v = state.form[k];
+    if(v === undefined || v === null || v === '' || v === false) falta.push([k, nombres[i]]); });
+  if(!falta.length) return true;
+  falta.forEach(([k]) => { const el = document.getElementById(k);
+    if(el && el.closest('.field')) el.closest('.field').classList.add('err'); });
+  toast(t('tFalta') + falta.slice(0,2).map(f => f[1]).join(t('y')) + (falta.length > 2 ? t('tFaltaMas') : '.'));
+  return false;
+}
+function construirFicha(){
+  const f = state.form;
+  return { id:Date.now(), lang:f.flang || state.lang, titulo:f.titulo, proveedor:f.nombre,
+    tipo:f.tipo || 'particular', cat:f.cat,
+    materias:(f.materias||'').split(',').map(s => s.trim()).filter(Boolean),
+    edad:[+f.edadMin||0, +f.edadMax||99], precio:+f.precio||0, unidad:f.unidad||'hora',
+    mod:f.mod && f.mod.length ? f.mod : ['presencial'], lugar:f.lugar||'', dias:f.dias||[], horario:f.horario||'',
+    desc:f.desc||'', exp:f.exp||'—', plazas:f.plazas||'—', verif:false, cert:false, tel:f.tel, email:f.email,
+    dni:f.dni, enviado: state.lang==='eu' ? 'Oraintxe' : 'Hace un momento',
+    aviso: state.lang==='eu'
+      ? 'Formulariotik iritsi berri den fitxa. NANa eta ziurtagiriak egiaztatu behar dira argitaratu aurretik.'
+      : 'Ficha recién enviada desde el formulario. Hay que comprobar el DNI y los certificados antes de publicarla.' };
+}
+function temaActual(){
+  const x = document.documentElement.getAttribute('data-theme');
+  return x || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+}
+function pintarBotonTema(){
+  const b = $('#foot-tema');
+  if(b) b.textContent = temaActual() === 'dark' ? t('footClaro') : t('footOscuro');
+}
+function cambiarTema(){
+  const n = temaActual() === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', n);
+  try { localStorage.setItem('tablon.tema', n); } catch(e){}
+  pintarBotonTema();
+}
+/* La entrada: se retira sola en 1,4 s, o antes si tocas, mueves o pulsas algo. */
+(function entrada(){
+  const el = document.getElementById('splash');
+  if(!el) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ el.remove(); return; }
+  let ido = false;
+  const quitar = () => {
+    if(ido) return; ido = true;
+    el.classList.add('off');
+    setTimeout(() => el.remove(), 750);
+  };
+  const tmr = setTimeout(quitar, 1400);
+  ['pointerdown','keydown','wheel','touchstart'].forEach(ev =>
+    window.addEventListener(ev, () => { clearTimeout(tmr); quitar(); }, { once:true, passive:true }));
+})();
+
+(function init(){
+  try {
+    const x = localStorage.getItem('tablon.tema'); if(x) document.documentElement.setAttribute('data-theme', x);
+    const l = localStorage.getItem('tablon.lang'); if(l === 'eu' || l === 'es') state.lang = l;
+  } catch(e){}
+  render();
+  window.addEventListener('resize', medirBarra);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(medirBarra);
+  setTimeout(medirBarra, 300);
+})();
+</script>
