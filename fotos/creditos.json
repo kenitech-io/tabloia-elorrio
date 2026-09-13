@@ -120,10 +120,10 @@
   "fuente": "Flickr"
  },
  "m-campamentos": {
-  "file": "Camp.jpg",
-  "autor": "glenngould",
-  "lic": "CC BY 2.0",
-  "fuente": "Flickr"
+  "file": "Campground at Tidal River.jpg",
+  "autor": "Sgroey",
+  "lic": "CC BY-SA 4.0",
+  "fuente": "Wikimedia Commons"
  },
  "autoeskola": {
   "file": "Coche de autoescuela.jpg",
@@ -185,9 +185,9 @@
   "lic": "CC BY-SA 2.0",
   "fuente": "Flickr"
  },
- "m-titulos": {
-  "file": "Driving Pass Certificate.jpg",
-  "autor": "Christopher Elison",
+ "frantsesa": {
+  "file": "St. Andrews first graders learn about wetlands.jpg",
+  "autor": "U.S. Army Corps of Engineers Savannah District",
   "lic": "CC BY 2.0",
   "fuente": "Flickr"
  }
