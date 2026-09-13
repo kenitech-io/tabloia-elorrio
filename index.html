@@ -2834,6 +2834,18 @@ const ICONO = {
 };
 /* Sólo cuenta lo que todavía existe: una ficha oculta desde administración dejaba
    el contador de la cabecera contando fichas que ya no se pueden abrir. */
+/* Casi todo se repinta con innerHTML, así que el botón que acabas de pulsar deja de
+   existir y el foco se cae al principio del documento. Se vuelve a buscar por su
+   identidad (data-act + data-v), que sobrevive al repintado. */
+function recuperarFoco(b, respaldo){
+  const act = b.dataset.act;
+  if(!act) return;
+  const v = b.dataset.v;
+  let sel = '[data-act="' + act + '"]';
+  if(v !== undefined) sel += '[data-v="' + v.replace(/"/g, '\\"') + '"]';
+  const n = document.querySelector(sel) || (respaldo ? document.querySelector(respaldo) : null);
+  if(n){ try { n.focus({ preventScroll:true }); } catch(e){ n.focus(); } }
+}
 const nGuardados = () => state.guardados.filter(id => state.fichas.some(f => f.id === id)).length;
 function busqAbierta(){ const l = $('#searchlayer'); return !!l && !l.hidden; }
 function abrirBusq(){
@@ -3062,21 +3074,22 @@ document.addEventListener('click', e => {
       b.setAttribute('aria-expanded', state.filtrosAbiertos);
       break;
     }
-    case 'limpiarQ': state.q = ''; syncQ(); cerrarSug(); render(false); break;
+    case 'limpiarQ': state.q = ''; syncQ(); cerrarSug(); render(false);
+      recuperarFoco(b, '.fgroup .fbtn'); break;
     case 'amb':
       state.ambito = v || null;
       if(state.cat){ const a = AMBITOS.find(x => x.id === state.ambito);
         if(!a || a.cats.indexOf(state.cat) < 0) state.cat = null; }
       if(state.view !== 'buscar'){ ir('buscar'); break; }
-      render(false); aResultados(); break;
+      render(false); recuperarFoco(b); aResultados(); break;
     case 'cat':
       state.cat = (state.cat === v) ? null : v;
       if(state.cat){ const a = AMBITOS.find(x => x.cats.indexOf(state.cat) >= 0); state.ambito = a ? a.id : null; }
-      render(false); aResultados(); break;
+      render(false); recuperarFoco(b, '.cats .cat-tile'); aResultados(); break;
     case 'edad': case 'tipo': case 'mod': case 'dia': case 'idioma': case 'plaza':
       state[act] = (!v || state[act] === v) ? null : v;
       if(state.view !== 'buscar'){ ir('buscar'); break; }
-      render(false); aResultados(); break;
+      render(false); recuperarFoco(b, '#edad-ops button'); aResultados(); break;
     case 'drop': {
       const d = b.closest('.fdrop'), abierto = d.classList.contains('on');
       cerrarDrops();
@@ -3103,12 +3116,25 @@ document.addEventListener('click', e => {
       if(k === 'cat'){ state.q = ''; state.cat = val;
         const a = AMBITOS.find(x => x.cats.indexOf(val) >= 0); state.ambito = a ? a.id : null; }
       if(k === 'mat') state.q = val;
-      syncQ(); render(false); aResultados(); break;
+      syncQ(); render(false); aResultados();
+      const prim = document.querySelector('#resultados .card-t a');
+      if(prim){ try { prim.focus({ preventScroll:true }); } catch(e){ prim.focus(); } }
+      break;
     }
     case 'tirarBorrador': state.form = {}; state.paso = 1; borrarForm(); render(); break;
-    case 'masLista': state.tope = (state.tope || TOPE_LISTA) + TOPE_LISTA; pintarResultados(); break;
+    case 'masLista': {
+      const desde = state.tope || TOPE_LISTA;
+      state.tope = desde + TOPE_LISTA;
+      pintarResultados();
+      /* Al foco le toca la primera tarjeta de la tanda nueva, no volver arriba. */
+      const nuevas = document.querySelectorAll('#resultados .card-t a');
+      const destino = nuevas[desde] || document.querySelector('[data-act="masLista"]');
+      if(destino){ try { destino.focus({ preventScroll:true }); } catch(e){ destino.focus(); } }
+      break;
+    }
     case 'limpiar':
-      limpiarFiltros(); syncQ(); cerrarSug(); render(false); break;
+      limpiarFiltros(); syncQ(); cerrarSug(); render(false);
+      recuperarFoco(b, '.fgroup .fbtn'); break;
     case 'fav': case 'guardar': {
       const i = state.guardados.indexOf(id);
       if(i >= 0){ state.guardados.splice(i,1); toast(t('tQuitado')); }
