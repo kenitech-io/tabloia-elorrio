@@ -548,9 +548,9 @@
 
   /* Área táctil de 44 px sin desplazar nada: el pseudoelemento sobresale, el dibujo no. */
   .mark, .back, .secs button, .nav button, .fbtn, .lnk, .edades button,
-  footer.foot button, .cat-tile { position:relative; }
+  footer.foot button, .cat-tile, .busq-movil { position:relative; }
   .mark::before, .back::before, .secs button::before, .nav button::before, .fbtn::before,
-  .lnk::before, .edades button::before, footer.foot button::before {
+  .lnk::before, .edades button::before, footer.foot button::before, .busq-movil::before {
     content:''; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
     width:max(100%, 44px); height:44px; }
   .fav::before { content:''; position:absolute; inset:-5px; border-radius:50%; }
@@ -620,6 +620,9 @@
       position:relative; z-index:1; background:var(--ground); }
     .busq-movil svg { width:19px; height:19px; }
     .bar #abrir-busq { display:none; }
+    /* Cuando la fila de filtros no está (ficha, agenda, guardados…), la lupa vuelve
+       a la cabecera: si no, en el móvil no hay manera de buscar desde esas vistas. */
+    body:not(.vista-buscar) .bar #abrir-busq { display:grid; }
     /* Y la capa de búsqueda se abre encima, sin mover la página de sitio. */
     .searchlayer { position:fixed; top:0; left:0; right:0; z-index:80; border-top:none;
       border-bottom:1px solid var(--hair); box-shadow:var(--sh-hi);
@@ -1705,7 +1708,8 @@ Object.assign(T.es, {
   cdo_propio:'lo pone cada uno', cdo_opcional:'opcional',
   hayPrueba:'Primera clase de prueba, gratis',
   borradorH:'Hemos guardado lo que habías escrito en este navegador.', borradorNo:'Empezar de cero',
-  seguro:'¿Seguro? Pulsa otra vez', soloPlaza:'Sólo con plaza libre', estadoCerrada:'Cerrada',
+  seguro:'¿Seguro? Pulsa otra vez', yaLoTengo:'Ya lo tengo y lo adjunto',
+  cerradaNota:'La inscripción está cerrada. Puedes escribir igualmente para preguntar por la próxima.', soloPlaza:'Sólo con plaza libre', estadoCerrada:'Cerrada',
   ayuda_devolucion:'Se devuelve parte de la matrícula si se aprueba el nivel',
   ayuda_familia:'Descuento para familias numerosas',
   ayuda_municipal:'Ayuda del ayuntamiento con informe de servicios sociales',
@@ -1738,7 +1742,8 @@ Object.assign(T.eu, {
   cdo_propio:'norberak jartzen du', cdo_opcional:'aukeran',
   hayPrueba:'Lehen klasea probatzeko, doan',
   borradorH:'Idatzi zenuena gorde dugu nabigatzaile honetan.', borradorNo:'Hutsetik hasi',
-  seguro:'Ziur? Sakatu berriro', soloPlaza:'Plaza librea dutenak bakarrik', estadoCerrada:'Itxita',
+  seguro:'Ziur? Sakatu berriro', yaLoTengo:'Badaukat eta eransten dut',
+  cerradaNota:'Izena emateko epea itxita dago. Hala ere, idatzi dezakezu hurrengoaz galdetzeko.', soloPlaza:'Plaza librea dutenak bakarrik', estadoCerrada:'Itxita',
   ayuda_devolucion:'Matrikularen zati bat itzultzen da maila gainditzen bada',
   ayuda_familia:'Familia ugarientzako hobaria',
   ayuda_municipal:'Udalaren laguntza, gizarte zerbitzuen txostenarekin',
@@ -2424,7 +2429,7 @@ function viewFicha(){
   /* Sólo entran fotos de la MISMA actividad: la del mismo proveedor con otra materia
      es otra cosa, y ver un campo de fútbol en una ficha de pilota no engaña a nadie. */
   const gal = [];
-  [IMG[f.id]].concat(mismos.filter(x => x.cat === f.cat).map(x => IMG[x.id])).forEach(k => {
+  [IMG[f.id] || 'elorrio1'].concat(mismos.filter(x => x.cat === f.cat).map(x => IMG[x.id])).forEach(k => {
     if(k && gal.indexOf(k) < 0) gal.push(k);
   });
   const ini = f.proveedor.replace(/^(C\.D\.|Udal|Elorrioko)\s+/,'').trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase();
@@ -2438,9 +2443,11 @@ function viewFicha(){
     : '<div class="gal una"><img src="' + foto(gal[0]) + '" srcset="' + srcsetCard(gal[0]) +
         '" sizes="(max-width:680px) 100vw, 1100px" alt="" width="900" height="600" fetchpriority="high"></div>';
 
+  const cerrada = f.estado === 'cerrada';
   const contacto =
     '<div class="stack g10">' +
-      '<button class="btn primary block" data-act="contacto">' + esc(t('btnWhats')) + '</button>' +
+      (cerrada ? '<p class="note" style="margin:0">' + esc(t('cerradaNota')) + '</p>' : '') +
+      '<button class="btn' + (cerrada ? '' : ' primary') + ' block" data-act="contacto">' + esc(t('btnWhats')) + '</button>' +
       '<button class="btn block" data-act="contacto">' + esc(t('btnLlamar')) + ' · ' + esc(f.tel) + '</button>' +
       '<button class="btn block" data-act="guardar" data-id="' + f.id + '">' + esc(g ? t('btnQuitar') : t('btnGuardar')) + '</button>' +
     '</div>';
@@ -2640,7 +2647,7 @@ function viewPublicar(){
   if(state.paso === 4){
     campos = vistaPreviaHTML() +
       '<p>' + esc(t('docIntro')) + '</p>' + doc(t('doc1'),t('doc1d'),true) + doc(t('doc2'),t('doc2d'),false) +
-      doc(t('doc3'),t('doc3d'),true) + doc(t('doc4'),t('doc4d'),false) +
+      doc(t('doc3'),t('doc3d'),true,'cert') + doc(t('doc4'),t('doc4d'),false) +
       '<div class="stack g14" style="margin-top:6px">' +
       '<div class="field"><label class="opt" style="align-items:flex-start"><input type="checkbox" id="ok1" data-f="ok1" style="margin-top:3px"' + (f.ok1?' checked':'') +
         '><span style="font-size:14px;line-height:1.55">' + esc(t('ok1')) + '</span></label></div>' +
@@ -2694,10 +2701,17 @@ function campo(id,label,tipo,ph,hint){
     (hint ? '<span class="hint" id="h-' + id + '">' + esc(hint) + '</span>' : '') + '</div>';
 }
 const dos = (a,b) => '<div class="opt-grid" style="gap:20px">' + a + b + '</div>';
-function doc(n,d,ob){
+function doc(n,d,ob,campo){
+  /* En la demostración no se sube ningún fichero, pero el certificado tiene que poder
+     marcarse: si no, una actividad para menores no se puede aprobar nunca y el recorrido
+     «publicar → revisar → aprobar» se queda sin salida. */
+  const marca = campo
+    ? '<label class="opt" style="margin-top:6px"><input type="checkbox" id="' + campo + '" data-f="' + campo + '"' +
+      (state.form[campo] ? ' checked' : '') + '><span style="font-size:var(--t-meta)">' + esc(t('yaLoTengo')) + '</span></label>'
+    : '';
   return '<div class="file"><span class="stack g6"><span class="fn">' + esc(n) +
     (ob ? ' <span style="color:var(--accent);font-weight:400">· ' + esc(t('oblig')) + '</span>' : '') + '</span>' +
-    '<span class="fd">' + esc(d) + '</span></span>' +
+    '<span class="fd">' + esc(d) + '</span>' + marca + '</span>' +
     '<button class="btn small" type="button" data-act="adjuntar">' + esc(t('adjuntar')) + '</button></div>';
 }
 function viewEnviada(){
@@ -2806,7 +2820,7 @@ function pintarCromo(){
   $('#nav').innerHTML = [['agenda','agenda'],['guardados','guardados']].map(([id,k]) =>
     '<button data-nav="' + id + '"' + (state.view===id?' aria-current="page"':'') +
     ' aria-label="' + esc(t(k)) + '">' + ICONO[id] + esc(t(k)) +
-    (id==='guardados' && state.guardados.length ? ' <span class="c">' + state.guardados.length + '</span>' : '') + '</button>').join('');
+    (id==='guardados' && nGuardados() ? ' <span class="c">' + nGuardados() + '</span>' : '') + '</button>').join('');
 }
 /* En el móvil la palabra no cabe y el icono sí se entiende; el aria-label mantiene el nombre. */
 const ICONO = {
@@ -2815,6 +2829,9 @@ const ICONO = {
   guardados:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">' +
     '<path d="M12 20.5s-7.5-4.7-7.5-9.7A4.3 4.3 0 0 1 12 7.9a4.3 4.3 0 0 1 7.5 2.9c0 5-7.5 9.7-7.5 9.7z"/></svg>'
 };
+/* Sólo cuenta lo que todavía existe: una ficha oculta desde administración dejaba
+   el contador de la cabecera contando fichas que ya no se pueden abrir. */
+const nGuardados = () => state.guardados.filter(id => state.fichas.some(f => f.id === id)).length;
 function busqAbierta(){ const l = $('#searchlayer'); return !!l && !l.hidden; }
 function abrirBusq(){
   const l = $('#searchlayer'), b = $('#bar'); if(!l || !b) return;
@@ -2940,6 +2957,7 @@ function render(scroll){
   else if(state.view === 'publicar')  app.innerHTML = viewPublicar();
   else if(state.view === 'admin')     app.innerHTML = viewAdmin();
   document.body.classList.toggle('con-barra', state.view === 'ficha');
+  document.body.classList.toggle('vista-buscar', state.view === 'buscar');
   pintarCromo();
   /* Sin esto, un enlace con búsqueda («#/?q=piano») abre con un solo resultado y la
      caja vacía, y el botón atrás deja escrito un texto que ya no filtra nada. */
@@ -3050,13 +3068,14 @@ document.addEventListener('click', e => {
     }
     case 'setf': {
       const k = b.dataset.k, val = b.dataset.v;
+      const cajon = b.closest('.fdrop'), dDrop = cajon ? cajon.dataset.d : k;
       if(k === 'precioMax') state.precioMax = (val === '') ? null : +val;
       else state[k] = val || null;
       if(k === 'cat' && state.cat){ const a = AMBITOS.find(x => x.cats.indexOf(state.cat) >= 0); state.ambito = a ? a.id : null; }
       cerrarDrops(); render(false); aResultados();
       /* El panel se ha regenerado y el botón pulsado ya no existe: sin esto, quien
          navega con teclado vuelve a empezar desde el logotipo en cada filtro. */
-      const vuelta = document.querySelector('.fdrop[data-d="' + k + '"] .fbtn');
+      const vuelta = document.querySelector('.fdrop[data-d="' + dDrop + '"] .fbtn');
       if(vuelta) vuelta.focus();
       break;
     }
@@ -3094,7 +3113,11 @@ document.addEventListener('click', e => {
     case 'contacto':  toast(t('tContacto')); break;
     case 'adjuntar':  toast(t('tAdjuntar')); break;
     case 'paso':      if(+v > state.paso && !validarPaso(state.paso)) break; state.paso = +v; render(); break;
-    case 'tab':       state.adminTab = v; render(false); break;
+    case 'tab': {
+      state.adminTab = v; render(false);
+      const pest = $('#tab-' + v); if(pest) pest.focus();
+      break;
+    }
     case 'salir':     state.admin = false; ir('buscar'); break;
     case 'aprobar': {
       const i = state.pendientes.findIndex(p => p.id === id); if(i < 0) break;
@@ -3132,6 +3155,18 @@ document.addEventListener('click', e => {
 });
 document.addEventListener('keydown', e => {
   const el = e.target;
+  /* Las pestañas del panel llevan tabindex móvil, que es lo correcto, pero sin flechas
+     dos de las tres eran inalcanzables con el teclado. */
+  const tl = el.closest && el.closest('[role="tablist"]');
+  if(tl && /^Arrow(Left|Right|Down|Up)$|^(Home|End)$/.test(e.key)){
+    const ts = Array.prototype.slice.call(tl.querySelectorAll('[role="tab"]'));
+    const i = ts.indexOf(el);
+    if(i >= 0){
+      const n = e.key === 'Home' ? 0 : e.key === 'End' ? ts.length - 1
+        : (i + (/Right|Down/.test(e.key) ? 1 : -1) + ts.length) % ts.length;
+      e.preventDefault(); ts[n].click(); return;
+    }
+  }
   if(el.id === 'q'){
     const p = $('#sug1');
     const items = p ? Array.prototype.slice.call(p.querySelectorAll('.sug')) : [];
@@ -3179,7 +3214,13 @@ document.addEventListener('input', e => {
     if(c){
       c.classList.remove('err');
       const i = c.querySelector('input,textarea,select'); if(i) i.removeAttribute('aria-invalid');
-      const m = c.querySelector('.msg-err'); if(m) m.remove();
+      const m = c.querySelector('.msg-err');
+      if(m){
+        const desc = (el.getAttribute('aria-describedby') || '').split(' ').filter(x => x && x !== m.id);
+        if(desc.length) el.setAttribute('aria-describedby', desc.join(' '));
+        else el.removeAttribute('aria-describedby');
+        m.remove();
+      }
     }
     grabarForm();
   }
@@ -3233,8 +3274,11 @@ function validarPaso(paso){
       c.classList.add('err');
       if(!c.querySelector('.msg-err')){
         const m = document.createElement('span');
-        m.className = 'msg-err'; m.textContent = t('arreglaCampo');
+        m.className = 'msg-err'; m.id = 'err-' + k; m.textContent = t('arreglaCampo');
         c.appendChild(m);
+        /* Sin esto el lector de pantalla dice «no válido» y no dice por qué. */
+        el.setAttribute('aria-describedby',
+          [el.getAttribute('aria-describedby'), m.id].filter(Boolean).join(' '));
       }
     }
     if(!primero) primero = el;
@@ -3257,7 +3301,7 @@ function construirFicha(){
     materias:(f.materias||'').split(',').map(s => s.trim()).filter(Boolean),
     edad:[+f.edadMin||0, +f.edadMax||99], precio:+f.precio||0, unidad:f.unidad||'hora',
     mod:f.mod && f.mod.length ? f.mod : ['presencial'], lugar:f.lugar||'', dias:f.dias||[], horario:f.horario||'',
-    desc:f.desc||'', exp:f.exp||'—', plazas:f.plazas||'—', verif:false, cert:false, tel:f.tel, email:f.email,
+    desc:f.desc||'', exp:f.exp||'—', plazas:f.plazas||'—', verif:false, cert:!!f.cert, tel:f.tel, email:f.email,
     dni:f.dni, enviado: state.lang==='eu' ? 'Oraintxe' : 'Hace un momento',
     idiomaClase:(f.idiomaClase && f.idiomaClase.length) ? f.idiomaClase.slice() : [f.flang || state.lang],
     estado:'libre',
