@@ -1693,6 +1693,12 @@ const IMG = {
 const CAT_IMG = { idiomas:'euskara', apoyo:'ikasgela', titulos:'ikasgela2', musica:'trikitixa', deporte:'pilota',
   danza:'ballet', arte:'marrazketa', tecnologia:'robotika', bienestar:'yoga', campamentos:'udalekuak' };
 const foto = k => 'fotos/' + k + '.jpg';
+/* Tres tamaños del mismo archivo: 900 px para la ficha y el escritorio, 560 para las
+   tarjetas del móvil y 320 cuadrado para las miniaturas de materia. Un teléfono no
+   tiene por qué descargar 900 px para una tarjeta de 350. */
+const fotoS = k => 'fotos/s/' + k + '.jpg';
+const fotoT = k => 'fotos/t/' + k + '.jpg';
+const srcsetCard = k => fotoS(k) + ' 560w, ' + foto(k) + ' 900w';
 
 /* ---- valoraciones de ejemplo ---- */
 const NOMBRES = ['Amaia G.','Josu L.','Maite B.','Iker A.','Nerea U.','Jon E.','Leire M.','Unai Z.',
@@ -1899,7 +1905,8 @@ function fichaCard(f){
   const g = state.guardados.indexOf(f.id) >= 0;
   const otro = f.lang !== state.lang ? ' lang="' + f.lang + '"' : '';
   return '<article class="card">' +
-    '<div class="ph"><img src="' + foto(IMG[f.id] || 'elorrio1') + '" alt="" loading="lazy" decoding="async" width="900" height="600">' +
+    '<div class="ph"><img src="' + fotoS(IMG[f.id] || 'elorrio1') + '" srcset="' + srcsetCard(IMG[f.id] || 'elorrio1') +
+      '" sizes="(max-width:680px) 100vw, 320px" alt="" loading="lazy" decoding="async" width="900" height="600">' +
       (f.precio === 0 ? '<span class="badge">' + esc(t('gratis')) + '</span>' : '') +
       '<button class="fav" data-act="fav" data-id="' + f.id + '" aria-pressed="' + g + '" aria-label="' +
         esc((g ? t('btnQuitar') : t('btnGuardar')) + ': ' + f.titulo) + '">' + HEART + '</button></div>' +
@@ -2026,7 +2033,7 @@ function pintarCats(){
   c.style.setProperty('--ncats', vis.length);
   c.innerHTML = vis.map(x =>
     '<button class="cat-tile" data-act="cat" data-v="' + x.id + '" aria-pressed="' + (state.cat === x.id) + '">' +
-      '<span class="cat-ph"><img src="' + foto(CAT_IMG[x.id]) + '" alt="" loading="lazy" decoding="async" width="600" height="600"></span>' +
+      '<span class="cat-ph"><img src="' + fotoT(CAT_IMG[x.id]) + '" alt="" loading="lazy" decoding="async" width="320" height="320"></span>' +
       '<span class="lbl"><span class="nm">' + esc(x[state.lang]) + '</span>' +
       '<span class="n">' + esc(nAct(contarCat(x.id))) + '</span></span></button>').join('');
 }
@@ -2122,7 +2129,7 @@ function pintarSug(panelId){
   p.innerHTML = list.map((x,i) =>
     '<button class="sug" role="option" id="sug-' + i + '" aria-selected="false" data-act="sug" data-k="' + x.k +
       '" data-v="' + esc(x.v) + '" data-i="' + i + '">' +
-      (x.img ? '<img src="' + foto(x.img) + '" alt="" loading="lazy">' : '<span class="dot" aria-hidden="true">·</span>') +
+      (x.img ? '<img src="' + fotoT(x.img) + '" alt="" loading="lazy">' : '<span class="dot" aria-hidden="true">·</span>') +
       '<span><span class="t">' + esc(x.t) + '</span><br><span class="s">' + esc(x.s) + '</span></span></button>').join('');
   p.classList.add('on');
   marcarCombo(true, -1);
@@ -2195,10 +2202,12 @@ function viewFicha(){
   const lg = otro ? ' lang="' + f.lang + '"' : '';
 
   const galHTML = gal.length >= 3
-    ? '<div class="gal"><img class="g1" src="' + foto(gal[0]) + '" alt="" width="900" height="600" fetchpriority="high">' +
-        '<img class="gs" src="' + foto(gal[1]) + '" alt="" loading="lazy" width="900" height="600">' +
-        '<img class="gs" src="' + foto(gal[2]) + '" alt="" loading="lazy" width="900" height="600"></div>'
-    : '<div class="gal una"><img src="' + foto(gal[0]) + '" alt="" width="900" height="600" fetchpriority="high"></div>';
+    ? '<div class="gal"><img class="g1" src="' + foto(gal[0]) + '" srcset="' + srcsetCard(gal[0]) +
+          '" sizes="(max-width:680px) 100vw, 760px" alt="" width="900" height="600" fetchpriority="high">' +
+        '<img class="gs" src="' + fotoS(gal[1]) + '" alt="" loading="lazy" width="900" height="600">' +
+        '<img class="gs" src="' + fotoS(gal[2]) + '" alt="" loading="lazy" width="900" height="600"></div>'
+    : '<div class="gal una"><img src="' + foto(gal[0]) + '" srcset="' + srcsetCard(gal[0]) +
+        '" sizes="(max-width:680px) 100vw, 1100px" alt="" width="900" height="600" fetchpriority="high"></div>';
 
   const contacto =
     '<div class="stack g10">' +
@@ -2469,7 +2478,7 @@ function viewAdmin(){
   if(state.adminTab === 'pendientes'){
     cuerpo = pend.length ? '<div class="stack g20">' + pend.map(p =>
       '<div class="pend"><div class="fcols" style="grid-template-columns:220px 1fr;gap:24px">' +
-        '<div class="ph" style="aspect-ratio:4/3"><img src="' + foto(IMG[p.id]||'elorrio1') + '" alt="" loading="lazy"></div>' +
+        '<div class="ph" style="aspect-ratio:4/3"><img src="' + fotoS(IMG[p.id]||'elorrio1') + '" alt="" loading="lazy"></div>' +
         '<div class="stack g14">' +
           '<div class="stack g6"><p class="eyebrow">' + esc(catName(p.cat)) + ' · ' + esc(tipoName(p.tipo)) + ' · ' + esc(t('enviada') + p.enviado.toLowerCase()) + '</p>' +
           '<h2 class="pg" style="font-size:20px">' + esc(p.titulo) + '</h2>' +
