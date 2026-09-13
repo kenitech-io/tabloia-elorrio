@@ -149,6 +149,12 @@
   "lic": "CC0 1.0",
   "fuente": "Rawpixel"
  },
+ "aquagym": {
+  "file": "Fitness programming Greenville Aquatics.jpg",
+  "autor": "Rawpixel",
+  "lic": "CC0 1.0",
+  "fuente": "Rawpixel"
+ },
  "ibilaldia": {
   "file": "20250617 La Bola Arriluze nordic.jpg",
   "autor": "Javierme",
@@ -178,5 +184,17 @@
   "autor": "U.S. Army Corps of Engineers Savannah District",
   "lic": "CC BY 2.0",
   "fuente": "Flickr"
+ },
+ "gimnasia-seko": {
+  "file": "Clase de gimnasia para personas mayores en el Espacio Barradas.jpg",
+  "autor": "Artigas Pessio",
+  "lic": "CC BY-SA 4.0",
+  "fuente": "Wikimedia Commons"
+ },
+ "errugby": {
+  "file": "Eskola torneoa Landare 08 Anartz.jpg",
+  "autor": "Lokolokoloko",
+  "lic": "CC BY-SA 3.0",
+  "fuente": "Wikimedia Commons"
  }
 }
