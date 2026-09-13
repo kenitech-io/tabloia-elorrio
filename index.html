@@ -16,11 +16,20 @@
 <meta property="og:locale" content="es_ES">
 <meta property="og:locale:alternate" content="eu_ES">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="fuentes/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <title>Elorrioko Tabloia</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+  /* La tipografía se sirve desde el propio repositorio: una web del pueblo no debería
+     mandar la IP de cada vecino a un tercero ni dejar de verse bien el día que ese
+     tercero falle. Inter es una fuente variable, así que los cuatro pesos que usamos
+     salen de un único fichero de 48 KB. */
+  @font-face {
+    font-family:'Inter'; font-style:normal; font-weight:300 600; font-display:swap;
+    src:url('fuentes/inter-latin.woff2') format('woff2');
+    unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,
+      U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+  }
+
   /* ==========================================================================
      TOKENS
      Tres estados de tema: claro (bare :root), oscuro del sistema, y oscuro
@@ -2894,7 +2903,12 @@ document.addEventListener('click', e => {
       if(k === 'precioMax') state.precioMax = (val === '') ? null : +val;
       else state[k] = val || null;
       if(k === 'cat' && state.cat){ const a = AMBITOS.find(x => x.cats.indexOf(state.cat) >= 0); state.ambito = a ? a.id : null; }
-      cerrarDrops(); render(false); aResultados(); break;
+      cerrarDrops(); render(false); aResultados();
+      /* El panel se ha regenerado y el botón pulsado ya no existe: sin esto, quien
+         navega con teclado vuelve a empezar desde el logotipo en cada filtro. */
+      const vuelta = document.querySelector('.fdrop[data-d="' + k + '"] .fbtn');
+      if(vuelta) vuelta.focus();
+      break;
     }
     case 'sug': {
       const k = b.dataset.k, val = b.dataset.v;
@@ -2948,6 +2962,9 @@ document.addEventListener('click', e => {
     case 'ocultar': {
       const i = state.fichas.findIndex(f => f.id === id);
       if(i >= 0) state.fichas.splice(i,1);
+      /* Si alguien la tenía guardada, ese id ya no abre nada: hay que soltarlo o el
+         contador de la cabecera cuenta fichas que no existen. */
+      state.guardados = state.guardados.filter(x => x !== id); grabarGuardados();
       toast(t('tOculta')); render(false); break;
     }
   }
@@ -3020,7 +3037,7 @@ document.addEventListener('submit', e => {
   const id = e.target.id;
   if(id === 'form-pedir'){
     const inp = $('#pet'); if(!inp.value.trim()) return;
-    state.peticiones.unshift({ id:Date.now(), texto:inp.value.trim(), veces:1, fecha: state.lang==='eu'?'Gaur':'Hoy' });
+    state.peticiones.unshift({ id:nuevoId(), texto:inp.value.trim(), veces:1, fecha: state.lang==='eu'?'Gaur':'Hoy' });
     inp.value = ''; toast(t('tAnotado'));
   }
   if(id === 'form-admin'){
@@ -3065,9 +3082,13 @@ function validarPaso(paso){
   }
   return false;
 }
+/* Ids de lo que llega por el formulario. Se separan de los del juego de datos
+   (1-57) y de las pendientes (101-103) para que no se pisen nunca. */
+let _sigId = 1000;
+const nuevoId = () => ++_sigId;
 function construirFicha(){
   const f = state.form;
-  return { id:Date.now(), lang:f.flang || state.lang, titulo:f.titulo, proveedor:f.nombre,
+  return { id:f._id || (f._id = nuevoId()), lang:f.flang || state.lang, titulo:f.titulo, proveedor:f.nombre,
     tipo:f.tipo || 'particular', cat:f.cat,
     materias:(f.materias||'').split(',').map(s => s.trim()).filter(Boolean),
     edad:[+f.edadMin||0, +f.edadMax||99], precio:+f.precio||0, unidad:f.unidad||'hora',
