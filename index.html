@@ -45,7 +45,7 @@
     --t-display:clamp(28px,3.8vw,50px);  /* sólo la portada */
 
     --ground:#ffffff; --ground-warm:#f6f3ed; --ink:#111111; --body:#3f3f3f;
-    --mute:#6f6b64; --hair:#e7e3dc; --hair-soft:#f1ede6; --line:#cdc7bd;
+    --mute:#6f6c66; --hair:#e7e3dc; --hair-soft:#f1ede6; --line:#94908a;
     --accent:#14453d; --accent-dim:#5c7a70; --accent-soft:#eaf0ed;
     --star:#14453d; --alerta:#a53a31;
     --r:10px; --r-s:5px;
@@ -58,7 +58,7 @@
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --ground:#141714; --ground-warm:#1c201c; --ink:#f2efe9; --body:#b0aca4;
-      --mute:#918d84; --hair:#2c312c; --hair-soft:#232823; --line:#4a514a;
+      --mute:#9a968d; --hair:#2c312c; --hair-soft:#232823; --line:#606460;
       --accent:#8fc0b0; --accent-dim:#6d9184; --accent-soft:#1e2723; --star:#8fc0b0;
       --alerta:#e0736a;
       --sh:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -12px rgba(0,0,0,.6);
@@ -68,7 +68,7 @@
   }
   :root[data-theme="dark"] {
     --ground:#141714; --ground-warm:#1c201c; --ink:#f2efe9; --body:#b0aca4;
-    --mute:#918d84; --hair:#2c312c; --hair-soft:#232823; --line:#4a514a;
+    --mute:#9a968d; --hair:#2c312c; --hair-soft:#232823; --line:#606460;
     --accent:#8fc0b0; --accent-dim:#6d9184; --accent-soft:#1e2723; --star:#8fc0b0;
     --alerta:#e0736a;
     --sh:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -12px rgba(0,0,0,.6);
@@ -119,10 +119,11 @@
   .secs button[aria-pressed="true"] { color:var(--ink); border-bottom-color:var(--ink); }
 
   .barright { display:flex; align-items:center; gap:10px 22px; flex:0 0 auto; margin-left:auto; }
-  .ibtn { background:none; border:none; padding:8px; margin:-8px; cursor:pointer; color:var(--ink);
-    display:grid; place-items:center; transition:opacity .15s; }
+  .ibtn { background:none; border:none; padding:0; cursor:pointer; color:var(--ink);
+    display:grid; place-items:center; width:44px; height:44px; margin:-13px;
+    transition:opacity .15s; }
   .ibtn:hover { opacity:.6; }
-  .ibtn svg { width:18px; height:18px; display:block; }
+  .ibtn svg { width:20px; height:20px; display:block; }
   .nav { display:flex; gap:22px; }
   .nav button { background:none; border:none; border-bottom:1.5px solid transparent; cursor:pointer;
     font:inherit; font-size:var(--t-ui); font-weight:400; color:var(--body); padding:6px 0;
@@ -131,10 +132,10 @@
   .nav button[aria-current="page"] { color:var(--ink); border-bottom-color:var(--ink); }
   .nav button .c { color:var(--mute); }
   .nav button svg { display:none; }
-  .langs { display:flex; align-items:baseline; gap:7px; }
-  .langs .sl { color:var(--line); font-size:11px; }
-  .langs button { background:none; border:none; cursor:pointer; font:inherit; font-size:12px;
-    font-weight:400; letter-spacing:.06em; color:var(--mute); padding:8px 2px; margin-block:-8px;
+  .langs { display:flex; align-items:center; gap:0; }
+  .langs .sl { color:var(--line); font-size:12px; padding:0 2px; }
+  .langs button { background:none; border:none; cursor:pointer; font:inherit; font-size:13px;
+    font-weight:400; letter-spacing:.06em; color:var(--mute); padding:12px 9px; margin-block:-12px;
     transition:color .15s; }
   .langs button:hover { color:var(--body); }
   .langs button[aria-pressed="true"] { color:var(--ink); font-weight:500; }
@@ -205,6 +206,10 @@
   .lnk { background:none; border:none; padding:6px 0; cursor:pointer; font:inherit; font-size:var(--t-meta);
     color:var(--accent); text-decoration:underline; text-underline-offset:3px; }
   .btn-filtros { display:none; }
+  .saltar { position:absolute; left:-9999px; top:0; z-index:120; background:var(--accent);
+    color:var(--ground); padding:12px 20px; font-size:var(--t-ui); text-decoration:none;
+    border-radius:0 0 var(--r-s) 0; }
+  .saltar:focus { left:0; }
 
   /* ---------- portada: banda de entrada ---------- */
   .hero { position:relative; display:flex; align-items:flex-end; overflow:hidden;
@@ -396,23 +401,28 @@
   .field .msg-err { font-size:var(--t-meta); color:var(--alerta); }
   input[type=text], input[type=tel], input[type=email], input[type=number], textarea, select.inp {
     width:100%; background:var(--ground); border:1px solid var(--line); border-radius:var(--r-s);
-    font-family:inherit; font-size:var(--t-body); font-weight:300; color:var(--ink); padding:13px 14px;
+    font-family:inherit; font-size:var(--t-body); font-weight:400; color:var(--ink); padding:13px 14px;
     transition:border-color .15s; appearance:none; }
   textarea { resize:vertical; min-height:110px; line-height:1.6; }
   select.inp { cursor:pointer; }
   input:focus, textarea:focus, select:focus { outline:none; border-color:var(--accent); }
   ::placeholder { color:var(--mute); font-weight:300; opacity:1; }
   .field.err input, .field.err textarea, .field.err select { border-color:var(--alerta); }
-  input[type=checkbox], input[type=radio] { appearance:none; width:20px; height:20px; flex:none;
-    border:1.5px solid var(--mute); background:var(--ground); cursor:pointer; border-radius:4px;
-    transition:all .14s; }
+  input[type=checkbox], input[type=radio] { appearance:none; width:24px; height:24px; flex:none;
+    border:1.5px solid var(--line); background:var(--ground); cursor:pointer; border-radius:4px;
+    transition:all .14s; position:relative; }
   input[type=radio] { border-radius:50%; }
   input[type=checkbox]:checked, input[type=radio]:checked { background:var(--accent); border-color:var(--accent); }
+  /* La diferencia entre marcada y sin marcar no puede ser sólo el color. */
+  input[type=checkbox]:checked::after { content:''; position:absolute; left:8px; top:3px;
+    width:6px; height:12px; border:solid var(--ground); border-width:0 2px 2px 0; transform:rotate(42deg); }
+  input[type=radio]:checked::after { content:''; position:absolute; inset:5px; border-radius:50%;
+    background:var(--ground); }
   .opt { display:flex; align-items:center; gap:10px; font-size:var(--t-ui); cursor:pointer;
     color:var(--body); padding:4px 0; }
   .opt:hover { color:var(--ink); }
   .opt-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(165px,1fr)); gap:13px 24px; }
-  .pick { display:grid; grid-template-columns:20px 1fr; gap:13px; align-items:start; padding:var(--s4);
+  .pick { display:grid; grid-template-columns:24px 1fr; gap:13px; align-items:start; padding:var(--s4);
     border:1px solid var(--hair); border-radius:var(--r-s); cursor:pointer; transition:border-color .15s; }
   .pick:hover { border-color:var(--mute); }
   .pick input { margin-top:2px; }
@@ -490,6 +500,15 @@
     animation:spUp .6s cubic-bezier(.2,.72,.28,1) .14s both; }
   @keyframes spUp { from { opacity:0; transform:translateY(15px); } to { opacity:1; transform:none; } }
   @media (prefers-reduced-motion: reduce) { .splash { display:none; } }
+
+  /* Área táctil de 44 px sin desplazar nada: el pseudoelemento sobresale, el dibujo no. */
+  .mark, .back, .secs button, .nav button, .fbtn, .lnk, .edades button,
+  footer.foot button, .cat-tile { position:relative; }
+  .mark::before, .back::before, .secs button::before, .nav button::before, .fbtn::before,
+  .lnk::before, .edades button::before, footer.foot button::before {
+    content:''; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:max(100%, 44px); height:44px; }
+  .fav::before { content:''; position:absolute; inset:-5px; border-radius:50%; }
 
   :focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:2px; }
   @media (prefers-reduced-motion: reduce) { * { transition:none !important; animation:none !important; } }
@@ -606,15 +625,16 @@
   <div class="wrap"><b id="demo-1">Demo</b><span id="demo-2"></span></div>
 </div>
 
+<a class="saltar" href="#app" data-act="saltar" id="saltar">Ir al contenido</a>
 <header class="bar" id="bar">
   <div class="wrap">
     <button class="mark" id="mark"><span class="w">Tabloia</span><span class="s">Elorrio</span></button>
-    <nav class="secs" id="secs"></nav>
+    <nav class="secs" id="secs" aria-label="Ámbitos"></nav>
     <div class="barright">
       <button class="ibtn" id="abrir-busq" data-act="abrirBusq">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
       </button>
-      <nav class="nav" id="nav"></nav>
+      <nav class="nav" id="nav" aria-label="Secciones"></nav>
       <div class="langs" id="langs"></div>
       <button class="btn-pub" id="cta-pub"></button>
     </div>
@@ -633,12 +653,12 @@
 
 <div class="filterbar" id="filterbar" hidden><div class="wrap">
   <span class="flabel" id="flabel"></span>
-  <nav class="secs secs-movil" id="secs-movil"></nav>
+  <nav class="secs secs-movil" id="secs-movil" aria-label="Ámbitos"></nav>
   <button class="btn-filtros" id="btn-filtros" data-act="abrirFiltros" aria-expanded="false" aria-controls="fgroup"></button>
   <div class="fgroup" id="fgroup"></div>
 </div></div>
 
-<main id="app"></main>
+<main id="app" tabindex="-1"></main>
 <noscript>
   <div class="wrap" style="padding-block:64px 96px;max-width:820px">
     <h1 class="pg" id="ns-h">Elorrioko Tabloia</h1>
@@ -686,6 +706,7 @@ const HABITANTES = '7.277';
 const CATS = [
   { id:'idiomas',     es:'Idiomas',                eu:'Hizkuntzak' },
   { id:'apoyo',       es:'Apoyo escolar',          eu:'Eskola-laguntza' },
+  { id:'titulos',     es:'Carnés y títulos',       eu:'Karnetak eta tituluak' },
   { id:'musica',      es:'Música',                 eu:'Musika' },
   { id:'deporte',     es:'Deporte',                eu:'Kirola' },
   { id:'danza',       es:'Danza y baile',          eu:'Dantza' },
@@ -696,7 +717,7 @@ const CATS = [
 ];
 /* familias grandes: lo primero que elige un padre */
 const AMBITOS = [
-  { id:'estudios',  es:'Estudios',      eu:'Ikasketak',        cats:['idiomas','apoyo','tecnologia'] },
+  { id:'estudios',  es:'Estudios',      eu:'Ikasketak',        cats:['idiomas','apoyo','titulos','tecnologia'] },
   { id:'deporte',   es:'Deporte',       eu:'Kirola',           cats:['deporte'] },
   { id:'artes',     es:'Arte y música', eu:'Artea eta musika', cats:['musica','danza','arte'] },
   { id:'bienestar', es:'Bienestar',     eu:'Ongizatea',        cats:['bienestar'] },
@@ -721,6 +742,18 @@ const MODOS = [
   { id:'domicilio',  es:'A domicilio', eu:'Etxez etxe' },
   { id:'online',     es:'Online',      eu:'Online' }
 ];
+/* El idioma de la clase no es el idioma de la ficha: en un pueblo euskaldun es
+   probablemente la primera pregunta, y hasta ahora no se podía ni preguntar. */
+const IDIOMAS_CLASE = [
+  { id:'eu', es:'En euskera',    eu:'Euskaraz' },
+  { id:'es', es:'En castellano', eu:'Gaztelaniaz' }
+];
+const ESTADOS = {
+  libre:    { es:'Plazas libres',       eu:'Plaza libreak' },
+  espera:   { es:'Lista de espera',     eu:'Itxaron-zerrenda' },
+  cerrada:  { es:'Inscripción cerrada', eu:'Izena emateko epea itxita' },
+  continua: { es:'Se entra cuando sea', eu:'Edonoiz sar zaitezke' }
+};
 const DIAS = ['L','M','X','J','V','S','D'];
 const DIAS_LARGO = {
   es:{ L:'lunes', M:'martes', X:'miércoles', J:'jueves', V:'viernes', S:'sábado', D:'domingo' },
@@ -742,7 +775,7 @@ const T = {
 es:{
   buscar:'Buscar', agenda:'Agenda', guardados:'Guardados', publicar:'Publicar',
   demo1:'Demostración',
-  demo2:'Las fichas, las personas, los teléfonos y los precios son inventados. Sirve para ver cómo funcionaría.',
+  demo2:'Todo lo que se ve es inventado: fichas, nombres, teléfonos, precios y valoraciones. Esta web no es del Ayuntamiento de Elorrio.',
   heroEyebrow:'Directorio de actividades · ' + HABITANTES + ' habitantes',
   heroH1:'Todo lo que se puede aprender, entrenar y bailar en Elorrio, en un solo sitio.',
   heroLead:'Clases particulares, academias, clubes, escuelas municipales y elkarteak. Sin preguntar en el grupo de WhatsApp quién da francés: se busca, se compara y se contacta directamente.',
@@ -852,7 +885,7 @@ es:{
 eu:{
   buscar:'Bilatu', agenda:'Agenda', guardados:'Gordeak', publicar:'Argitaratu',
   demo1:'Demostrazioa',
-  demo2:'Fitxak, pertsonak, telefonoak eta prezioak asmatuak dira. Nola funtzionatuko lukeen ikusteko balio du.',
+  demo2:'Ikusten den guztia asmatua da: fitxak, izenak, telefonoak, prezioak eta balorazioak. Web hau ez da Elorrioko Udalarena.',
   heroEyebrow:'Jardueren direktorioa · ' + HABITANTES + ' biztanle',
   heroH1:'Elorrion ikasi, entrenatu eta dantzatu daitekeen guztia, leku bakarrean.',
   heroLead:'Klase partikularrak, akademiak, klubak, udal eskolak eta elkarteak. WhatsApp taldean nork ematen duen frantsesa galdetu beharrik gabe: bilatu, konparatu eta zuzenean harremanetan jarri.',
@@ -881,12 +914,12 @@ eu:{
   btnWhats:'WhatsAppez idatzi', btnLlamar:'Deitu', btnGuardar:'Gorde', btnQuitar:'Gordeetatik kendu',
   contactoNota:'Demostrazio honetan telefonoak ezkutatuta daude, fitxak asmatuak direlako. Benetako webean botoiak WhatsApp irekitzen du mezua hasita: «Kaixo, Elorrioko tabloitik idazten dizut, klaseengatik…».',
   loDemas:'Hauek ere ematen ditu: ', otrasDe:'Beste aukera batzuk: ',
-  fichaNota:'Informazioa iragarleak berak ematen du eta udalak dokumentazioa egiaztatzen du argitaratu aurretik. Prezioa eta ordutegia alda daitezke: hobe harremanetan jartzean berrestea.',
+  fichaNota:'Informazioa iragarleak berak ematen du eta udalak dokumentazioa egiaztatzen du argitaratu aurretik. Prezioa eta ordutegia alda daitezke: hobe da harremanetan jartzean berrestea.',
   enEuskera:'Euskaraz idatzitako fitxa', enCastellano:'Gaztelaniaz idatzitako fitxa',
   agEyebrow:'Agenda', agH1:'Ahaztu behar ez diren datak.',
   agLead:'Izena emateko epeak, ikasturtearen hasierak, plaza zozketak eta emanaldiak. Ikastolako taldetik edo bandoz jakiten dena, hemen idatzita.',
   agNota:'Datak zentroek, klubek eta elkarteek berek jakinarazten dituzte. Zerbait antolatzen baduzu eta hemen agertzea nahi baduzu, zure fitxatik argitaratu.',
-  deAno:'a, 2026',
+  deAno:', 2026',
   guEyebrow:'Gordeak', guH1:'Zure zerrenda laburra.',
   guLead:'Begiratzen ari zinela gorde duzuna, etxean lasai erabakitzeko edo behar duenari erakusteko.',
   compartir:'Zerrenda partekatu', vaciar:'Hustu',
@@ -910,7 +943,7 @@ eu:{
   hDesc:'Hiru edo lau esaldi. Klasea nolakoa den kontatzen duten fitxek hiru aldiz dei gehiago jasotzen dituzte.',
   lIdioma:'Fitxaren hizkuntza', hIdioma:'Idazten duzun bezala argitaratzen da. Familia gehienek biak irakurtzen dituzte.',
   lEdadMin:'Gutxieneko adina', lEdadMax:'Gehieneko adina', lExp:'Zure esperientzia eta titulazioa', phExp:'Irakaslea, 15 urte',
-  lPrecio:'Prezioa', lUnidad:'Unitatea', lMod:'Nola ematen diren klaseak', lLugar:'Non', phLugar:'Bere etxean edo etxez etxe',
+  lPrecio:'Prezioa', lUnidad:'Unitatea', lMod:'Nola ematen diren klaseak', lLugar:'Non', phLugar:'Neure etxean edo etxez etxe',
   lDias:'Zein egunetan', lHorario:'Ordutegia', phHorario:'16:30etik 19:30era', lPlazas:'Plaza libreak', phPlazas:'3 plaza gelditzen dira',
   docIntro:'Argitaratu aurretik, udalak dokumentu hauek egiaztatzen ditu. Zifratuta gordetzen dira, ez dira argitaratzen eta fitxa kentzen baduzu ezabatu egiten dira.',
   doc1:'NAN edo IFZ', doc1d:'Diozuna zarela egiaztatzeko.',
@@ -922,13 +955,13 @@ eu:{
   ok2:'Nire izena, jarduera eta emandako harremana tabloian argitaratzea onartzen dut. NANa eta dokumentuak ez dira argitaratzen.',
   atras:'Atzera', continuar:'Jarraitu', enviar:'Bidali berrikusteko', pasoDe:'§. urratsa, 4tik',
   envH1:'Fitxa bidalita. Orain berrikusiko dugu.',
-  envLead:'«§» jaso dugu. Udaleko pertsona batek NANa eta ziurtagiriak egiaztatuko ditu eta argitaratuko du, normalean 48 ordu baino lehen. Eman duzun postara abisatuko dizugu.',
+  envLead:'«§» jaso dugu. Udaleko pertsona batek NANa eta ziurtagiriak egiaztatuko ditu eta argitaratuko du, normalean 48 ordu baino lehen. Eman duzun helbide elektronikora idatziko dizugu.',
   kEstado:'Egoera', vEstado:'Berrikusteke',
   kComprueba:'Zer egiaztatzen den', vComprueba:'Pertsona existitzen dela, jarduera Elorrion ematen dela eta sexu-delituen ziurtagiria indarrean dagoela adingabeak badaude.',
   kFalta:'Zerbait falta bada', vFalta:'Falta den dokumentua eskatuz idazten dizugu, formularioa berriro hasi gabe.',
   volverTablon:'Tabloira itzuli', verRevision:'Ikusi nola berrikusten den (demoa)',
   admEyebrow:'Administrazioa', admGateH1:'Tabloia berrikusten duena hemendik sartzen da.',
-  admGateLead:'Udaleko edo elkarte bateko pertsona bakar batek berrikusten du iristen dena: NANa, ziurtagiriak eta jarduera benetan herrian ematen den. Lan horrek eusten dio gainerako guztiaren konfiantzari.',
+  admGateLead:'Udaleko edo elkarte bateko pertsona bakar batek berrikusten du iristen den guztia: NANa, ziurtagiriak eta jarduera benetan herrian ematen ote den. Lan horrek eusten dio gainerako guztiaren konfiantzari.',
   lPass:'Pasahitza', phPass:'idatzi: demo', hPass:'Demostrazioan pasahitza <em>demo</em> da.', entrar:'Sartu',
   admH1:'Berrikuspen panela.',
   nPub:'jarduera argitaratuta', nPend:'fitxa berrikusteko', nPet:'familien eskaera', nVis:'bisita aste honetan',
@@ -949,11 +982,11 @@ eu:{
   tAnotado:'Idatzita. Elorrioko norbaitek eskaintzen badu, abisatuko dizugu.',
   tPass:'Demostrazioko pasahitza hau da: demo',
   tPublicada:'Argitaratuta. Tabloiko bilatzailean agertzen da jada.',
-  tCert:'Ezin da argitaratu: sexu-delituen ziurtagiria falta da eta jarduera adingabeekin da.',
+  tCert:'Ezin da argitaratu: sexu-delituen ziurtagiria falta da eta jarduera adingabeentzat da.',
   tPedir:'Falta dena eskatuz idatzi zaio. Fitxa berrikusteke dago oraindik.',
   tRechazada:'Ezetsita. Postaz abisatzen zaio arrazoiarekin.',
   tOculta:'Fitxa ezkutatuta. Ez da gehiago bilatzailean ikusten.',
-  tFalta:'Hau falta da: ', tFaltaMas:', beste zerbaiten artean.', y:' eta ',
+  tFalta:'Falta dena: ', tFaltaMas:', beste zerbaiten artean.', y:' eta ',
   rQue:['izenburua','gaia','azalpena','gutxieneko adina','gehieneko adina'],
   rQue2:['prezioa','non','ordutegia'],
   rQue3:['zer zaren','zure izena','NANa','telefonoa','posta','helbidea'],
@@ -967,7 +1000,7 @@ eu:{
    ========================================================================== */
 const FICHAS = [
   /* ---------------- hizkuntzak / idiomas ---------------- */
-  { id:1, lang:'es', titulo:'Francés con profesora nativa', proveedor:'Claire Deschamps', tipo:'particular', cat:'idiomas',
+  { id:1, lang:'es', idiomaClase:['es'], estado:'libre', titulo:'Francés con profesora nativa', proveedor:'Claire Deschamps', tipo:'particular', cat:'idiomas',
     materias:['francés','conversación','DELF'], edad:[6,18], precio:16, unidad:'hora',
     mod:['domicilio','presencial','online'], lugar:'A domicilio o en su casa (Berrio-Otxoa kalea)',
     dias:['M','J'], horario:'Tardes, de 16:30 a 20:00',
@@ -975,7 +1008,7 @@ const FICHAS = [
     exp:'9 años dando clase · Licenciada en Filología · Examinadora DELF acreditada',
     plazas:'Quedan 4 plazas', verif:true, cert:true, tel:'612 •• •• ••', email:'claire.•••••@••••.com' },
 
-  { id:2, lang:'eu', titulo:'Euskara helduentzat: A1etik C1era', proveedor:'Udal Euskaltegia', tipo:'municipal', cat:'idiomas',
+  { id:2, lang:'eu', idiomaClase:['eu'], estado:'libre', titulo:'Euskara helduentzat: A1etik C1era', proveedor:'Herriko Euskaltegia (adibidea)', tipo:'municipal', cat:'idiomas',
     materias:['euskara','EGA','C1','B2','helduak'], edad:[16,99], precio:30, unidad:'mes',
     mod:['presencial'], lugar:'Kultur Etxea, Anduetxeta kalea',
     dias:['L','M','X','J'], horario:'Goizez 9:30-11:30 eta arratsaldez 18:00-20:00',
@@ -983,7 +1016,7 @@ const FICHAS = [
     exp:'HABEk homologatutako euskaltegia · Irakasle tituludunak',
     plazas:'Matrikula irailean eta urtarrilean', verif:true, cert:false, tel:'946 •• •• ••', email:'euskaltegia@•••••.eus' },
 
-  { id:3, lang:'es', titulo:'Inglés por niveles, de A1 a C1', proveedor:'Hitz Hizkuntza Akademia', tipo:'academia', cat:'idiomas',
+  { id:3, lang:'es', idiomaClase:['es'], estado:'libre', titulo:'Inglés por niveles, de A1 a C1', proveedor:'Hitz Hizkuntza Akademia', tipo:'academia', cat:'idiomas',
     materias:['inglés','Cambridge','adultos'], edad:[6,99], precio:52, unidad:'mes',
     mod:['presencial'], lugar:'Herriko Plaza, 4',
     dias:['L','M','X','J'], horario:'De 16:00 a 21:30, dos días por semana',
@@ -991,7 +1024,7 @@ const FICHAS = [
     exp:'Abierta desde 2009 · 4 profesores · Centro preparador Cambridge',
     plazas:'Matrícula abierta hasta el 30 de septiembre', verif:true, cert:true, tel:'946 •• •• ••', email:'info@•••••.eus' },
 
-  { id:4, lang:'es', titulo:'Alemán desde cero (A1–B1)', proveedor:'Hitz Hizkuntza Akademia', tipo:'academia', cat:'idiomas',
+  { id:4, lang:'es', idiomaClase:['es'], estado:'libre', titulo:'Alemán desde cero (A1–B1)', proveedor:'Hitz Hizkuntza Akademia', tipo:'academia', cat:'idiomas',
     materias:['alemán','Goethe'], edad:[14,99], precio:58, unidad:'mes',
     mod:['presencial','online'], lugar:'Herriko Plaza, 4',
     dias:['M','J'], horario:'De 19:00 a 20:30',
@@ -999,15 +1032,15 @@ const FICHAS = [
     exp:'Profesora nativa · Preparación de exámenes Goethe',
     plazas:'Faltan 2 personas para abrir el grupo', verif:true, cert:true, tel:'946 •• •• ••', email:'info@•••••.eus' },
 
-  { id:5, lang:'eu', titulo:'Ingeleseko errefortzua eta Cambridge azterketak', proveedor:'Maite Uriarte', tipo:'particular', cat:'idiomas',
+  { id:5, lang:'eu', idiomaClase:['eu','es'], estado:'espera', titulo:'Ingeleseko errefortzua eta Cambridge azterketak', proveedor:'Maite Uriarte', tipo:'particular', cat:'idiomas',
     materias:['ingelesa','Cambridge','B1','B2','errefortzua'], edad:[8,17], precio:14, unidad:'hora',
     mod:['presencial','online'], lugar:'Bere etxean (Amilleta kalea) edo online',
     dias:['L','X'], horario:'17:00etatik 20:30era',
-    desc:'Ikastolako ingeleseko irakaslea naiz. Arratsaldez etxeko lanekin eta institutuko azterketekin laguntzen dut, eta Cambridgeko B1 eta B2 prestatzen ditut aurreko urteetako azterketa errealekin. Bi edo hiru laguneko taldeak, denek hitz egin dezaten.',
-    exp:'12 urte irakasten · C2 Proficiency · Lehen Hezkuntzako irakaslea, ingeles espezialitatea',
+    desc:'Eskualdeko ikastetxe bateko ingeleseko irakaslea naiz. Arratsaldez etxeko lanekin eta institutuko azterketekin laguntzen dut, eta Cambridgeko B1 eta B2 prestatzen ditut aurreko urteetako azterketa errealekin. Bi edo hiru laguneko taldeak, denek hitz egin dezaten.',
+    exp:'12 urte irakasten · C2 Proficiency · Ingeles espezialitateko irakaslea',
     plazas:'Itxaron-zerrenda arratsaldeko taldeetan', verif:true, cert:true, tel:'645 •• •• ••', email:'maite.•••••@••••.eus' },
 
-  { id:6, lang:'eu', titulo:'EGA eta C1 azterketa prestatzeko klaseak', proveedor:'Josu Etxebarria', tipo:'particular', cat:'idiomas',
+  { id:6, lang:'eu', idiomaClase:['eu'], estado:'libre', titulo:'EGA eta C1 azterketa prestatzeko klaseak', proveedor:'Josu Etxebarria', tipo:'particular', cat:'idiomas',
     materias:['euskara','EGA','C1','idazmena'], edad:[16,99], precio:15, unidad:'hora',
     mod:['presencial','online'], lugar:'Anduetxeta kalea, 11',
     dias:['M','J'], horario:'19:00etatik 21:00era',
@@ -1016,23 +1049,23 @@ const FICHAS = [
     plazas:'2 plaza libre', verif:true, cert:false, tel:'688 •• •• ••', email:'josu.•••••@••••.eus' },
 
   /* ---------------- eskola-laguntza / apoyo escolar ---------------- */
-  { id:7, lang:'eu', titulo:'Matematika eta Fisika-Kimika, DBH eta Batxilergoa', proveedor:'Iker Arriola', tipo:'particular', cat:'apoyo',
+  { id:7, lang:'eu', idiomaClase:['eu','es'], estado:'libre', titulo:'Matematika eta Fisika-Kimika, DBH eta Batxilergoa', proveedor:'Iker Arriola', tipo:'particular', cat:'apoyo',
     materias:['matematika','fisika','kimika','selektibitatea'], edad:[12,18], precio:15, unidad:'hora',
     mod:['presencial','online'], lugar:'Bere etxean (Gazeta auzoa, 7)',
     dias:['L','M','X','J'], horario:'16:00etatik 21:00era',
-    desc:'Ingeniari industriala naiz. Institututik ekartzen dituzten ariketekin lan egiten dut eta, behar denean, atzera egiten dugu hanka-motz gelditu zenera. Gurasoei abisatzen diet arazoa matematika ez dela baizik eta antolaketa ikusten badut.',
+    desc:'Ingeniari industriala naiz. Institututik ekartzen dituzten ariketekin lan egiten dut eta, behar denean, atzera egiten dugu hanka-motz gelditu zenera. Gurasoei abisatzen diet arazoa matematika ez dela, antolaketa baizik, hala ikusten badut.',
     exp:'7 urte klaseak ematen · Ingeniari Industriala',
     plazas:'3 plaza gelditzen dira', verif:true, cert:true, tel:'677 •• •• ••', email:'iker.•••••@••••.eus' },
 
-  { id:8, lang:'eu', titulo:'Lehen Hezkuntzako laguntza eta ikasteko teknikak', proveedor:'Nerea Goikoetxea', tipo:'particular', cat:'apoyo',
+  { id:8, lang:'eu', idiomaClase:['eu'], estado:'espera', titulo:'Lehen Hezkuntzako laguntza eta ikasteko teknikak', proveedor:'Nerea Goikoetxea', tipo:'particular', cat:'apoyo',
     materias:['etxeko lanak','irakurketa','ikasteko teknikak','lehen hezkuntza'], edad:[6,12], precio:12, unidad:'hora',
     mod:['presencial','domicilio'], lugar:'Etxez etxe edo bere etxean (Aldape auzoa)',
     dias:['L','M','X','J','V'], horario:'16:30etik 19:30era',
-    desc:'Herriko eskolan irakaslea naiz eta arratsaldez Lehen Hezkuntzako haurrei laguntzen diet etxeko lanekin, irakurketarekin eta, batez ere, antolatzen ikastearekin. Hiruko taldeak nahiago ditut, elkarri laguntzeko, baina etxeetara ere joaten naiz.',
-    exp:'15 urte irakasle · Ikasteko zailtasunetan espezializatua',
+    desc:'Irakasle jubilatua naiz eta arratsaldez Lehen Hezkuntzako haurrei laguntzen diet etxeko lanekin, irakurketarekin eta, batez ere, antolatzen ikastearekin. Hiruko taldeak nahiago ditut, elkarri laguntzeko, baina etxeetara ere joaten naiz.',
+    exp:'35 urte irakasle · Ikasteko zailtasunetan espezializatua',
     plazas:'Astelehen eta asteazkenetan beteta', verif:true, cert:true, tel:'689 •• •• ••', email:'nerea.•••••@••••.eus' },
 
-  { id:9, lang:'es', titulo:'Aula de deberes y refuerzo', proveedor:'Ikasgela Ikasketa Zentroa', tipo:'academia', cat:'apoyo',
+  { id:9, lang:'es', idiomaClase:['es','eu'], estado:'libre', titulo:'Aula de deberes y refuerzo', proveedor:'Ikasgela Ikasketa Zentroa', tipo:'academia', cat:'apoyo',
     materias:['deberes','refuerzo','todas las asignaturas'], edad:[6,16], precio:85, unidad:'mes',
     mod:['presencial'], lugar:'Anduetxeta kalea, 22',
     dias:['L','M','X','J','V'], horario:'De 16:00 a 20:00, entrada y salida libres',
@@ -1040,7 +1073,7 @@ const FICHAS = [
     exp:'Abierto desde 2014 · 5 profesores · Seguro de responsabilidad civil',
     plazas:'Plazas disponibles', verif:true, cert:true, tel:'946 •• •• ••', email:'ikasgela@•••••.eus' },
 
-  { id:10, lang:'eu', titulo:'Selektibitatea prestatzeko ikastaroa', proveedor:'Ikasgela Ikasketa Zentroa', tipo:'academia', cat:'apoyo',
+  { id:10, lang:'eu', idiomaClase:['eu'], estado:'libre', titulo:'Selektibitatea prestatzeko ikastaroa', proveedor:'Ikasgela Ikasketa Zentroa', tipo:'academia', cat:'apoyo',
     materias:['selektibitatea','batxilergoa','EBAU'], edad:[16,19], precio:120, unidad:'mes',
     mod:['presencial'], lugar:'Anduetxeta kalea, 22',
     dias:['M','J','S'], horario:'Astearte eta ostegun arratsaldez, larunbat goizez',
@@ -1048,7 +1081,7 @@ const FICHAS = [
     exp:'Iaz ikasleen batez bestekoa: 11,2 (14tik)',
     plazas:'8 laguneko taldeak · plazak Zientzietan', verif:true, cert:true, tel:'946 •• •• ••', email:'ikasgela@•••••.eus' },
 
-  { id:11, lang:'es', titulo:'Logopedia infantil', proveedor:'Amaia Zabala', tipo:'particular', cat:'apoyo',
+  { id:11, lang:'es', idiomaClase:['es','eu'], estado:'espera', titulo:'Logopedia infantil', proveedor:'Amaia Zabala', tipo:'particular', cat:'apoyo',
     materias:['logopedia','lenguaje','lectoescritura','dislalia'], edad:[3,14], precio:30, unidad:'sesion',
     mod:['presencial','domicilio'], lugar:'Consulta en San Agustín auzoa, 5',
     dias:['L','M','X','J'], horario:'De 16:00 a 20:00',
@@ -1056,7 +1089,7 @@ const FICHAS = [
     exp:'Logopeda colegiada · 10 años · Colabora con el equipo de orientación',
     plazas:'Tres semanas de espera', verif:true, cert:true, tel:'657 •• •• ••', email:'amaia.•••••@••••.eus' },
 
-  { id:12, lang:'es', titulo:'Graduado en ESO y castellano para personas recién llegadas', proveedor:'Helduen Hezkuntza', tipo:'municipal', cat:'apoyo',
+  { id:12, lang:'es', idiomaClase:['es','eu'], estado:'libre', titulo:'Graduado en ESO y castellano para personas recién llegadas', proveedor:'Herriko Helduen Hezkuntza (adibidea)', tipo:'municipal', cat:'apoyo',
     materias:['graduado ESO','castellano','alfabetización','adultos'], edad:[18,99], precio:0, unidad:'mes',
     mod:['presencial'], lugar:'Kultur Etxea, Anduetxeta kalea',
     dias:['L','M','X','J'], horario:'De 18:00 a 21:00',
@@ -1065,7 +1098,7 @@ const FICHAS = [
     plazas:'Matrícula en septiembre y enero', verif:true, cert:false, tel:'946 •• •• ••', email:'helduak@•••••.eus' },
 
   /* ---------------- musika ---------------- */
-  { id:13, lang:'eu', titulo:'Musika hizkuntza eta pianoa', proveedor:'Udal Musika Eskola', tipo:'municipal', cat:'musica',
+  { id:13, lang:'eu', idiomaClase:['eu'], estado:'libre', titulo:'Musika hizkuntza eta pianoa', proveedor:'Herriko Musika Eskola (adibidea)', tipo:'municipal', cat:'musica',
     materias:['pianoa','musika hizkuntza','solfeoa'], edad:[6,18], precio:28, unidad:'mes',
     mod:['presencial'], lugar:'Kultur Etxea, Anduetxeta kalea',
     dias:['L','X'], horario:'17:00etatik 20:00era',
@@ -1073,7 +1106,7 @@ const FICHAS = [
     exp:'Kontserbatorioan titulatutako irakasleak · 1998tik zabalik',
     plazas:'8 plaza pianoan · zozketa eskaera gehiago badago', verif:true, cert:true, tel:'946 •• •• ••', email:'musika@•••••.eus' },
 
-  { id:14, lang:'eu', titulo:'Gitarra klasikoa eta modernoa', proveedor:'Udal Musika Eskola', tipo:'municipal', cat:'musica',
+  { id:14, lang:'eu', idiomaClase:['eu'], estado:'libre', titulo:'Gitarra klasikoa eta modernoa', proveedor:'Herriko Musika Eskola (adibidea)', tipo:'municipal', cat:'musica',
     materias:['gitarra','akonpainamendua'], edad:[8,99], precio:28, unidad:'mes',
     mod:['presencial'], lugar:'Kultur Etxea, Anduetxeta kalea',
     dias:['M','J'], horario:'17:30etik 21:00era',
@@ -1081,7 +1114,7 @@ const FICHAS = [
     exp:'Kontserbatorioan titulatutako irakasleak',
     plazas:'Plaza libreak helduen taldean', verif:true, cert:true, tel:'946 •• •• ••', email:'musika@•••••.eus' },
 
-  { id:15, lang:'eu', titulo:'Trikitixa eta panderoa', proveedor:'Trikitixa Eskola', tipo:'asociacion', cat:'musica',
+  { id:15, lang:'eu', idiomaClase:['eu'], estado:'libre', titulo:'Trikitixa eta panderoa', proveedor:'Trikitixa Eskola', tipo:'asociacion', cat:'musica',
     materias:['trikitixa','panderoa','soinu txikia'], edad:[7,99], precio:25, unidad:'mes',
     mod:['presencial'], lugar:'Elkartearen lokala, Berriozabaleta',
     dias:['M','V'], horario:'17:30etik 20:30era',
@@ -1089,7 +1122,7 @@ const FICHAS = [
     exp:'Bi irakasle · 30 ikasle · Federazioko kide',
     plazas:'Plazak panderoan', verif:true, cert:true, tel:'620 •• •• ••', email:'trikitixa@•••••.eus' },
 
-  { id:16, lang:'eu', titulo:'Txistua eta danbolina', proveedor:'Txistulari Taldea', tipo:'asociacion', cat:'musica',
+  { id:16, lang:'eu', idiomaClase:['eu'], estado:'continua', titulo:'Txistua eta danbolina', proveedor:'Txistulari Taldea', tipo:'asociacion', cat:'musica',
     materias:['txistua','danbolina','dultzaina'], edad:[8,99], precio:0, unidad:'mes',
     mod:['presencial'], lugar:'Kultur Etxeko entsegu gela',
     dias:['V','S'], horario:'Ostiraletan 19:00etatik 20:30era',
@@ -1097,7 +1130,7 @@ const FICHAS = [
     exp:'1964tik · 22 txistulari · Instrumentua utzita',
     plazas:'Urte osoan zabalik', verif:true, cert:true, tel:'946 •• •• ••', email:'txistulariak@•••••.eus' },
 
-  { id:17, lang:'es', titulo:'Batería y guitarra eléctrica', proveedor:'Ibai Mendizabal', tipo:'particular', cat:'musica',
+  { id:17, lang:'es', idiomaClase:['es'], estado:'libre', titulo:'Batería y guitarra eléctrica', proveedor:'Ibai Mendizabal', tipo:'particular', cat:'musica',
     materias:['batería','guitarra eléctrica','rock'], edad:[9,60], precio:18, unidad:'hora',
     mod:['presencial'], lugar:'Local insonorizado en el polígono',
     dias:['M','J','V'], horario:'De 17:00 a 21:00',
@@ -1106,7 +1139,7 @@ const FICHAS = [
     plazas:'Quedan 2 huecos los jueves', verif:true, cert:true, tel:'633 •• •• ••', email:'ibai.•••••@••••.eus' },
 
   /* ---------------- kirola ---------------- */
-  { id:18, lang:'eu', titulo:'Esku pilota eskola', proveedor:'Pilota Elkartea', tipo:'club', cat:'deporte',
+  { id:18, lang:'eu', idiomaClase:['eu'], estado:'libre', titulo:'Esku pilota eskola', proveedor:'Pilota Elkartea', tipo:'club', cat:'deporte',
     materias:['pilota','esku pilota','frontoia'], edad:[6,18], precio:60, unidad:'temporada',
     mod:['presencial'], lugar:'Udal frontoia',
     dias:['M','J'], horario:'17:30etik 19:30era adinaren arabera',
@@ -1114,7 +1147,7 @@ const FICHAS = [
     exp:'Federatutako elkartea · 55 pilotari · 4 entrenatzaile',
     plazas:'Izena emateko epea irailean', verif:true, cert:true, tel:'946 •• •• ••', email:'pilota@•••••.eus' },
 
-  { id:19, lang:'eu', titulo:'Futbol eskola: benjaminetik kadeteraino', proveedor:'Elorrioko Futbol Taldea', tipo:'club', cat:'deporte',
+  { id:19, lang:'eu', idiomaClase:['eu'], estado:'libre', titulo:'Futbol eskola: benjaminetik kadeteraino', proveedor:'Elorrioko Futbol Taldea', tipo:'club', cat:'deporte',
     materias:['futbola','futbol 7','futbol 11'], edad:[5,16], precio:120, unidad:'temporada',
     mod:['presencial'], lugar:'Udal futbol zelaia',
     dias:['M','J'], horario:'Entrenamendua 17:30etik 19:00era · partida larunbatean',
@@ -1122,7 +1155,7 @@ const FICHAS = [
     exp:'Federatutako kluba · 140 neska-mutil · 11 entrenatzaile titulodun',
     plazas:'Izena emateko epea irailaren 25era arte', verif:true, cert:true, tel:'946 •• •• ••', email:'futbola@•••••.eus' },
 
-  { id:20, lang:'eu', titulo:'Saskibaloia: mini, infantil eta kadete', proveedor:'Saskibaloi Kluba', tipo:'club', cat:'deporte',
+  { id:20, lang:'eu', idiomaClase:['eu'], estado:'libre', titulo:'Saskibaloia: mini, infantil eta kadete', proveedor:'Saskibaloi Kluba', tipo:'club', cat:'deporte',
     materias:['saskibaloia','minibasket'], edad:[7,16], precio:110, unidad:'temporada',
     mod:['presencial'], lugar:'Udal kiroldegia',
     dias:['L','X'], horario:'18:00etatik 19:30era · partida igande goizean',
@@ -1130,15 +1163,15 @@ const FICHAS = [
     exp:'Federatutako kluba · 4 talde · Federazioko titulua duten entrenatzaileak',
     plazas:'Jendea falta da kadete mailan', verif:true, cert:true, tel:'661 •• •• ••', email:'saskibaloia@•••••.eus' },
 
-  { id:21, lang:'eu', titulo:'Igeriketa ikastaroak', proveedor:'Udal Igerilekua', tipo:'municipal', cat:'deporte',
+  { id:21, lang:'eu', idiomaClase:['eu','es'], estado:'libre', titulo:'Igeriketa ikastaroak', proveedor:'Herriko Igerilekua (adibidea)', tipo:'municipal', cat:'deporte',
     materias:['igeriketa','ikastaroa'], edad:[4,99], precio:45, unidad:'mes',
     mod:['presencial'], lugar:'Udal kiroldegiko igerilekua',
     dias:['L','X','V'], horario:'17:00, 18:00 eta 19:00etako txandak',
-    desc:'Mailaka antolatutako ikastaroak, hasieratik hobekuntzara, zortziko taldeetan. Helduen txanda 20:00etan dago eta hastapen txanda berezia inoiz uretara sartu ez denarentzat.',
+    desc:'Mailaka antolatutako ikastaroak, hasieratik hobekuntzara, zortziko taldeetan. Helduen txanda 20:00etan dago eta hastapen txanda berezi bat dago inoiz uretara sartu ez denarentzat.',
     exp:'Sorosle eta monitore tituludunak · Udal instalazioa',
     plazas:'Plazak hiruhilekoro zozketatzen dira', verif:true, cert:true, tel:'946 •• •• ••', email:'kiroldegia@•••••.eus' },
 
-  { id:22, lang:'eu', titulo:'Igeriketa haurtxoentzat', proveedor:'Udal Igerilekua', tipo:'municipal', cat:'deporte',
+  { id:22, lang:'eu', idiomaClase:['eu','es'], estado:'libre', titulo:'Igeriketa haurtxoentzat', proveedor:'Herriko Igerilekua (adibidea)', tipo:'municipal', cat:'deporte',
     materias:['igeriketa','haurtxoak','matronatazioa'], edad:[0,3], precio:38, unidad:'mes',
     mod:['presencial'], lugar:'Udal kiroldegiko igerilekua',
     dias:['S'], horario:'Larunbatetan 11:00etatik 11:45era',
@@ -1146,7 +1179,7 @@ const FICHAS = [
     exp:'Matronatazioan espezializatutako monitorea',
     plazas:'6 plaza txandako', verif:true, cert:true, tel:'946 •• •• ••', email:'kiroldegia@•••••.eus' },
 
-  { id:23, lang:'eu', titulo:'Herri kirolak: aizkora, harri-jasotzea eta sokatira', proveedor:'Herri Kirol Elkartea', tipo:'asociacion', cat:'deporte',
+  { id:23, lang:'eu', idiomaClase:['eu'], estado:'continua', titulo:'Herri kirolak: aizkora, harri-jasotzea eta sokatira', proveedor:'Herri Kirol Elkartea', tipo:'asociacion', cat:'deporte',
     materias:['herri kirolak','aizkora','harri-jasotzea','sokatira'], edad:[12,99], precio:20, unidad:'mes',
     mod:['presencial'], lugar:'Probalekua',
     dias:['X','S'], horario:'Asteazkenetan 19:00etan eta larunbat goizetan',
@@ -1154,7 +1187,7 @@ const FICHAS = [
     exp:'Elkarte federatua · 3 entrenatzaile · Materiala elkarteak jarrita',
     plazas:'Zabalik urte osoan', verif:true, cert:true, tel:'615 •• •• ••', email:'herrikirolak@•••••.eus' },
 
-  { id:24, lang:'eu', titulo:'Mendi irteerak familientzat', proveedor:'Mendi Taldea', tipo:'asociacion', cat:'deporte',
+  { id:24, lang:'eu', idiomaClase:['eu'], estado:'continua', titulo:'Mendi irteerak familientzat', proveedor:'Mendi Taldea', tipo:'asociacion', cat:'deporte',
     materias:['mendia','ibilaldiak','Urkiola','natura'], edad:[6,99], precio:25, unidad:'temporada',
     mod:['presencial'], lugar:'Irteera Herriko Plazatik',
     dias:['D'], horario:'Hilean behin, igande goizetan',
@@ -1162,7 +1195,7 @@ const FICHAS = [
     exp:'Elkarte federatua · 1971tik · 180 bazkide',
     plazas:'Bazkide egitea urte osoan', verif:true, cert:false, tel:'946 •• •• ••', email:'menditaldea@•••••.eus' },
 
-  { id:25, lang:'es', titulo:'Judo infantil y juvenil', proveedor:'Judo Kluba', tipo:'club', cat:'deporte',
+  { id:25, lang:'es', idiomaClase:['es'], estado:'libre', titulo:'Judo infantil y juvenil', proveedor:'Judo Kluba', tipo:'club', cat:'deporte',
     materias:['judo','defensa personal'], edad:[5,17], precio:30, unidad:'mes',
     mod:['presencial'], lugar:'Sala de tatami del kiroldegia',
     dias:['M','J'], horario:'De 17:30 a 18:30 los pequeños · de 18:30 a 20:00 los mayores',
@@ -1170,7 +1203,7 @@ const FICHAS = [
     exp:'Cinturón negro 3º dan · Entrenador nacional',
     plazas:'Plazas libres en el grupo pequeño', verif:true, cert:true, tel:'699 •• •• ••', email:'judo@•••••.eus' },
 
-  { id:26, lang:'es', titulo:'Escuela de pádel', proveedor:'Padel Elorrio', tipo:'club', cat:'deporte',
+  { id:26, lang:'es', idiomaClase:['es'], estado:'libre', titulo:'Escuela de pádel', proveedor:'Padel Elorrio', tipo:'club', cat:'deporte',
     materias:['pádel'], edad:[8,99], precio:35, unidad:'mes',
     mod:['presencial'], lugar:'Pistas del kiroldegia',
     dias:['M','J','S'], horario:'Tardes y sábados por la mañana',
@@ -1178,7 +1211,7 @@ const FICHAS = [
     exp:'Monitor titulado por la federación',
     plazas:'Quedan 2 plazas en infantil', verif:true, cert:true, tel:'654 •• •• ••', email:'padel•••••@••••.eus' },
 
-  { id:27, lang:'eu', titulo:'Atletismoa eta krosa', proveedor:'Atletismo Taldea', tipo:'club', cat:'deporte',
+  { id:27, lang:'eu', idiomaClase:['eu'], estado:'continua', titulo:'Atletismoa eta krosa', proveedor:'Atletismo Taldea', tipo:'club', cat:'deporte',
     materias:['atletismoa','krosa','korrika'], edad:[8,18], precio:20, unidad:'mes',
     mod:['presencial'], lugar:'Kiroldegia eta ibaiertzeko bidea',
     dias:['M','J'], horario:'18:00etatik 19:30era',
@@ -1186,7 +1219,7 @@ const FICHAS = [
     exp:'Federatutako kluba · 2 entrenatzaile nazional',
     plazas:'Urte osoan zabalik', verif:true, cert:true, tel:'644 •• •• ••', email:'atletismoa@•••••.eus' },
 
-  { id:28, lang:'es', titulo:'Gimnasia rítmica', proveedor:'Errito Gimnasia Taldea', tipo:'club', cat:'deporte',
+  { id:28, lang:'es', idiomaClase:['es'], estado:'libre', titulo:'Gimnasia rítmica', proveedor:'Errito Gimnasia Taldea', tipo:'club', cat:'deporte',
     materias:['gimnasia rítmica','aro','cinta'], edad:[5,16], precio:32, unidad:'mes',
     mod:['presencial'], lugar:'Kiroldegia, sala 2',
     dias:['L','X'], horario:'De 17:00 a 18:30',
@@ -1194,7 +1227,7 @@ const FICHAS = [
     exp:'Entrenadora titulada · 38 gimnastas',
     plazas:'Plazas en escuela', verif:true, cert:false, tel:'688 •• •• ••', email:'erritmo@•••••.eus' },
 
-  { id:29, lang:'eu', titulo:'Txirrindularitza eta BTT eskola', proveedor:'Txirrindulari Elkartea', tipo:'club', cat:'deporte',
+  { id:29, lang:'eu', idiomaClase:['eu'], estado:'libre', titulo:'Txirrindularitza eta BTT eskola', proveedor:'Txirrindulari Elkartea', tipo:'club', cat:'deporte',
     materias:['txirrindularitza','BTT','mendiko bizikleta'], edad:[8,16], precio:30, unidad:'mes',
     mod:['presencial'], lugar:'Irteera kiroldegitik',
     dias:['S'], horario:'Larunbatetan 10:00etatik 12:30era',
@@ -1203,7 +1236,7 @@ const FICHAS = [
     plazas:'12 plaza', verif:true, cert:true, tel:'627 •• •• ••', email:'txirrindulariak@•••••.eus' },
 
   /* ---------------- dantza ---------------- */
-  { id:30, lang:'eu', titulo:'Euskal dantzak: haurrak eta helduak', proveedor:'Dantza Taldea', tipo:'asociacion', cat:'danza',
+  { id:30, lang:'eu', idiomaClase:['eu'], estado:'cerrada', titulo:'Euskal dantzak: haurrak eta helduak', proveedor:'Dantza Taldea', tipo:'asociacion', cat:'danza',
     materias:['euskal dantzak','dantzari txiki','aurresku'], edad:[4,99], precio:10, unidad:'trimestre',
     mod:['presencial'], lugar:'Kultur Etxeko dantza gela',
     dias:['X','V'], horario:'Haurrak 17:30ean · helduak 20:00etan',
@@ -1211,7 +1244,7 @@ const FICHAS = [
     exp:'1955etik · 90 dantzari · Irakasle boluntarioak',
     plazas:'Irailean eta urtarrilean sartzen da', verif:true, cert:true, tel:'946 •• •• ••', email:'dantzataldea@•••••.eus' },
 
-  { id:31, lang:'es', titulo:'Ballet y danza contemporánea', proveedor:'Estudio de Danza Aurrera', tipo:'academia', cat:'danza',
+  { id:31, lang:'es', idiomaClase:['es'], estado:'libre', titulo:'Ballet y danza contemporánea', proveedor:'Estudio de Danza Aurrera', tipo:'academia', cat:'danza',
     materias:['ballet','danza clásica','contemporánea'], edad:[4,18], precio:38, unidad:'mes',
     mod:['presencial'], lugar:'Berrio-Otxoa kalea, 9',
     dias:['L','X'], horario:'De 17:00 a 20:30 por edades',
@@ -1219,7 +1252,7 @@ const FICHAS = [
     exp:'Directora titulada superior en Danza Clásica · Estudio abierto desde 2011',
     plazas:'Completo en el grupo de 4-6 años', verif:true, cert:true, tel:'666 •• •• ••', email:'aurrera@•••••.eus' },
 
-  { id:32, lang:'es', titulo:'Zumba y baile fitness', proveedor:'Oihana Larrañaga', tipo:'particular', cat:'danza',
+  { id:32, lang:'es', idiomaClase:['es'], estado:'continua', titulo:'Zumba y baile fitness', proveedor:'Oihana Larrañaga', tipo:'particular', cat:'danza',
     materias:['zumba','fitness','baile'], edad:[16,99], precio:25, unidad:'mes',
     mod:['presencial'], lugar:'Salón del Kultur Etxea',
     dias:['M','J'], horario:'De 20:00 a 21:00',
@@ -1228,7 +1261,7 @@ const FICHAS = [
     plazas:'Se paga por meses sueltos', verif:true, cert:false, tel:'672 •• •• ••', email:'oihana.•••••@••••.eus' },
 
   /* ---------------- artea ---------------- */
-  { id:33, lang:'es', titulo:'Dibujo y pintura', proveedor:'Taller de Izaskun Bilbao', tipo:'particular', cat:'arte',
+  { id:33, lang:'es', idiomaClase:['es'], estado:'libre', titulo:'Dibujo y pintura', proveedor:'Taller de Izaskun Aldekoa', tipo:'particular', cat:'arte',
     materias:['dibujo','pintura','acuarela','óleo'], edad:[7,99], precio:30, unidad:'mes',
     mod:['presencial'], lugar:'Taller en Aldape auzoa, 5',
     dias:['M','J'], horario:'Niños de 17:30 a 19:00 · adultos de 19:30 a 21:30',
@@ -1236,7 +1269,7 @@ const FICHAS = [
     exp:'Licenciada en Bellas Artes · Taller abierto desde 2015',
     plazas:'Quedan plazas en el grupo de niños', verif:true, cert:true, tel:'637 •• •• ••', email:'izaskun.•••••@••••.eus' },
 
-  { id:34, lang:'eu', titulo:'Antzerki taldea gazteentzat', proveedor:'Kultur Elkartea', tipo:'asociacion', cat:'arte',
+  { id:34, lang:'eu', idiomaClase:['eu'], estado:'cerrada', titulo:'Antzerki taldea gazteentzat', proveedor:'Kultur Elkartea', tipo:'asociacion', cat:'arte',
     materias:['antzerkia','gorputz adierazpena','ahotsa'], edad:[8,17], precio:10, unidad:'trimestre',
     mod:['presencial'], lugar:'Kultur Etxeko antzokia',
     dias:['V'], horario:'Ostiraletan 18:00etatik 20:00era',
@@ -1244,7 +1277,7 @@ const FICHAS = [
     exp:'18 urteko ibilbidea duen taldea · Elkarteko boluntarioek zuzendua',
     plazas:'Irailean eta urtarrilean sartzen da', verif:true, cert:true, tel:'946 •• •• ••', email:'kulturelkartea@•••••.eus' },
 
-  { id:35, lang:'es', titulo:'Cerámica y torno', proveedor:'Buztin Tailerra', tipo:'particular', cat:'arte',
+  { id:35, lang:'es', idiomaClase:['es'], estado:'espera', titulo:'Cerámica y torno', proveedor:'Buztin Tailerra', tipo:'particular', cat:'arte',
     materias:['cerámica','torno','esmaltes'], edad:[12,99], precio:45, unidad:'mes',
     mod:['presencial'], lugar:'Taller en el barrio de Berriozabaleta',
     dias:['X','V'], horario:'De 17:00 a 20:00',
@@ -1253,7 +1286,7 @@ const FICHAS = [
     plazas:'Lista de espera de un mes', verif:true, cert:false, tel:'946 •• •• ••', email:'buztin•••••@••••.eus' },
 
   /* ---------------- teknologia ---------------- */
-  { id:36, lang:'eu', titulo:'Robotika eta programazioa haurrentzat', proveedor:'Bit Akademia', tipo:'academia', cat:'tecnologia',
+  { id:36, lang:'eu', idiomaClase:['eu'], estado:'libre', titulo:'Robotika eta programazioa haurrentzat', proveedor:'Bit Akademia', tipo:'academia', cat:'tecnologia',
     materias:['robotika','Scratch','Arduino','programazioa','3D inprimaketa'], edad:[8,16], precio:45, unidad:'mes',
     mod:['presencial'], lugar:'Anduetxeta kalea, 51',
     dias:['M','J'], horario:'17:30etik 19:00era',
@@ -1261,7 +1294,7 @@ const FICHAS = [
     exp:'2019tik zabalik · Ingeniari irakasleak',
     plazas:'4 plaza gelditzen dira', verif:true, cert:true, tel:'946 •• •• ••', email:'bit@•••••.eus' },
 
-  { id:37, lang:'eu', titulo:'Xakea', proveedor:'Xake Taldea', tipo:'asociacion', cat:'tecnologia',
+  { id:37, lang:'eu', idiomaClase:['eu'], estado:'continua', titulo:'Xakea', proveedor:'Xake Taldea', tipo:'asociacion', cat:'tecnologia',
     materias:['xakea','logika','kontzentrazioa'], edad:[6,99], precio:12, unidad:'mes',
     mod:['presencial'], lugar:'Kultur Etxeko gela',
     dias:['V'], horario:'Ostiraletan 18:00etatik 20:30era',
@@ -1269,7 +1302,7 @@ const FICHAS = [
     exp:'Federatutako taldea · 25 bazkide',
     plazas:'Edonorentzat zabalik', verif:true, cert:false, tel:'946 •• •• ••', email:'xakea@•••••.eus' },
 
-  { id:38, lang:'es', titulo:'Móvil e internet para mayores', proveedor:'Udal Liburutegia', tipo:'municipal', cat:'tecnologia',
+  { id:38, lang:'es', idiomaClase:['es','eu'], estado:'libre', titulo:'Móvil e internet para mayores', proveedor:'Herriko Liburutegia (adibidea)', tipo:'municipal', cat:'tecnologia',
     materias:['informática','móvil','cita médica','banca online','trámites'], edad:[55,99], precio:0, unidad:'mes',
     mod:['presencial'], lugar:'Biblioteca municipal, Herriko Plaza',
     dias:['M'], horario:'Martes de 11:00 a 12:30',
@@ -1278,7 +1311,7 @@ const FICHAS = [
     plazas:'15 plazas por turno', verif:true, cert:false, tel:'946 •• •• ••', email:'liburutegia@•••••.eus' },
 
   /* ---------------- ongizatea ---------------- */
-  { id:39, lang:'es', titulo:'Yoga para todos los cuerpos', proveedor:'Ane Urkiola', tipo:'particular', cat:'bienestar',
+  { id:39, lang:'es', idiomaClase:['es','eu'], estado:'libre', titulo:'Yoga para todos los cuerpos', proveedor:'Ane Urkiola', tipo:'particular', cat:'bienestar',
     materias:['yoga','hatha','respiración','espalda'], edad:[16,99], precio:40, unidad:'mes',
     mod:['presencial','online'], lugar:'Sala en Gazeta auzoa, 2',
     dias:['L','X'], horario:'De 9:30 a 10:45 y de 19:30 a 20:45',
@@ -1286,7 +1319,7 @@ const FICHAS = [
     exp:'Formación de 500 horas · 8 años dando clase',
     plazas:'Grupos de 12 · quedan plazas por la mañana', verif:true, cert:false, tel:'628 •• •• ••', email:'ane.•••••@••••.eus' },
 
-  { id:40, lang:'es', titulo:'Pilates de suelo', proveedor:'Ane Urkiola', tipo:'particular', cat:'bienestar',
+  { id:40, lang:'es', idiomaClase:['es'], estado:'libre', titulo:'Pilates de suelo', proveedor:'Ane Urkiola', tipo:'particular', cat:'bienestar',
     materias:['pilates','suelo pélvico','postura'], edad:[16,99], precio:40, unidad:'mes',
     mod:['presencial'], lugar:'Sala en Gazeta auzoa, 2',
     dias:['M','J'], horario:'De 10:00 a 11:00 y de 20:00 a 21:00',
@@ -1294,7 +1327,7 @@ const FICHAS = [
     exp:'Formación específica en pilates terapéutico',
     plazas:'Quedan 3 plazas', verif:true, cert:false, tel:'628 •• •• ••', email:'ane.•••••@••••.eus' },
 
-  { id:41, lang:'es', titulo:'Sala de musculación y clases dirigidas', proveedor:'Gimnasio Aro', tipo:'academia', cat:'bienestar',
+  { id:41, lang:'es', idiomaClase:['es'], estado:'continua', titulo:'Sala de musculación y clases dirigidas', proveedor:'Gimnasio Aro', tipo:'academia', cat:'bienestar',
     materias:['gimnasio','musculación','spinning','body pump'], edad:[16,99], precio:32, unidad:'mes',
     mod:['presencial'], lugar:'Polígono industrial',
     dias:['L','M','X','J','V','S'], horario:'De 7:00 a 22:00',
@@ -1302,7 +1335,7 @@ const FICHAS = [
     exp:'Abierto desde 2016 · 2 entrenadores en sala',
     plazas:'Sin lista de espera', verif:true, cert:false, tel:'946 •• •• ••', email:'aro@•••••.eus' },
 
-  { id:42, lang:'eu', titulo:'Entrenamendu pertsonala eta berreskurapena', proveedor:'Unai Olabarria', tipo:'particular', cat:'bienestar',
+  { id:42, lang:'eu', idiomaClase:['eu','es'], estado:'continua', titulo:'Entrenamendu pertsonala eta berreskurapena', proveedor:'Unai Olabarria', tipo:'particular', cat:'bienestar',
     materias:['entrenamendu pertsonala','indarra','lesioak'], edad:[15,99], precio:25, unidad:'sesion',
     mod:['presencial','domicilio'], lugar:'Kiroldegian, parkean edo etxez etxe',
     dias:['L','M','X','J','V'], horario:'Goizez eta 17:00etatik 21:00era',
@@ -1311,7 +1344,7 @@ const FICHAS = [
     plazas:'Agenda zabalik', verif:true, cert:true, tel:'615 •• •• ••', email:'unai.•••••@••••.eus' },
 
   /* ---------------- udalekuak ---------------- */
-  { id:43, lang:'eu', titulo:'Udalekuak: udako hiri-kanpaldia', proveedor:'Elorrioko Udala', tipo:'municipal', cat:'campamentos',
+  { id:43, lang:'eu', idiomaClase:['eu'], estado:'cerrada', titulo:'Udalekuak: udako hiri-kanpaldia', proveedor:'Herriko Udala (adibidea)', tipo:'municipal', cat:'campamentos',
     materias:['udalekuak','uda','kontziliazioa','igerilekua'], edad:[4,12], precio:60, unidad:'semana',
     mod:['presencial'], lugar:'Herri eskola eta udal igerilekua',
     dias:['L','M','X','J','V'], horario:'8:00etatik 15:00era, goizeko zaintzarekin',
@@ -1319,21 +1352,168 @@ const FICHAS = [
     exp:'Aisialdi enpresa asegurudun · Monitore bat hamar haurreko',
     plazas:'Izena ematea maiatzean · 120 plaza', verif:true, cert:true, tel:'946 •• •• ••', email:'gazteria@•••••.eus' },
 
-  { id:44, lang:'eu', titulo:'Gaztelekua eta ludoteka', proveedor:'Elorrioko Udala', tipo:'municipal', cat:'campamentos',
+  { id:44, lang:'eu', idiomaClase:['eu'], estado:'continua', titulo:'Gaztelekua eta ludoteka', proveedor:'Herriko Udala (adibidea)', tipo:'municipal', cat:'campamentos',
     materias:['ludoteka','gaztelekua','jolasa','kontziliazioa'], edad:[3,17], precio:0, unidad:'mes',
     mod:['presencial'], lugar:'Gazte Lokala, Anduetxeta kalea',
     dias:['L','M','X','J','V'], horario:'Ludoteka 17:00-19:00 · gaztelekua 17:00-20:30',
-    desc:'Doako jolas gunea bi begiralerekin. Haurrak ordutegi horretan utzi daitezke ezer apuntatu gabe: mahai jolasak, eskulanak eta patioa. Gazteagoentzat ludoteka eta 12 urtetik gorakoentzat gaztelekua.',
+    desc:'Doako jolas gunea bi begiralerekin. Haurrak ordutegi horretan utzi daitezke izena eman beharrik gabe: mahai jolasak, eskulanak eta patioa. Gazteagoentzat ludoteka eta 12 urtetik gorakoentzat gaztelekua.',
     exp:'Aisialdian tituludunak diren begiraleak',
     plazas:'Sarrera librea lekua bete arte', verif:true, cert:true, tel:'946 •• •• ••', email:'gazteria@•••••.eus' },
 
-  { id:45, lang:'es', titulo:'Campamento de inglés en verano', proveedor:'Hitz Hizkuntza Akademia', tipo:'academia', cat:'campamentos',
+  { id:45, lang:'es', idiomaClase:['es'], estado:'cerrada', titulo:'Campamento de inglés en verano', proveedor:'Hitz Hizkuntza Akademia', tipo:'academia', cat:'campamentos',
     materias:['inglés','campamento','verano'], edad:[6,14], precio:85, unidad:'semana',
     mod:['presencial'], lugar:'Herriko Plaza, 4',
     dias:['L','M','X','J','V'], horario:'De 9:00 a 14:00',
     desc:'Semanas temáticas en inglés con juegos, teatro y cocina. Todo el rato se habla inglés, incluso en el almuerzo. Grupos por edad y por nivel.',
     exp:'Monitores nativos y bilingües',
-    plazas:'20 plazas por semana', verif:true, cert:true, tel:'946 •• •• ••', email:'info@•••••.eus' }
+    plazas:'20 plazas por semana', verif:true, cert:true, tel:'946 •• •• ••', email:'info@•••••.eus' },
+
+/* ---------- karnetak eta tituluak / carnés y títulos ---------- */
+  { id:46, lang:'es', titulo:'Carné de coche y de moto (B, A2 y AM)', proveedor:'Autoeskola Anboto', tipo:'academia', cat:'titulos',
+    materias:['carné de conducir','teórico','prácticas','B','A2','ciclomotor'], edad:[16,99], precio:35, unidad:'sesion',
+    mod:['presencial'], lugar:'Balendin Berrio-Otxoa kalea, 24',
+    dias:['L','M','X','J','V'], horario:'Oficina de 10:00 a 13:00 y de 16:00 a 20:00',
+    desc:'Las clases teóricas son en euskera los martes y jueves y en castellano el resto de días; el examen se puede hacer en las dos lenguas. Las prácticas se cogen a la hora que se pueda, también a primera hora de la mañana para quien entra a trabajar a las diez. El examen teórico es en Durango y la autoescuela lleva y trae.',
+    exp:'Abierta desde 1998 · 3 profesores · Dos coches y una moto',
+    plazas:'Se empieza cualquier semana', verif:true, cert:true, tel:'946 •• •• ••', email:'anboto•••••@••••.eus',
+    idiomaClase:['eu','es'], sesionesSemana:2, grupo:12, estado:'continua', plazasLibres:null,
+    inscripcionHasta:null, empieza:null, prueba:false,
+    extras:[{que:'Matrícula y teórica completa', eur:390, cuando:'una vez'},
+            {que:'Tasas de Tráfico', eur:96, cuando:'una vez'}],
+    ayudas:[], zona:'casco' },
+
+  { id:47, lang:'eu', titulo:'Berbalagun: euskaraz hitz egiteko taldeak', proveedor:'Elorrioko Euskara Elkartea', tipo:'asociacion', cat:'idiomas',
+    materias:['euskara','mintzapraktika','berbalagun','helduak'], edad:[18,99], precio:0, unidad:'mes',
+    mod:['presencial'], lugar:'Herriko tabernak eta Iturri Kultur Etxea',
+    dias:['X'], horario:'Asteazkenetan 19:00etatik 20:00era',
+    desc:'Euskara ikasi bai, baina praktikatzeko lekurik ez? Astean behin ordubetez elkartzen gara lau edo bost lagun, euskaraz berba egiteko besterik ez. Ez da klaserik, ez da azterketarik: kafea hartu eta hitz egin. Maila guztietako taldeak daude, eta euskaldun zaharrak ere behar ditugu taldeak osatzeko.',
+    exp:'Euskara elkarteak antolatuta · Udalaren laguntzarekin · 12 talde',
+    plazas:'Urte osoan sar daiteke', verif:true, cert:false, tel:'946 •• •• ••', email:'euskara•••••@••••.eus',
+    idiomaClase:['eu'], sesionesSemana:1, grupo:5, estado:'continua', plazasLibres:null,
+    inscripcionHasta:null, empieza:null, prueba:true,
+    extras:[], ayudas:[], zona:'casco' },
+
+  { id:48, lang:'eu', titulo:'Aisialdiko begirale titulua', proveedor:'Herriko Udala · Gazteria (adibidea)', tipo:'municipal', cat:'titulos',
+    materias:['begirale titulua','aisialdia','udalekuak','lehen lana'], edad:[16,30], precio:280, unidad:'trimestre',
+    mod:['presencial'], lugar:'Gazte Lokala, Anduetxeta kalea',
+    dias:['V','S'], horario:'Ostiral arratsaldez eta larunbat goizez',
+    desc:'Eusko Jaurlaritzak aitortutako begirale titulua: 150 orduko teoria eta 160 orduko praktikaldia. Praktikak herriko udalekuetan eta ludotekan egiten dira. Titulua duenak lan egin dezake udalekuetan, jantokian eta eskolaz kanpoko jardueretan. Elorrion erroldatuta daudenei udalak matrikularen erdia ordaintzen die.',
+    exp:'Eusko Jaurlaritzak homologatutako aisialdi eskola · Urtean talde bat',
+    plazas:'20 plaza · izena emateko epea urrian', verif:true, cert:true, tel:'946 •• •• ••', email:'gazteria@•••••.eus',
+    idiomaClase:['eu'], sesionesSemana:2, grupo:20, estado:'cerrada', plazasLibres:null,
+    inscripcionHasta:'2026-10-20', empieza:'2026-11-06', prueba:false,
+    extras:[{que:'Materiala eta aseguruak', eur:0, cuando:'barne'}],
+    ayudas:['ayuda-municipal'], zona:'casco' },
+
+  /* ---------- artea eta musika ---------- */
+  { id:49, lang:'eu', titulo:'Bertso eskola: haurrak, gazteak eta helduak', proveedor:'Elorrioko Bertso Eskola', tipo:'asociacion', cat:'arte',
+    materias:['bertsolaritza','bertsoa','errima','doinuak','euskara'], edad:[8,99], precio:0, unidad:'mes',
+    mod:['presencial'], lugar:'Iturri Kultur Etxea, Elizburu kalea 18',
+    dias:['J'], horario:'Ostegunetan 18:00etatik 19:30era haurrak · 19:30etik 21:00era gazteak eta helduak',
+    desc:'Doako bertso eskola. Errimarekin eta neurriarekin jolasten hasten gara, eta gero doinuak eta gaiak lantzen dira. Ez da beharrezkoa kantuan ondo egitea; euskaraz moldatzea bai. Urtean behin herriko bertso saioa antolatzen dugu, eta eskolarteko txapelketara joaten dira nahi dutenak.',
+    exp:'Bertsozale Elkartearen sareko eskola · Bi irakasle · 24 ikasle',
+    plazas:'Urte osoan zabalik', verif:true, cert:true, tel:'688 •• •• ••', email:'bertsoeskola@•••••.eus',
+    idiomaClase:['eu'], sesionesSemana:1, grupo:12, estado:'continua', plazasLibres:null,
+    inscripcionHasta:null, empieza:null, prueba:true,
+    extras:[], ayudas:[], zona:'casco' },
+
+  { id:50, lang:'eu', titulo:'Herriko abesbatza eta haur korua', proveedor:'Elorrioko Abesbatza', tipo:'asociacion', cat:'musica',
+    materias:['abesbatza','korua','kantua','ahotsa'], edad:[8,99], precio:15, unidad:'trimestre',
+    mod:['presencial'], lugar:'Iturri Kultur Etxeko entsegu gela',
+    dias:['M','V'], horario:'Haur korua asteartetan 17:30ean · abesbatza ostiraletan 20:00etan',
+    desc:'Bi talde daude: haur korua, zortzi urtetik hamalaura, eta abesbatza nagusia, hamabost urtetik aurrera. Ez da musika ikasketarik behar, entzumena eta etortzeko gogoa baizik. Urtean zehar Santa Zezilian, Gabonetan eta herriko jaietan abesten dugu, eta udaberrian eskualdeko beste abesbatza batzuekin topaketa egiten dugu.',
+    exp:'1978tik · 45 abeslari · Zuzendari tituluduna',
+    plazas:'Irailean eta urtarrilean sartzen da', verif:true, cert:true, tel:'946 •• •• ••', email:'abesbatza@•••••.eus',
+    idiomaClase:['eu'], sesionesSemana:1, grupo:null, estado:'cerrada', plazasLibres:null,
+    inscripcionHasta:'2026-09-30', empieza:'2026-10-02', prueba:true,
+    extras:[{que:'Partiturak eta jantzia', eur:0, cuando:'taldeak jarrita'}],
+    ayudas:[], zona:'casco' },
+
+  /* ---------- kirola ---------- */
+  { id:51, lang:'eu', titulo:'Errugby eskola: 6 urtetik 16ra', proveedor:'Elorrioko Errugby Taldea', tipo:'club', cat:'deporte',
+    materias:['errugbia','tag errugbia','taldeko kirola'], edad:[6,16], precio:140, unidad:'temporada',
+    mod:['presencial'], lugar:'Elorri futbol zelaia',
+    dias:['X','V'], horario:'Asteazken eta ostiraletan 17:30etik 19:00era',
+    desc:'Kontakturik gabeko errugbia txikienekin (tag errugbia), eta kontaktua hamar urtetik aurrera, teknika ondo ikasi ondoren. Talde mistoak infantil mailara arte. Kuotan federazio-fitxa, asegurua eta elastikoa sartzen dira; botak norberak ekartzen ditu. Larunbatetan eskualdeko topaketetara joaten gara.',
+    exp:'Federatutako kluba · 60 jokalari · 5 entrenatzaile titulodun',
+    plazas:'Izena emateko epea irailaren 30era arte', verif:true, cert:true, tel:'632 •• •• ••', email:'errugbia@•••••.eus',
+    idiomaClase:['eu'], sesionesSemana:null, grupo:null, estado:'libre', plazasLibres:null,
+    inscripcionHasta:'2026-09-30', empieza:'2026-10-02', prueba:true,
+    extras:[{que:'Federazio-fitxa, asegurua eta elastikoa', eur:0, cuando:'barne'},
+            {que:'Botak', eur:null, cuando:'norberak'}],
+    ayudas:['ayuda-municipal'], zona:'casco' },
+
+  /* ---------- ongizatea / bienestar ---------- */
+  { id:52, lang:'eu', titulo:'Gimnasia eta oreka 60 urtetik gorakoentzat', proveedor:'Herriko Udala · Kirolak (adibidea)', tipo:'municipal', cat:'bienestar',
+    materias:['gimnasia','oreka','indarra','nagusiak','erorikoak'], edad:[60,99], precio:12, unidad:'mes',
+    mod:['presencial'], lugar:'Udal kiroldegia, Klaudio Gallastegi kalea 1',
+    dias:['L','X'], horario:'Astelehen eta asteazkenetan 10:00etatik 11:00era eta 11:15etik 12:15era',
+    desc:'Zutik eta aulkian egiteko ariketak: oreka, indarra eta ibiltzeko segurtasuna. Helburua erorikoak saihestea eta eskailerak beldurrik gabe igotzea da. Hamabosteko taldeak, bakoitzak ahal duena eginda. Monitoreak euskaraz eta gaztelaniaz azaltzen du. Osasun zentroak gomendatuta datozenentzat lehen hilabetea doakoa da.',
+    exp:'Udal kirol zerbitzua · Monitore tituluduna · Osasun zentroarekin koordinatuta',
+    plazas:'15 plaza txandako · goizeko bi txanda', verif:true, cert:false, tel:'946 •• •• ••', email:'kiroldegia@•••••.eus',
+    idiomaClase:['eu','es'], sesionesSemana:null, grupo:15, estado:'libre', plazasLibres:6,
+    inscripcionHasta:null, empieza:'2026-10-05', prueba:true,
+    extras:[], ayudas:['renta'], zona:'casco' },
+
+  { id:53, lang:'es', titulo:'Aquagym y natación terapéutica para adultos', proveedor:'Herriko Igerilekua (adibidea)', tipo:'municipal', cat:'bienestar',
+    materias:['aquagym','natación','espalda','rehabilitación','adultos'], edad:[18,99], precio:35, unidad:'mes',
+    mod:['presencial'], lugar:'Piscina del kiroldegia, Klaudio Gallastegi kalea 1',
+    dias:['M','J'], horario:'De 9:30 a 10:15 y de 20:00 a 20:45',
+    desc:'Trabajo en el agua sin impacto, para quien tiene problemas de espalda o de rodillas o vuelve de una lesión. No hace falta saber nadar: se hace todo haciendo pie. Grupos de doce. Hay un turno de mañana pensado para quien está jubilado y otro de tarde para quien sale del trabajo.',
+    exp:'Monitora con formación en actividad acuática terapéutica · Instalación municipal',
+    plazas:'Plazas libres en el turno de mañana', verif:true, cert:false, tel:'946 •• •• ••', email:'kiroldegia@•••••.eus',
+    idiomaClase:['es','eu'], sesionesSemana:null, grupo:12, estado:'libre', plazasLibres:4,
+    inscripcionHasta:null, empieza:'2026-10-06', prueba:true,
+    extras:[{que:'Entrada a la piscina los demás días', eur:null, cuando:'aparte'}],
+    ayudas:[], zona:'casco' },
+
+  { id:54, lang:'es', titulo:'Paseos saludables: una hora andando, sin cuestas', proveedor:'Osasun Eskola · Herriko Udala (adibidea)', tipo:'municipal', cat:'bienestar',
+    materias:['paseos','salud','corazón','diabetes','mayores'], edad:[50,99], precio:0, unidad:'mes',
+    mod:['presencial'], lugar:'Salida de Herriko Plaza',
+    dias:['M','J'], horario:'Martes y jueves a las 10:00',
+    desc:'Una hora andando por el paseo del río y por el casco, en llano y a ritmo de conversación. Lo lleva una persona voluntaria con formación y van dos personas del grupo cerrando la fila, para que nadie se quede atrás. Está pensado para quien el médico le ha dicho que ande y no sabe con quién. Se viene el día que se puede, sin apuntarse a nada.',
+    exp:'Programa de la Osasun Eskola con el centro de salud · Voluntariado del pueblo',
+    plazas:'Entrada libre, sin inscripción', verif:true, cert:false, tel:'946 •• •• ••', email:'osasuna@•••••.eus',
+    idiomaClase:['es','eu'], sesionesSemana:null, grupo:null, estado:'continua', plazasLibres:null,
+    inscripcionHasta:null, empieza:null, prueba:false,
+    extras:[], ayudas:[], zona:'casco' },
+
+  /* ---------- aisia eta uda / ocio y verano ---------- */
+  { id:55, lang:'eu', titulo:'Asteburuko aisialdi taldea', proveedor:'Txiribuelta Aisialdi Taldea', tipo:'asociacion', cat:'campamentos',
+    materias:['aisialdia','jolasak','irteerak','udalekuak','euskara'], edad:[6,14], precio:20, unidad:'trimestre',
+    mod:['presencial'], lugar:'Gazte Lokala eta Herriko Plaza',
+    dias:['S'], horario:'Larunbatetan 16:30etik 19:00era',
+    desc:'Larunbat arratsaldeetan elkartzen gara: jolasak, tailerrak, gymkhanak eta hilean behin irteera bat. Dena euskaraz eta begirale tituludunekin. Uztailean bost eguneko kanpaldia egiten dugu aterpetxe batean; hori aparte ordaintzen da. Hiruhileko kuota sinbolikoa da eta materiala barne hartzen du.',
+    exp:'Begirale boluntario tituludunak · Erantzukizun zibileko asegurua · 1994tik',
+    plazas:'Hiru talde: 6-9, 10-12 eta 13-14 urte', verif:true, cert:true, tel:'658 •• •• ••', email:'txiribuelta@•••••.eus',
+    idiomaClase:['eu'], sesionesSemana:null, grupo:15, estado:'libre', plazasLibres:8,
+    inscripcionHasta:'2026-09-30', empieza:'2026-10-03', prueba:true,
+    extras:[{que:'Uztaileko kanpaldia', eur:160, cuando:'aparte'}],
+    ayudas:['renta'], zona:'casco' },
+
+  { id:56, lang:'eu', titulo:'Gabonetako eta Aste Santuko udalekuak', proveedor:'Herriko Udala (adibidea)', tipo:'municipal', cat:'campamentos',
+    materias:['udalekuak','gabonak','aste santua','kontziliazioa'], edad:[3,12], precio:45, unidad:'semana',
+    mod:['presencial'], lugar:'Herri eskola',
+    dias:['L','M','X','J','V'], horario:'9:00etatik 13:30era · goizeko zaintza 8:00etatik',
+    desc:'Eskola itxita dagoen asteetarako: Gabonetan bi aste eta Aste Santuan bat. Tailerrak, jolasak, asteko irteera bat eta txokolate-jana azken egunean. Dena euskaraz. Goizeko zaintza 8:00etan hasten da, lanera joan behar dutenentzat. Diru-sarrera txikiagoko familientzat hobaria dago.',
+    exp:'Aisialdi enpresa asegurudun · Monitore bat hamar haurreko',
+    plazas:'Izena ematea azaroan eta martxoan · 60 plaza', verif:true, cert:true, tel:'946 •• •• ••', email:'gazteria@•••••.eus',
+    idiomaClase:['eu'], sesionesSemana:null, grupo:10, estado:'cerrada', plazasLibres:null,
+    inscripcionHasta:'2026-11-27', empieza:'2026-12-23', prueba:false,
+    extras:[{que:'Goizeko zaintza', eur:10, cuando:'asteko'}],
+    ayudas:['renta'], zona:'casco' },
+
+  { id:57, lang:'eu', titulo:'Eskolaz kanpoko jarduerak eta goizeko zaintza', proveedor:'Guraso Elkartea', tipo:'asociacion', cat:'campamentos',
+    materias:['eskolaz kanpokoak','goizeko zaintza','kontziliazioa','ingelesa','dantza'], edad:[3,12], precio:18, unidad:'mes',
+    mod:['presencial'], lugar:'Herri eskola',
+    dias:['L','M','X','J','V'], horario:'Goizeko zaintza 7:45etik 9:00era · jarduerak 16:30etik 17:30era',
+    desc:'Gurasoen elkarteak antolatzen ditu: goizeko zaintza lanera goiz joan behar dutenentzat, eta arratsaldeko jarduerak eskolan bertan (ingelesa, saskibaloia, dantza eta antzerkia). Hilabeteko kuota bakarra da, jarduera bat egin edo hiru. Bazkide ez direnentzat prezioa altuagoa da.',
+    exp:'Guraso elkarteak kudeatuta · Begirale tituludunak · 180 familia bazkide',
+    plazas:'Izena ematea irailean eta urtarrilean', verif:true, cert:true, tel:'946 •• •• ••', email:'gurasoak@•••••.eus',
+    idiomaClase:['eu'], sesionesSemana:null, grupo:null, estado:'libre', plazasLibres:null,
+    inscripcionHasta:'2026-09-30', empieza:'2026-10-01', prueba:false,
+    extras:[{que:'Guraso elkarteko kuota', eur:25, cuando:'urtean'}],
+    ayudas:['familia-numerosa'], zona:'casco' }
 ];
 
 /* ---- fichas pendientes de revisión ---- */
@@ -1351,12 +1531,12 @@ const PENDIENTES_INICIALES = [
     materias:['patinajea','patinak'], edad:[5,14], precio:25, unidad:'mes', mod:['presencial'],
     lugar:'Kiroldegiko kanpoko pista', dias:['S'], horario:'Larunbatetan 10:00etatik 11:30era',
     desc:'Haurrentzako patinaje eskola berria. Urrian hasiko gara bi talderekin, mailaren arabera. Patinak eta babesak uzten ditugu lehen asteetan.',
-    exp:'Patinaje federazioko monitore titulodune · Erantzukizun zibileko asegurua kontratatuta',
+    exp:'Patinaje federazioko monitore tituluduna · Erantzukizun zibileko asegurua kontratatuta',
     plazas:'20 plaza', verif:false, cert:true, tel:'623 •• •• ••', email:'irrist@•••••.eus',
     dni:'•••••887M', enviado:'Duela 2 egun',
     aviso:'Dokumentazioa osatuta. Egiaztatu behar da udalak pista larunbatetan lagatzen duela.' },
 
-  { id:103, lang:'es', titulo:'Clases de guitarra eléctrica online', proveedor:'Marcos Ferrán', tipo:'particular', cat:'musica',
+  { id:103, lang:'es', titulo:'Clases de guitarra eléctrica online', proveedor:'M. Adibide', tipo:'particular', cat:'musica',
     materias:['guitarra eléctrica','rock'], edad:[10,40], precio:15, unidad:'hora', mod:['online'],
     lugar:'Online', dias:['L','X','V'], horario:'A convenir',
     desc:'Clases por videollamada. Doy clase desde hace tres años a alumnos de toda España.',
@@ -1374,43 +1554,70 @@ const PETICIONES_INICIALES = [
 
 /* ---- agenda ---- */
 const AGENDA = [
-  { mes:{es:'Septiembre',eu:'Iraila'}, dia:'18', wd:{es:'jue',eu:'og'},
+  { mes:{es:'Septiembre',eu:'Iraila'}, dia:'16', wd:{es:'mié',eu:'az'},
+    titulo:{es:'Último día de las ayudas del ayuntamiento para actividades extraescolares', eu:'Eskolaz kanpoko jardueretarako udal laguntzen azken eguna'},
+    prov:'Herriko Udala (adibidea)', tag:{es:'Ayudas',eu:'Laguntzak'}, soon:true },
+  { mes:{es:'Septiembre',eu:'Iraila'}, dia:'18', wd:{es:'vie',eu:'or'},
     titulo:{es:'Prueba de nivel de inglés, gratuita', eu:'Ingeleseko maila proba, doan'},
     prov:'Hitz Hizkuntza Akademia', tag:{es:'Plazo',eu:'Epea'}, soon:true },
-  { mes:{es:'Septiembre',eu:'Iraila'}, dia:'20', wd:{es:'sáb',eu:'lr'},
-    titulo:{es:'Último día para apuntarse a la Musika Eskola', eu:'Musika Eskolan izena emateko azken eguna'},
-    prov:'Udal Musika Eskola', tag:{es:'Cierra',eu:'Ixten da'}, soon:true },
-  { mes:{es:'Septiembre',eu:'Iraila'}, dia:'25', wd:{es:'jue',eu:'og'},
+  { mes:{es:'Septiembre',eu:'Iraila'}, dia:'22', wd:{es:'mar',eu:'ar'},
+    titulo:{es:'Se apunta al eskola kirola en el propio colegio', eu:'Eskola kirolean izena ematea ikastetxean bertan'},
+    prov:'Herriko ikastetxeak', tag:{es:'Plazo',eu:'Epea'}, soon:true },
+  { mes:{es:'Septiembre',eu:'Iraila'}, dia:'24', wd:{es:'jue',eu:'og'},
+    titulo:{es:'Cierran las becas de comedor y de material escolar', eu:'Jantoki eta material bekak ixten dira'},
+    prov:'Herriko Udala (adibidea)', tag:{es:'Cierra',eu:'Ixten da'}, soon:true },
+  { mes:{es:'Septiembre',eu:'Iraila'}, dia:'25', wd:{es:'vie',eu:'or'},
     titulo:{es:'Cierra la inscripción del futbol eskola', eu:'Futbol eskolan izena emateko epea amaitzen da'},
     prov:'Elorrioko Futbol Taldea', tag:{es:'Cierra',eu:'Ixten da'}, soon:true },
-  { mes:{es:'Septiembre',eu:'Iraila'}, dia:'27', wd:{es:'sáb',eu:'lr'},
-    titulo:{es:'Puertas abiertas en el kiroldegia: pilota, saskibaloia y judo', eu:'Ate irekiak kiroldegian: pilota, saskibaloia eta judo'},
+  { mes:{es:'Septiembre',eu:'Iraila'}, dia:'26', wd:{es:'sáb',eu:'lr'},
+    titulo:{es:'Puertas abiertas en el kiroldegia: pilota, saskibaloia y judo', eu:'Ate irekiak kiroldegian: pilota, saskibaloia eta judoa'},
     prov:'Herriko kirol klubak', tag:{es:'Jornada',eu:'Jardunaldia'}, soon:true },
-  { mes:{es:'Septiembre',eu:'Iraila'}, dia:'30', wd:{es:'mar',eu:'ar'},
+  { mes:{es:'Septiembre',eu:'Iraila'}, dia:'29', wd:{es:'mar',eu:'ar'},
+    titulo:{es:'Reunión de la guraso elkartea: extraescolares y goiz-zaintza', eu:'Guraso elkartearen bilera: eskolaz kanpokoak eta goiz-zaintza'},
+    prov:'Guraso Elkartea', tag:{es:'Reunión',eu:'Bilera'}, soon:true },
+  { mes:{es:'Septiembre',eu:'Iraila'}, dia:'30', wd:{es:'mié',eu:'az'},
     titulo:{es:'Fin de la matrícula de idiomas', eu:'Hizkuntzetako matrikula amaitzen da'},
-    prov:'Hitz Hizkuntza Akademia', tag:{es:'Cierra',eu:'Ixten da'}, soon:false },
-  { mes:{es:'Octubre',eu:'Urria'}, dia:'01', wd:{es:'mié',eu:'az'},
+    prov:'Hitz Hizkuntza Akademia', tag:{es:'Cierra',eu:'Ixten da'}, soon:true },
+  { mes:{es:'Octubre',eu:'Urria'}, dia:'01', wd:{es:'jue',eu:'og'},
     titulo:{es:'Empieza el curso en casi todas las actividades', eu:'Ikasturtea hasten da jarduera gehienetan'},
     prov:'Elorrio', tag:{es:'Comienza',eu:'Hasten da'}, soon:false },
-  { mes:{es:'Octubre',eu:'Urria'}, dia:'04', wd:{es:'sáb',eu:'lr'},
+  { mes:{es:'Octubre',eu:'Urria'}, dia:'04', wd:{es:'dom',eu:'ig'},
     titulo:{es:'Primera jornada del circuito de cross de Bizkaia', eu:'Bizkaiko kros zirkuituko lehen jardunaldia'},
     prov:'Atletismo Taldea', tag:{es:'Competición',eu:'Lehiaketa'}, soon:false },
-  { mes:{es:'Octubre',eu:'Urria'}, dia:'07', wd:{es:'mar',eu:'ar'},
-    titulo:{es:'Empieza el taller de móvil para mayores', eu:'Nagusientzako mugikor tailerra hasten da'},
-    prov:'Udal Liburutegia', tag:{es:'Comienza',eu:'Hasten da'}, soon:false },
-  { mes:{es:'Octubre',eu:'Urria'}, dia:'15', wd:{es:'mié',eu:'az'},
+  { mes:{es:'Octubre',eu:'Urria'}, dia:'07', wd:{es:'mié',eu:'az'},
+    titulo:{es:'Empieza el taller de móvil para mayores', eu:'Nagusientzako mugikorren tailerra hasten da'},
+    prov:'Herriko Liburutegia (adibidea)', tag:{es:'Comienza',eu:'Hasten da'}, soon:false },
+  { mes:{es:'Octubre',eu:'Urria'}, dia:'15', wd:{es:'jue',eu:'og'},
     titulo:{es:'Sorteo de plazas de natación del primer trimestre', eu:'Lehen hiruhilekoko igeriketa plazen zozketa'},
-    prov:'Udal Igerilekua', tag:{es:'Sorteo',eu:'Zozketa'}, soon:false },
-  { mes:{es:'Noviembre',eu:'Azaroa'}, dia:'15', wd:{es:'sáb',eu:'lr'},
+    prov:'Herriko Igerilekua (adibidea)', tag:{es:'Sorteo',eu:'Zozketa'}, soon:false },
+  { mes:{es:'Noviembre',eu:'Azaroa'}, dia:'14', wd:{es:'sáb',eu:'lr'},
     titulo:{es:'Se abre la inscripción del campamento de Navidad', eu:'Gabonetako udalekuetan izena emateko epea zabaltzen da'},
-    prov:'Elorrioko Udala', tag:{es:'Abre',eu:'Zabaltzen da'}, soon:false },
-  { mes:{es:'Diciembre',eu:'Abendua'}, dia:'20', wd:{es:'sáb',eu:'lr'},
+    prov:'Herriko Udala (adibidea)', tag:{es:'Abre',eu:'Zabaltzen da'}, soon:false },
+  { mes:{es:'Diciembre',eu:'Abendua'}, dia:'05', wd:{es:'sáb',eu:'lr'},
+    titulo:{es:'Empieza la Durangoko Azoka', eu:'Durangoko Azoka hasten da'},
+    prov:'Durango', tag:{es:'Feria',eu:'Azoka'}, soon:false },
+  { mes:{es:'Diciembre',eu:'Abendua'}, dia:'20', wd:{es:'dom',eu:'ig'},
     titulo:{es:'Audición de Navidad de la Musika Eskola', eu:'Musika Eskolaren Gabonetako entzunaldia'},
-    prov:'Udal Musika Eskola', tag:{es:'Muestra',eu:'Emanaldia'}, soon:false },
-  { mes:{es:'Diciembre',eu:'Abendua'}, dia:'21', wd:{es:'dom',eu:'ig'},
+    prov:'Herriko Musika Eskola (adibidea)', tag:{es:'Muestra',eu:'Emanaldia'}, soon:false },
+  { mes:{es:'Diciembre',eu:'Abendua'}, dia:'21', wd:{es:'lun',eu:'al'},
     titulo:{es:'Santo Tomás en Mendraka', eu:'Santo Tomas Mendrakan'},
-    prov:'Mendrakako auzoa', tag:{es:'Fiesta',eu:'Jaia'}, soon:false }
+    prov:'Mendrakako auzoa', tag:{es:'Fiesta',eu:'Jaia'}, soon:false },
+  { mes:{es:'Diciembre',eu:'Abendua'}, dia:'24', wd:{es:'jue',eu:'og'},
+    titulo:{es:'Olentzero y Mari Domingi por las calles', eu:'Olentzero eta Mari Domingi kalez kale'},
+    prov:'Elorrio', tag:{es:'Fiesta',eu:'Jaia'}, soon:false }
 ];
+
+/* Una agenda que dice «pronto» de algo que ya pasó es lo único que una agenda no
+   puede hacer: se calcula contra la fecha de hoy, no se escribe a mano. */
+const MESNUM = { Septiembre:8, Octubre:9, Noviembre:10, Diciembre:11 };
+function diasHasta(a){
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  const d = new Date(hoy.getFullYear(), MESNUM[a.mes.es], +a.dia);
+  if(d < hoy) d.setFullYear(hoy.getFullYear() + 1);
+  return Math.round((d - hoy) / 86400000);
+}
+AGENDA.forEach(a => { a.soon = diasHasta(a) <= 21; });
+AGENDA.sort((a,b) => diasHasta(a) - diasHasta(b));
 
 /* ==========================================================================
    TEXTOS NUEVOS DE LA VERSIÓN VISUAL
@@ -1433,7 +1640,7 @@ Object.assign(T.es, {
   volverBusq:'Volver', compartirF:'Compartir',
   fH1:'Para las familias', fH2:'Para quien enseña', fL1:'Buscar actividades', fL2:'Agenda del pueblo',
   fL3:'Mis guardados', fL4:'Publicar mi actividad', fL5:'Acceso administración',
-  creditos:'Demostración sin valor real. Las fichas, las personas, los precios y las valoraciones son inventados. Las fotografías de las actividades son de archivo, con licencia libre (Wikimedia Commons y Openverse), y no corresponden a las actividades ni a las personas que aparecen en las fichas.',
+  creditos:'Demostración sin valor real. Las fichas, las personas, los precios y las valoraciones son inventados: ninguna corresponde a una persona, un negocio ni una entidad real de Elorrio. Esta web no pertenece al Ayuntamiento de Elorrio ni está vinculada a él, y la revisión municipal que se describe es una propuesta, no un servicio que exista hoy. Las fotografías de las actividades son de archivo, con licencia libre (Wikimedia Commons y Openverse), y no corresponden a las actividades ni a las personas que aparecen en las fichas.',
   pubFotos:'Fotos de la actividad', pubFotosD:'Dos o tres fotos reales. Las fichas con foto reciben cinco veces más visitas.',
   subirFoto:'Subir fotos', guardadoEn:'Guardado'
 });
@@ -1455,13 +1662,13 @@ Object.assign(T.eu, {
   volverBusq:'Itzuli', compartirF:'Partekatu',
   fH1:'Familientzat', fH2:'Irakasten dutenentzat', fL1:'Jarduerak bilatu', fL2:'Herriko agenda',
   fL3:'Nire gordeak', fL4:'Nire jarduera argitaratu', fL5:'Administrazio sarbidea',
-  creditos:'Baliorik gabeko demostrazioa. Fitxak, pertsonak, prezioak eta balorazioak asmatuak dira. Jardueren argazkiak artxibokoak dira, lizentzia librekoak (Wikimedia Commons eta Openverse), eta ez dagozkie fitxetan agertzen diren jarduerei ez pertsonei.',
-  pubFotos:'Jardueraren argazkiak', pubFotosD:'Bi edo hiru argazki benetako. Argazkia duten fitxek bost aldiz bisita gehiago jasotzen dituzte.',
+  creditos:'Baliorik gabeko demostrazioa. Fitxak, pertsonak, prezioak eta balorazioak asmatuak dira: bat ere ez dagokie Elorrioko pertsona, negozio edo erakunde errealei. Web hau ez da Elorrioko Udalarena, ez du harekin loturarik, eta deskribatzen den udal berrikuspena proposamen bat da, ez gaur existitzen den zerbitzu bat. Jardueren argazkiak artxibokoak dira, lizentzia librekoak (Wikimedia Commons eta Openverse), eta ez dagozkie fitxetan agertzen diren ez jarduerei ez pertsonei.',
+  pubFotos:'Jardueraren argazkiak', pubFotosD:'Bi edo hiru benetako argazki. Argazkia duten fitxek bost aldiz bisita gehiago jasotzen dituzte.',
   subirFoto:'Argazkiak igo', guardadoEn:'Gordeta'
 });
 
 Object.assign(T.es, {
-  edadQ:'¿Qué edad tiene?',
+  edadQ:'¿Qué edad tiene?', saltar:'Ir al contenido', fIdiomaL:'Idioma de la clase',
   plazosH:'Cierra esta semana', verAgenda:'Ver la agenda entera',
   ctaPubH:'¿Das clases en Elorrio?',
   ctaPubP:'Publicar es gratis, no hay comisión y el contacto llega directo a tu teléfono.',
@@ -1481,7 +1688,7 @@ Object.assign(T.es, {
   cualquiera:'Cualquiera', hasta:'Hasta ', alMes:'/mes'
 });
 Object.assign(T.eu, {
-  edadQ:'Zenbat urte ditu?',
+  edadQ:'Zenbat urte ditu?', saltar:'Edukira joan', fIdiomaL:'Klasearen hizkuntza',
   plazosH:'Aste honetan ixten da', verAgenda:'Ikusi agenda osoa',
   ctaPubH:'Elorrion klaseak ematen dituzu?',
   ctaPubP:'Argitaratzea doakoa da, ez dago komisiorik eta harremana zuzenean zure telefonora iristen da.',
@@ -1513,9 +1720,11 @@ const IMG = {
   30:'euskaldantza', 31:'ballet', 32:'zumba', 33:'marrazketa', 34:'antzerkia', 35:'zeramika',
   36:'robotika', 37:'xakea', 38:'liburutegia', 39:'yoga', 40:'pilates', 41:'gimnasioa', 42:'entrenatzailea',
   43:'udalekuak', 44:'ludoteka', 45:'udalekuak2',
+  46:'ikasgela2', 47:'euskara', 48:'ludoteka', 49:'antzerkia', 50:'txistu', 51:'futbol',
+  52:'gimnasioa', 53:'igeriketa', 54:'mendi', 55:'udalekuak', 56:'ludoteka', 57:'ikasgela',
   101:'biolina', 102:'patinajea', 103:'gitarra2'
 };
-const CAT_IMG = { idiomas:'euskara', apoyo:'ikasgela', musica:'trikitixa', deporte:'pilota',
+const CAT_IMG = { idiomas:'euskara', apoyo:'ikasgela', titulos:'ikasgela2', musica:'trikitixa', deporte:'pilota',
   danza:'ballet', arte:'marrazketa', tecnologia:'robotika', bienestar:'yoga', campamentos:'udalekuak' };
 const foto = k => 'fotos/' + k + '.jpg';
 
@@ -1536,10 +1745,10 @@ const OPINIONES = {
  eu:['Nire alabak bi urte zeramatzan trabatuta eta hiruhileko batean jarrera osoa aldatu zaio. Oso adi nola doan esateko.',
   'Talde txikiak benetan, ez beste leku batzuetan bezala. Nabari da haur bakoitza izenez ezagutzen duela.',
   'Puntuala, serioa eta pazientzia handikoa. Ikastolako beste bi familiari gomendatu diegu eta oso pozik.',
-  'Arratsaldeko ordutegia ondo etorri zitzaigun, bi lanekin ezinezkoa baitzen. Malgua egun bat aldatzeko behar izanez gero.',
-  'Prezioa oso ondo dago eskaintzen duenerako. Sorpresarik gabe eta hilero material gehiago ordaindu beharrik gabe.',
+  'Arratsaldeko ordutegia ondo etorri zitzaigun, bi lanekin ezinezkoa baitzen. Malgua da egunen bat aldatu behar izanez gero.',
+  'Prezioa oso ondo dago, eskaintzen duena kontuan hartuta. Sorpresarik gabe eta hilero material gehiago ordaindu beharrik gabe.',
   'Nire semeari asko kostatzen zitzaion hastea eta orain pozik joaten da. Hori, guretzat, nahikoa da.',
-  'Euskaraz eta gaztelaniaz azaltzen du nor dagoen, eta horrek etxean asko lagundu digu.',
+  'Euskaraz edo gaztelaniaz azaltzen du, nor dagoenaren arabera, eta horrek asko lagundu digu etxean.',
   'Urteak daramatza herrian eta nabari da. Umeak ezagutzen ditu eta badaki noiz estutu eta noiz ez.']
 };
 /* Valoraciones de ejemplo: sólo las llevan las fichas del juego de datos inicial.
@@ -1562,7 +1771,7 @@ function opiniones(f){
    ESTADO
    ========================================================================== */
 const state = {
-  lang:LANG_INICIAL, view:'buscar', q:'', ambito:null, cat:null, edad:null, tipo:null, mod:null, dia:null,
+  lang:LANG_INICIAL, view:'buscar', q:'', ambito:null, cat:null, edad:null, tipo:null, mod:null, dia:null, idioma:null,
   precioMax:null, sugIdx:-1, orden:'rel', fichaId:null, paso:1, form:{}, enviada:null,
   admin:false, adminTab:'pendientes', listo:false, compartidos:null,
   fichas:FICHAS.map(f => Object.assign({}, f)),
@@ -1617,9 +1826,13 @@ function diasTxt(d){
   return cap(n.slice(0,-1).join(', ') + t('y') + n[n.length-1]);
 }
 const modTxt = m => m.map(modName).join(' · ');
+const idiomaName = id => { const x = IDIOMAS_CLASE.find(y => y.id === id); return x ? x[state.lang] : id; };
+const idiomasTxt = f => (f.idiomaClase || []).map(idiomaName).join(' · ');
+function estadoTxt(f){ const e = ESTADOS[f.estado]; return e ? e[state.lang] : ''; }
 function toast(msg){
   const el = $('#toast'); el.textContent = msg; el.classList.add('on');
-  clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('on'), 4000);
+  /* Seis segundos: cuatro no dan para leer un aviso de dos líneas. */
+  clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('on'), 6000);
 }
 const HEART = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.7-7.5-9.7A4.3 4.3 0 0 1 12 7.9a4.3 4.3 0 0 1 7.5 2.9c0 5-7.5 9.7-7.5 9.7z"/></svg>';
 
@@ -1645,6 +1858,7 @@ function filtrar(lista, saltar){
   const cat = s.cat ? null : state.cat, tipo = s.tipo ? null : state.tipo;
   const mod = s.mod ? null : state.mod, dia = s.dia ? null : state.dia;
   const pmax = s.precioMax ? null : state.precioMax;
+  const idi = s.idioma ? null : state.idioma;
   const buscar = s.q ? [] : term;
   return lista.filter(f => {
     if(amb && amb.cats.indexOf(f.cat) < 0) return false;
@@ -1656,6 +1870,7 @@ function filtrar(lista, saltar){
       if(pmax === 0){ if(f.precio !== 0) return false; }
       else if(precioMes(f) > pmax) return false;
     }
+    if(idi && (f.idiomaClase || []).indexOf(idi) < 0) return false;
     if(ed && !(f.edad[0] <= ed.max && f.edad[1] >= ed.min)) return false;
     if(buscar.length){ const h = heno(f); return buscar.every(x => h.indexOf(x) >= 0); }
     return true;
@@ -1678,7 +1893,7 @@ function ordenar(l){
     return d !== 0 ? d : a.proveedor.localeCompare(b.proveedor,'es');
   });
 }
-const hayFiltros = () => !!(state.q||state.ambito||state.cat||state.edad||state.tipo||state.mod||state.dia||state.precioMax!==null);
+const hayFiltros = () => !!(state.q||state.ambito||state.cat||state.edad||state.tipo||state.mod||state.dia||state.idioma||state.precioMax!==null);
 
 /* Los recuentos de cada opción se calculan de una vez, con un filtrado por dimensión
    (seis en total) en vez de uno por opción (cuarenta y dos). Para las materias se
@@ -1686,11 +1901,12 @@ const hayFiltros = () => !!(state.q||state.ambito||state.cat||state.edad||state.
    aparecen seis. */
 let CONTEOS = null;
 function calcularConteos(){
-  const c = { cat:{}, edad:{}, tipo:{}, mod:{}, dia:{}, precioMax:{} };
+  const c = { cat:{}, edad:{}, tipo:{}, mod:{}, dia:{}, precioMax:{}, idioma:{} };
   filtrar(state.fichas, { cat:1, ambito:1 }).forEach(f => { c.cat[f.cat] = (c.cat[f.cat]||0)+1; });
   filtrar(state.fichas, { edad:1 }).forEach(f => EDADES.forEach(e => {
     if(f.edad[0] <= e.max && f.edad[1] >= e.min) c.edad[e.id] = (c.edad[e.id]||0)+1; }));
   filtrar(state.fichas, { tipo:1 }).forEach(f => { c.tipo[f.tipo] = (c.tipo[f.tipo]||0)+1; });
+  filtrar(state.fichas, { idioma:1 }).forEach(f => (f.idiomaClase||[]).forEach(i => { c.idioma[i] = (c.idioma[i]||0)+1; }));
   filtrar(state.fichas, { mod:1 }).forEach(f => f.mod.forEach(m => { c.mod[m] = (c.mod[m]||0)+1; }));
   filtrar(state.fichas, { dia:1 }).forEach(f => f.dias.forEach(d => { c.dia[d] = (c.dia[d]||0)+1; }));
   const bp = filtrar(state.fichas, { precioMax:1 });
@@ -1815,7 +2031,7 @@ function bandaHTML(){
     kpi(state.fichas.length, t('kpi1'), true) +
     kpi(state.fichas.filter(f => f.precio === 0 || precioMes(f) <= 15).length, t('kpi2')) +
     kpi(new Set(state.fichas.filter(f => f.tipo !== 'particular').map(f => f.proveedor)).size, t('kpi3')) +
-    kpi(state.fichas.filter(f => f.lang === 'eu').length, t('kpi4')) +
+    kpi(state.fichas.filter(f => (f.idiomaClase || []).indexOf('eu') >= 0).length, t('kpi4')) +
   '</div></div>';
 }
 function kpi(n, c, hi){
@@ -1880,14 +2096,17 @@ function pintarFiltros(){
 
   /* Quién lo da, qué día y cómo son de segunda visita: van juntos detrás de «más filtros». */
   const masOpts =
+    '<div class="fhead">' + esc(t('fIdiomaL')) + '</div>' +
+    opt('idioma','',t('cualquiera')) +
+    IDIOMAS_CLASE.map(x => opt('idioma', x.id, x[state.lang], contar('idioma', x.id))).join('') +
     '<div class="fhead">' + esc(t('fQuienL')) + '</div>' +
     opt('tipo','',t('cualquiera')) + TIPOS.map(x => opt('tipo', x.id, x[state.lang], contar('tipo', x.id))).join('') +
     '<div class="fhead">' + esc(t('fDiaL')) + '</div>' +
     opt('dia','',t('cualquiera')) + DIAS.map(d => opt('dia', d, cap(DIAS_LARGO[state.lang][d]), contar('dia', d))).join('') +
     '<div class="fhead">' + esc(t('fComoL')) + '</div>' +
     opt('mod','',t('cualquiera')) + MODOS.map(x => opt('mod', x.id, x[state.lang], contar('mod', x.id))).join('');
-  const masAct = [state.tipo && tipoName(state.tipo), state.dia && cap(DIAS_LARGO[state.lang][state.dia]),
-    state.mod && modName(state.mod)].filter(Boolean);
+  const masAct = [state.idioma && idiomaName(state.idioma), state.tipo && tipoName(state.tipo),
+    state.dia && cap(DIAS_LARGO[state.lang][state.dia]), state.mod && modName(state.mod)].filter(Boolean);
 
   g.innerHTML =
     drop('cat', t('fMateriaL'), catAct, matOpts) +
@@ -2042,7 +2261,9 @@ function viewFicha(){
           fact(t('fEdades'), edadTxt(f)) +
           fact(t('fCuando'), esc(diasTxt(f.dias)) + '<br><span style="color:var(--mute);font-size:13px">' + esc(f.horario) + '</span>') +
           fact(t('fComoF'), esc(modTxt(f.mod))) + fact(t('fDonde'), esc(f.lugar)) +
-          fact(t('fPlazas'), esc(f.plazas)) +
+          (f.idiomaClase ? fact(t('fIdiomaL'), esc(idiomasTxt(f))) : '') +
+          fact(t('fPlazas'), (estadoTxt(f) ? '<b>' + esc(estadoTxt(f)) + '</b><br>' : '') +
+            '<span style="color:var(--mute);font-size:13px">' + esc(f.plazas) + '</span>') +
         '</div>' +
         '<div class="who-box"><span class="av big" aria-hidden="true">' + esc(ini) + '</span>' +
           '<span class="stack g6"><span class="card-t">' + esc(f.proveedor) + '</span>' +
@@ -2066,7 +2287,9 @@ function viewFicha(){
             f.precio + ' €<span class="u">' + uni(f).s + '</span>') + '</span>' +
           (f.precio ? '<span class="card-s" style="white-space:normal">≈ ' + precioMes(f) + ' €' + esc(t('aprox')) + '</span>' : '') + '</div>' +
         '<hr class="rule">' +
-        '<div class="stack g6"><span class="card-s" style="white-space:normal"><b style="color:var(--ink)">' + esc(f.plazas) + '</b></span>' +
+        '<div class="stack g6"><span class="card-s" style="white-space:normal"><b style="color:var(--ink)">' +
+            esc(estadoTxt(f) || f.plazas) + '</b></span>' +
+          '<span class="card-s" style="white-space:normal">' + esc(f.plazas) + '</span>' +
           '<span class="card-s" style="white-space:normal">' + esc(t('respuesta')) + '</span></div>' +
         contacto +
         '<p class="note" style="font-size:12px">' + esc(t('sinComision')) + '</p>' +
@@ -2315,12 +2538,16 @@ function viewAdmin(){
     '<div class="stack g10"><p class="eyebrow">' + esc(t('admEyebrow')) + ' · Elorrio</p><h1 class="pg">' + esc(t('admH1')) + '</h1></div>' +
     '<div class="kpis">' + kpi(pub.length, t('nPub')) + kpi(pend.length, t('nPend'), true) +
       kpi(pet.length, t('nPet')) + kpi(312, t('nVis')) + '</div>' +
-    '<div class="tabs">' + tab('pendientes',t('tabPend'),pend.length) + tab('publicadas',t('tabPub'),pub.length) +
-      tab('peticiones',t('tabPet'),pet.length) + '</div>' + cuerpo +
+    '<div class="tabs" role="tablist" aria-label="' + esc(t('admEyebrow')) + '">' +
+      tab('pendientes',t('tabPend'),pend.length) + tab('publicadas',t('tabPub'),pub.length) +
+      tab('peticiones',t('tabPet'),pet.length) + '</div>' +
+    '<div id="panel-adm" role="tabpanel" tabindex="0" aria-labelledby="tab-' + state.adminTab + '">' +
+      cuerpo + '</div>' +
     '<div class="btn-row"><button class="lnk" data-act="salir">' + esc(t('salir')) + '</button></div></div></section>';
 }
-const tab = (id,label,n) => '<button role="tab" data-act="tab" data-v="' + id + '" aria-selected="' + (state.adminTab===id) + '">' +
-  esc(label) + ' · ' + n + '</button>';
+const tab = (id,label,n) => '<button role="tab" id="tab-' + id + '" data-act="tab" data-v="' + id +
+  '" aria-selected="' + (state.adminTab===id) + '" aria-controls="panel-adm" tabindex="' +
+  (state.adminTab===id ? '0' : '-1') + '">' + esc(label) + ' · ' + n + '</button>';
 
 /* ==========================================================================
    ROUTER Y EVENTOS
@@ -2335,6 +2562,7 @@ function pintarCromo(){
   $('#f-l4').textContent = t('fL4'); $('#f-l5').textContent = t('fL5');
   $('#creditos').textContent = t('creditos');
   const sp2 = $('#sp-2'); if(sp2) sp2.textContent = t('splashSub');
+  const sl = $('#saltar'); if(sl) sl.textContent = t('saltar');
   pintarBotonTema();
   $('#langs').innerHTML = ['eu','es'].map(l =>
     '<button data-lang="' + l + '" aria-pressed="' + (state.lang===l) + '">' + l.toUpperCase() + '</button>')
@@ -2384,7 +2612,7 @@ function medirBarra(){
    fichero abierto en local se comporta igual que el publicado.
    ========================================================================== */
 const PARAMS = [['q','q'],['amb','ambito'],['cat','cat'],['edad','edad'],['tipo','tipo'],
-  ['mod','mod'],['dia','dia'],['max','precioMax'],['orden','orden']];
+  ['mod','mod'],['dia','dia'],['hizk','idioma'],['max','precioMax'],['orden','orden']];
 const VISTAS_URL = ['agenda','guardados','publicar','admin'];
 const rutaFicha = id => '#/ficha/' + id;
 function rutaDe(){
@@ -2410,7 +2638,7 @@ function escribirURL(modo){
 }
 function limpiarFiltros(){
   state.q = ''; state.ambito = null; state.cat = null; state.edad = null; state.tipo = null;
-  state.mod = null; state.dia = null; state.precioMax = null; state.orden = 'rel';
+  state.mod = null; state.dia = null; state.idioma = null; state.precioMax = null; state.orden = 'rel';
 }
 function leerURL(){
   const h = (location.hash || '#/').replace(/^#/, '');
@@ -2506,6 +2734,7 @@ document.addEventListener('click', e => {
   }
   const act = b.dataset.act, v = b.dataset.v, id = +b.dataset.id;
   switch(act){
+    case 'saltar': { const m = $('#app'); if(m){ m.focus(); m.scrollIntoView(); } break; }
     case 'ficha':  state.fichaId = id; ir('ficha'); break;
     case 'volver': ir('buscar'); break;
     case 'ir':     ir(v); break;
@@ -2529,7 +2758,7 @@ document.addEventListener('click', e => {
       state.cat = (state.cat === v) ? null : v;
       if(state.cat){ const a = AMBITOS.find(x => x.cats.indexOf(state.cat) >= 0); state.ambito = a ? a.id : null; }
       render(false); aResultados(); break;
-    case 'edad': case 'tipo': case 'mod': case 'dia':
+    case 'edad': case 'tipo': case 'mod': case 'dia': case 'idioma':
       state[act] = (!v || state[act] === v) ? null : v;
       if(state.view !== 'buscar'){ ir('buscar'); break; }
       render(false); aResultados(); break;
