@@ -1541,7 +1541,7 @@ const PENDIENTES_INICIALES = [
     dias:['M','J'], horario:'Arratsaldez',
     desc:'Kontserbatorio profesionaleko laugarren mailako ikaslea naiz. Hasten diren haurrei klaseak ematen dizkiet.',
     exp:'Maila Profesionaleko 4. kurtsoa · Irakasle esperientziarik gabe',
-    plazas:'3 plaza', verif:false, cert:false, tel:'611 •• •• ••', email:'andoni.•••••@••••.eus',
+    plazas:'3 plaza', idiomaClase:['eu','es'], estado:'libre', verif:false, cert:false, tel:'611 •• •• ••', email:'andoni.•••••@••••.eus',
     dni:'•••••123X', enviado:'Atzo, 21:14',
     aviso:'Ez du sexu-delituen ziurtagiria erantsi. Nahitaezkoa da adingabeei klaseak emateko.' },
 
@@ -1550,7 +1550,7 @@ const PENDIENTES_INICIALES = [
     lugar:'Kiroldegiko kanpoko pista', dias:['S'], horario:'Larunbatetan 10:00etatik 11:30era',
     desc:'Haurrentzako patinaje eskola berria. Urrian hasiko gara bi talderekin, mailaren arabera. Patinak eta babesak uzten ditugu lehen asteetan.',
     exp:'Patinaje federazioko monitore tituluduna · Erantzukizun zibileko asegurua kontratatuta',
-    plazas:'20 plaza', verif:false, cert:true, tel:'623 •• •• ••', email:'irrist@•••••.eus',
+    plazas:'20 plaza', idiomaClase:['eu'], estado:'libre', verif:false, cert:true, tel:'623 •• •• ••', email:'irrist@•••••.eus',
     dni:'•••••887M', enviado:'Duela 2 egun',
     aviso:'Dokumentazioa osatuta. Egiaztatu behar da udalak pista larunbatetan uzten duela.' },
 
@@ -1559,7 +1559,7 @@ const PENDIENTES_INICIALES = [
     lugar:'Online', dias:['L','X','V'], horario:'A convenir',
     desc:'Clases por videollamada. Doy clase desde hace tres años a alumnos de toda España.',
     exp:'Autodidacta · 3 años dando clase online',
-    plazas:'Sin límite', verif:false, cert:false, tel:'600 •• •• ••', email:'marcos.•••••@••••.com',
+    plazas:'Sin límite', idiomaClase:['es'], estado:'libre', verif:false, cert:false, tel:'600 •• •• ••', email:'marcos.•••••@••••.com',
     dni:'•••••045P', enviado:'Duela 4 egun',
     aviso:'Ez du Elorrion helbiderik ez jarduerarik. Tabloia herrian klaseak ematen dituenarentzat baino ez da.' }
 ];
@@ -2371,7 +2371,11 @@ function pintarResultados(){
 }
 function actualizar(){
   calcularConteos();
-  state.tope = TOPE_LISTA;
+  /* La tanda desplegada se reinicia cuando cambian los filtros, no en cada repintado:
+     si no, volver de una ficha te devolvía al principio de la lista. */
+  const firma = JSON.stringify([state.q, state.ambito, state.cat, state.edad, state.tipo,
+    state.mod, state.dia, state.idioma, state.plaza, state.precioMax, state.orden]);
+  if(firma !== state._firma){ state._firma = firma; state.tope = TOPE_LISTA; }
   pintarSecs(); pintarEdades(); pintarCats(); pintarFiltros(); pintarResultados(); escribirURL('replace');
 }
 
@@ -2828,7 +2832,7 @@ function escribirURL(modo){
 function limpiarFiltros(){
   state.q = ''; state.ambito = null; state.cat = null; state.edad = null; state.tipo = null;
   state.mod = null; state.dia = null; state.idioma = null; state.plaza = null;
-  state.precioMax = null; state.orden = 'rel'; state.tope = TOPE_LISTA;
+  state.precioMax = null; state.orden = 'rel';
 }
 /* Un enlace que llega por WhatsApp puede traer cualquier cosa. Lo que no reconocemos
    se ignora: la alternativa era que `#/?amb=deportes` (con una ese de más) dejara la
@@ -2894,6 +2898,9 @@ function render(scroll){
   else if(state.view === 'admin')     app.innerHTML = viewAdmin();
   document.body.classList.toggle('con-barra', state.view === 'ficha');
   pintarCromo();
+  /* Sin esto, un enlace con búsqueda («#/?q=piano») abre con un solo resultado y la
+     caja vacía, y el botón atrás deja escrito un texto que ya no filtra nada. */
+  syncQ();
   document.documentElement.lang = state.lang;
   medirBarra();
   escribirURL('replace');
@@ -3043,7 +3050,7 @@ document.addEventListener('click', e => {
       if(!p.cert && p.edad[0] < 18){ toast(t('tCert')); break; }
       /* Se publica una copia y sin el expediente: el DNI y las notas internas no
          salen del panel de administración. */
-      const publica = Object.assign({}, p, { verif:true });
+      const publica = Object.assign({ idiomaClase:[p.lang], estado:'libre' }, p, { verif:true });
       delete publica.dni; delete publica.aviso; delete publica.enviado;
       state.fichas.unshift(publica); state.pendientes.splice(i,1);
       toast(t('tPublicada')); render(false); break;
@@ -3200,6 +3207,7 @@ function construirFicha(){
     mod:f.mod && f.mod.length ? f.mod : ['presencial'], lugar:f.lugar||'', dias:f.dias||[], horario:f.horario||'',
     desc:f.desc||'', exp:f.exp||'—', plazas:f.plazas||'—', verif:false, cert:false, tel:f.tel, email:f.email,
     dni:f.dni, enviado: state.lang==='eu' ? 'Oraintxe' : 'Hace un momento',
+    idiomaClase:[f.flang || state.lang], estado:'libre',
     aviso: state.lang==='eu'
       ? 'Formulariotik iritsi berri den fitxa. NANa eta ziurtagiriak egiaztatu behar dira argitaratu aurretik.'
       : 'Ficha recién enviada desde el formulario. Hay que comprobar el DNI y los certificados antes de publicarla.' };
