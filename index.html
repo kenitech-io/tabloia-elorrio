@@ -762,6 +762,7 @@
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="vh" id="anuncio" role="status" aria-live="polite"></div>
 
 <script>
 const PUEBLO = 'Elorrio';
@@ -2930,6 +2931,15 @@ function render(scroll){
   document.documentElement.lang = state.lang;
   medirBarra();
   escribirURL('replace');
+  /* Quien navega con lector de pantalla necesita saber que ha cambiado de página:
+     el contenido se sustituye entero sin que el navegador diga nada. */
+  const an = $('#anuncio');
+  if(an){
+    const nombres = { buscar:t('buscar'), ficha:'', agenda:t('agenda'), guardados:t('guardados'),
+      publicar:t('publicar'), admin:t('admEyebrow') };
+    const f = state.view === 'ficha' ? state.fichas.find(x => x.id === state.fichaId) : null;
+    an.textContent = f ? f.titulo : (nombres[state.view] || '');
+  }
   if(scroll !== false) window.scrollTo(0,0);
 }
 function ir(v){
