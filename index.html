@@ -230,8 +230,8 @@
 
   /* ---------- portada: banda de entrada ---------- */
   .hero { position:relative; display:flex; align-items:flex-end; overflow:hidden;
-    min-height:clamp(190px,21vw,288px); background:var(--ground-warm); }
-  .hero > img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 46%; }
+    min-height:clamp(190px,21vw,270px); background:var(--ground-warm); }
+  .hero > img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 50%; }
   .hero::after { content:''; position:absolute; inset:0; background:var(--scrim); }
   .hero .wrap { position:relative; z-index:1; width:100%; padding-block:var(--s6) var(--s7); }
   /* El subtitulo va al lado del titular, no debajo: asi la banda de texto tapa
@@ -2160,8 +2160,9 @@ function viewBuscar(){
 }
 function heroHTML(){
   return '<section class="hero">' +
-    '<img src="' + foto('elorrio') + '" srcset="' + fotoS('elorrio') + ' 560w, ' + foto('elorrio') + ' 1500w" '+
-      'sizes="100vw" alt="" width="1500" height="1000" fetchpriority="high">' +
+    /* Panoramica: en una banda con object-fit:cover el ancho pintado lo manda el alto,
+   no el del hueco, asi que una copia de 560 se veria al triple de su tamano. Una sola. */
+    '<img src="' + foto('elorrio') + '" alt="" width="1500" height="281" fetchpriority="high">' +
     '<div class="wrap"><div class="in">' +
       '<span class="kick">' + esc(t('heroKicker')) + '</span>' +
       '<h1>' + esc(t('heroH1')) + '</h1>' +
