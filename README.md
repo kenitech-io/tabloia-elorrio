@@ -22,9 +22,10 @@ propósito. **Esta web no pertenece al Ayuntamiento de Elorrio ni está vinculad
 a él**, y la revisión municipal que se describe es una propuesta, no un
 servicio que exista hoy.
 
-Las fotografías son de archivo, con licencia libre (Flickr, Wikimedia Commons,
-StockSnap). La autoría y la licencia de cada una están en
-[`fotos/creditos.json`](fotos/creditos.json).
+Las fotografías de las actividades son de archivo, con licencia libre (Flickr,
+Wikimedia Commons, StockSnap). La autoría y la licencia de cada una están en
+[`fotos/creditos.json`](fotos/creditos.json). La de la portada no: es una foto
+del monte, aportada por el propietario de la web.
 
 Mientras los datos sean inventados, la web lleva `noindex, nofollow`: quitarlo
 es la primera casilla de la lista si algún día pasa a ser real.

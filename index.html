@@ -231,7 +231,7 @@
   /* ---------- portada: banda de entrada ---------- */
   .hero { position:relative; display:flex; align-items:flex-end; overflow:hidden;
     min-height:clamp(190px,21vw,288px); background:var(--ground-warm); }
-  .hero > img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 62%; }
+  .hero > img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 46%; }
   .hero::after { content:''; position:absolute; inset:0; background:var(--scrim); }
   .hero .wrap { position:relative; z-index:1; width:100%; padding-block:var(--s6) var(--s7); }
   .hero .in { display:flex; flex-direction:column; gap:var(--s3); max-width:min(660px,52%); }
@@ -2148,7 +2148,8 @@ function viewBuscar(){
 }
 function heroHTML(){
   return '<section class="hero">' +
-    '<img src="' + foto('elorrio') + '" alt="" width="1500" height="1000" fetchpriority="high">' +
+    '<img src="' + foto('elorrio') + '" srcset="' + fotoS('elorrio') + ' 560w, ' + foto('elorrio') + ' 1500w" '+
+      'sizes="100vw" alt="" width="1500" height="1000" fetchpriority="high">' +
     '<div class="wrap"><div class="in">' +
       '<span class="kick">' + esc(t('heroKicker')) + '</span>' +
       '<h1>' + esc(t('heroH1')) + '</h1>' +
