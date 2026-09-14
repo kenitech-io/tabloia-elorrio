@@ -234,7 +234,19 @@
   .hero > img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 46%; }
   .hero::after { content:''; position:absolute; inset:0; background:var(--scrim); }
   .hero .wrap { position:relative; z-index:1; width:100%; padding-block:var(--s6) var(--s7); }
-  .hero .in { display:flex; flex-direction:column; gap:var(--s3); max-width:min(660px,52%); }
+  /* El subtitulo va al lado del titular, no debajo: asi la banda de texto tapa
+     menos foto. Debajo de 900 vuelve a caer en columna. */
+  .hero .in { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);
+    grid-template-areas:'kick kick' 'tit sub'; align-items:end;
+    column-gap:var(--s6); row-gap:var(--s3); max-width:min(1120px,92%); }
+  .hero .kick { grid-area:kick; }
+  .hero h1 { grid-area:tit; }
+  .hero p { grid-area:sub; padding-bottom:.35em; }
+  @media (max-width:1099px) {
+    .hero .in { grid-template-columns:minmax(0,1fr); grid-template-areas:'kick' 'tit' 'sub';
+      max-width:min(660px,62%); }
+    .hero p { padding-bottom:0; }
+  }
   .hero .kick { font-size:var(--t-label); font-weight:500; letter-spacing:.2em; text-transform:uppercase;
     color:rgba(255,255,255,.78); }
   .hero h1 { font-size:var(--t-display); font-weight:600; letter-spacing:-.03em; line-height:1.05;
