@@ -10,14 +10,14 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2314453d'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Helvetica,Arial,sans-serif' font-size='38' font-weight='600' fill='%23ffffff'%3ET%3C/text%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://kenitech-io.github.io/tabloia-elorrio/">
-<meta property="og:title" content="Elorrioko Tabloia">
+<meta property="og:title" content="ElorriON">
 <meta property="og:description" content="Todas las actividades de Elorrio en un solo sitio: clases particulares, academias, clubes, escuelas municipales y elkarteak. Demostración con datos inventados.">
 <meta property="og:image" content="https://kenitech-io.github.io/tabloia-elorrio/fotos/elorrio.jpg">
 <meta property="og:locale" content="es_ES">
 <meta property="og:locale:alternate" content="eu_ES">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="fuentes/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-<title>Elorrioko Tabloia</title>
+<title>ElorriON</title>
 <style>
   /* La tipografía se sirve desde el propio repositorio: una web del pueblo no debería
      mandar la IP de cada vecino a un tercero ni dejar de verse bien el día que ese
@@ -114,10 +114,12 @@
   .bar { position:sticky; top:0; z-index:40; background:var(--ground);
     border-bottom:1px solid var(--hair); }
   .bar .wrap { display:flex; align-items:center; gap:12px 40px; padding-block:18px; flex-wrap:wrap; }
-  .mark { background:none; border:none; padding:0; cursor:pointer; display:flex; align-items:baseline;
-    gap:9px; flex:0 0 auto; }
-  .mark .w { font-size:20px; font-weight:500; letter-spacing:-.035em; color:var(--accent); }
-  .mark .s { font-size:9.5px; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:var(--mute); }
+  .mark { background:none; border:none; padding:0; cursor:pointer; display:flex;
+    flex-direction:column; align-items:flex-start; gap:1px; flex:0 0 auto; text-align:left; }
+  .mark .w { font-size:20px; font-weight:400; letter-spacing:-.035em; line-height:1.1; color:var(--accent); }
+  .mark .w b { font-weight:600; }
+  .mark .s { font-size:9px; font-weight:500; letter-spacing:.13em; text-transform:uppercase; color:var(--mute); }
+  /* En el movil la cabecera manda en una sola fila: la marca va sola. */
 
   /* secciones = ámbitos, como los departamentos de una tienda */
   .secs { display:flex; gap:30px; flex:1 1 0; min-width:0; overflow-x:auto; scrollbar-width:none;
@@ -538,8 +540,9 @@
     transition:transform .52s cubic-bezier(.76,0,.24,1), opacity .38s ease .1s; }
   .splash.off { transform:translateY(-101%); opacity:0; pointer-events:none; }
   .sp-in { text-align:center; padding:24px; }
-  .sp-1 { display:block; color:#fff; font-size:clamp(46px,9.5vw,112px); font-weight:600;
+  .sp-1 { display:block; color:#fff; font-size:clamp(46px,9.5vw,112px); font-weight:400;
     letter-spacing:-.05em; line-height:1; animation:spUp .6s cubic-bezier(.2,.72,.28,1) both; }
+  .sp-1 b { font-weight:600; }
   .sp-2 { display:block; margin-top:18px; color:rgba(255,255,255,.66); font-size:clamp(9.5px,1.3vw,12px);
     font-weight:500; letter-spacing:.3em; text-transform:uppercase;
     animation:spUp .6s cubic-bezier(.2,.72,.28,1) .14s both; }
@@ -681,8 +684,8 @@
 
 <div class="splash" id="splash" aria-hidden="true">
   <div class="sp-in">
-    <span class="sp-1">ELORRIO</span>
-    <span class="sp-2" id="sp-2">Tabloia · actividades del pueblo</span>
+    <span class="sp-1">Elorri<b>ON</b></span>
+    <span class="sp-2" id="sp-2">actividades del pueblo</span>
   </div>
 </div>
 
@@ -693,7 +696,7 @@
 <a class="saltar" href="#app" data-act="saltar" id="saltar">Ir al contenido</a>
 <header class="bar" id="bar">
   <div class="wrap">
-    <button class="mark" id="mark"><span class="w">Tabloia</span><span class="s">Elorrio</span></button>
+    <button class="mark" id="mark"><span class="w">Elorri<b>ON</b></span><span class="s" id="mark-s"></span></button>
     <nav class="secs" id="secs"></nav>
     <div class="barright">
       <button class="ibtn" id="abrir-busq" data-act="abrirBusq">
@@ -729,7 +732,7 @@
 <main id="app" tabindex="-1"></main>
 <noscript>
   <div class="wrap" style="padding-block:64px 96px;max-width:820px">
-    <h1 class="pg" id="ns-h">Elorrioko Tabloia</h1>
+    <h1 class="pg" id="ns-h">ElorriON</h1>
     <p style="margin-top:16px">Esta página necesita JavaScript para buscar entre las actividades del pueblo.
       Actívalo en el navegador y vuelve a cargarla.</p>
     <p style="margin-top:10px">Orri honek JavaScript behar du herriko jardueren artean bilatzeko.
@@ -740,7 +743,7 @@
 <footer class="foot">
   <div class="wrap">
     <div>
-      <h4 id="f-h0">Elorrioko Tabloia</h4>
+      <h4 id="f-h0">ElorriON</h4>
       <p id="foot-p"></p>
     </div>
     <div>
@@ -852,10 +855,10 @@ es:{
   oRel:'Por materia', oValor:'Mejor valoradas', oPrecio:'Precio', oEdad:'Edad', quitar:'Quitar filtros',
   actividad:'actividad', actividades:'actividades',
   vacioH2:'No hay nada así todavía en Elorrio.',
-  vacioP:'Prueba a quitar la búsqueda o algún filtro, o pídelo abajo: si alguien del pueblo lo ofrece, aparecerá en el tablón.',
+  vacioP:'Prueba a quitar la búsqueda o algún filtro, o pídelo abajo: si alguien del pueblo lo ofrece, aparecerá aquí.',
   vacioBtn:'Quitar los filtros',
   faltaLbl:'¿No encuentras lo que buscas?',
-  faltaP:'Escríbelo aquí. Se apunta en la lista de peticiones del pueblo y, si alguien lo ofrece, aparecerá en el tablón.',
+  faltaP:'Escríbelo aquí. Se apunta en la lista de peticiones del pueblo y, si alguien lo ofrece, aparecerá en ElorriON.',
   faltaCampo:'Qué buscas', faltaPh:'Por ejemplo: clases de chino para niños de 8 años', faltaBtn:'Pedirlo', sinVerificar:'Sin verificar',
   gratis:'Gratis', gratuita:'Gratuita', anos:' años', desde:'Desde ', adultos:'Adultos',
   deLaV:'De lunes a viernes', todosDias:'Todos los días', kEdades:'Edades', kCuando:'Cuándo',
@@ -901,15 +904,15 @@ es:{
   doc4:'Seguro de responsabilidad civil', doc4d:'Recomendable, obligatorio para academias y clubes.',
   oblig:'obligatorio', adjuntar:'Adjuntar',
   ok1:'Declaro que los datos son ciertos y que soy responsable de la actividad que anuncio.',
-  ok2:'Acepto que mi nombre, la actividad y el contacto que he dado se publiquen en el tablón. El DNI y los documentos no se publican.',
+  ok2:'Acepto que mi nombre, la actividad y el contacto que he dado se publiquen en ElorriON. El DNI y los documentos no se publican.',
   atras:'Atrás', continuar:'Continuar', enviar:'Enviar para revisión', pasoDe:'Paso § de 4',
   envH1:'Ficha enviada. Ahora la revisamos.',
   envLead:'Hemos recibido «§». Una persona del ayuntamiento comprueba el DNI y los certificados y la publica, normalmente en menos de 48 horas. Te avisamos al correo que has dado.',
   kEstado:'Estado', vEstado:'Pendiente de revisión',
   kComprueba:'Qué se comprueba', vComprueba:'Que la persona existe, que la actividad se da en Elorrio y que el certificado de delitos sexuales está en vigor si hay menores.',
   kFalta:'Si falta algo', vFalta:'Te escribimos pidiendo el documento que falte, sin volver a empezar el formulario.',
-  volverTablon:'Volver al tablón', verRevision:'Ver cómo se revisa (demo)',
-  admEyebrow:'Administración', admGateH1:'Quien revisa el tablón entra por aquí.',
+  volverTablon:'Volver a ElorriON', verRevision:'Ver cómo se revisa (demo)',
+  admEyebrow:'Administración', admGateH1:'Quien revisa ElorriON entra por aquí.',
   admGateLead:'Una sola persona del ayuntamiento o de una elkarte revisa lo que llega: comprueba el DNI, los certificados y que la actividad se dé de verdad en el pueblo. Es el trabajo que sostiene la confianza de todo lo demás.',
   lPass:'Contraseña', phPass:'', hPass:'En la demostración la contraseña es <em>demo</em>.', entrar:'Entrar',
   admH1:'Panel de revisión.',
@@ -922,13 +925,13 @@ es:{
   nadaP:'Cuando alguien envíe una ficha aparecerá aquí. Prueba a rellenar el formulario de «Publicar» y vuelve.',
   petNota:'Lo que las familias buscan y no encuentran. Es la lista de lo que le falta al pueblo, y sirve para ir a buscar a quien pueda darlo.',
   pedido:'lo han pedido ', vez:' vez', veces:' veces', salir:'Salir del panel',
-  footP:'Los datos los facilita cada anunciante. El Tabloia no organiza las clases, no cobra comisión y no interviene en el pago: solo reúne lo que hay en Elorrio.', footOscuro:'Cambiar a modo oscuro', footClaro:'Cambiar a modo claro',
+  footP:'Los datos los facilita cada anunciante. ElorriON no organiza las clases, no cobra comisión y no interviene en el pago: solo reúne lo que hay en Elorrio.', footOscuro:'Cambiar a modo oscuro', footClaro:'Cambiar a modo claro',
   tGuardado:'Guardado. Lo tienes en «Guardados».', tQuitado:'Quitado de tus guardados.',
   tContacto:'Contactos ocultos en la demostración: las fichas son inventadas.',
   tAdjuntar:'En la web real se abre el explorador para subir el documento.',
   tAnotado:'Anotado en la lista de peticiones.',
   tPass:'La contraseña de la demostración es: demo',
-  tPublicada:'Publicada. Ya aparece en el buscador del tablón.',
+  tPublicada:'Publicada. Ya aparece en el buscador de ElorriON.',
   tCert:'No se puede publicar: falta el certificado de delitos sexuales y la actividad es con menores.',
   tPedir:'Se le ha escrito pidiendo lo que falta. La ficha sigue pendiente.',
   tRechazada:'Rechazada. Se le avisa por correo con el motivo.',
@@ -947,7 +950,7 @@ eu:{
   oRel:'Gaiaren arabera', oValor:'Balorazio onenak', oPrecio:'Prezioa', oEdad:'Adina', quitar:'Iragazkiak kendu',
   actividad:'jarduera', actividades:'jarduera',
   vacioH2:'Oraindik ez dago halakorik Elorrion.',
-  vacioP:'Kendu bilaketa edo iragazkiren bat, edo eskatu behean: herriko norbaitek eskaintzen badu, tabloian agertuko da.',
+  vacioP:'Kendu bilaketa edo iragazkiren bat, edo eskatu behean: herriko norbaitek eskaintzen badu, hemen agertuko da.',
   vacioBtn:'Iragazkiak kendu',
   faltaLbl:'Ez duzu bilatzen duzuna aurkitzen?',
   faltaP:'Idatzi hemen. Herriaren eskaeren zerrendan jasotzen da eta norbaitek eskaintzen badu, hemen agertuko da.',
@@ -996,15 +999,15 @@ eu:{
   doc4:'Erantzukizun zibileko asegurua', doc4d:'Gomendagarria; nahitaezkoa akademia eta klubentzat.',
   oblig:'nahitaezkoa', adjuntar:'Erantsi',
   ok1:'Datuak egiazkoak direla eta iragartzen dudan jardueraren arduraduna naizela adierazten dut.',
-  ok2:'Nire izena, jarduera eta emandako harremanetarako datuak tabloian argitaratzea onartzen dut. NANa eta dokumentuak ez dira argitaratzen.',
+  ok2:'Nire izena, jarduera eta emandako harremanetarako datuak ElorriONen argitaratzea onartzen dut. NANa eta dokumentuak ez dira argitaratzen.',
   atras:'Atzera', continuar:'Jarraitu', enviar:'Bidali berrikusteko', pasoDe:'§. urratsa, 4tik',
   envH1:'Fitxa bidalita. Orain berrikusiko dugu.',
   envLead:'«§» jaso dugu. Udaleko pertsona batek NANa eta ziurtagiriak egiaztatuko ditu eta argitaratuko du, normalean 48 ordu baino lehen. Eman duzun helbide elektronikora idatziko dizugu.',
   kEstado:'Egoera', vEstado:'Berrikusteke',
   kComprueba:'Zer egiaztatzen den', vComprueba:'Pertsona hori badela, jarduera Elorrion ematen dela eta sexu-delituen ziurtagiria indarrean dagoela adingabeak badaude.',
   kFalta:'Zerbait falta bada', vFalta:'Falta den dokumentua eskatuz idazten dizugu, formularioa berriro hasi gabe.',
-  volverTablon:'Tabloira itzuli', verRevision:'Ikusi nola berrikusten den (demoa)',
-  admEyebrow:'Administrazioa', admGateH1:'Tabloia berrikusten duena hemendik sartzen da.',
+  volverTablon:'ElorriONera itzuli', verRevision:'Ikusi nola berrikusten den (demoa)',
+  admEyebrow:'Administrazioa', admGateH1:'ElorriON berrikusten duena hemendik sartzen da.',
   admGateLead:'Udaleko edo elkarte bateko pertsona bakar batek berrikusten du iristen den guztia: NANa, ziurtagiriak eta jarduera benetan herrian ematen ote den. Lan horrek eusten dio gainerako guztiaren konfiantzari.',
   lPass:'Pasahitza', phPass:'', hPass:'Demostrazioan pasahitza <em>demo</em> da.', entrar:'Sartu',
   admH1:'Berrikuspen-panela.',
@@ -1017,13 +1020,13 @@ eu:{
   nadaP:'Norbaitek fitxa bat bidaltzen duenean hemen agertuko da. Bete «Argitaratu» formularioa eta itzuli.',
   petNota:'Familiek bilatzen dutena eta aurkitzen ez dutena. Herriari zer falta zaion esaten duen zerrenda da, eta hori eman dezakeenaren bila joateko balio du.',
   pedido:'eskatu dute ', vez:' aldiz', veces:' aldiz', salir:'Paneletik irten',
-  footP:'Datuak iragarle bakoitzak ematen ditu. Tabloiak ez ditu klaseak antolatzen, ez du komisiorik kobratzen eta ez du ordainketan parte hartzen: Elorrion dagoena biltzen du, besterik ez.', footOscuro:'Modu ilunera aldatu', footClaro:'Modu argira aldatu',
+  footP:'Datuak iragarle bakoitzak ematen ditu. ElorriONek ez ditu klaseak antolatzen, ez du komisiorik kobratzen eta ez du ordainketan parte hartzen: Elorrion dagoena biltzen du, besterik ez.', footOscuro:'Modu ilunera aldatu', footClaro:'Modu argira aldatu',
   tGuardado:'Gordeta. «Gordeak» atalean duzu.', tQuitado:'Zure gordeetatik kenduta.',
   tContacto:'Harremanak ezkutatuta daude demostrazioan: fitxak asmatuak dira.',
   tAdjuntar:'Benetako webean fitxategi-arakatzailea irekitzen da dokumentua igotzeko.',
   tAnotado:'Eskaeren zerrendan idatzita.',
   tPass:'Demostrazioko pasahitza hau da: demo',
-  tPublicada:'Argitaratuta. Tabloiko bilatzailean agertzen da jada.',
+  tPublicada:'Argitaratuta. ElorriONeko bilatzailean agertzen da jada.',
   tCert:'Ezin da argitaratu: sexu-delituen ziurtagiria falta da eta jarduera adingabeentzat da.',
   tPedir:'Falta dena eskatuz idatzi zaio. Fitxa berrikusteke dago oraindik.',
   tRechazada:'Ezetsita. Arrazoia azalduta jakinarazten zaio postaz.',
@@ -1575,8 +1578,8 @@ const PENDIENTES_INICIALES = [
     exp:'Autodidacta · 3 años dando clase online',
     plazas:'Sin límite', idiomaClase:['es'], estado:'libre', verif:false, cert:false, tel:'600 •• •• ••', email:'marcos.•••••@••••.com',
     dni:'•••••045P', enviado:{es:'Hace 4 días', eu:'Duela 4 egun'},
-    aviso:{es:'No tiene dirección ni actividad en Elorrio. El Tabloia es sólo para quien da clase en el pueblo.',
-      eu:'Ez du Elorrion helbiderik ez jarduerarik. Tabloia herrian klaseak ematen dituenarentzat baino ez da.'} }
+    aviso:{es:'No tiene dirección ni actividad en Elorrio. ElorriON es sólo para quien da clase en el pueblo.',
+      eu:'Ez du Elorrion helbiderik ez jarduerarik. ElorriON herrian klaseak ematen dituenarentzat baino ez da.'} }
 ];
 
 const PETICIONES_INICIALES = [
@@ -1725,7 +1728,7 @@ Object.assign(T.es, {
   guardarLista:'Guardar en mi lista', verMiLista:'Ver mi lista',
   vistaPrevia:'Así lo verán las familias', arreglaCampo:'Falta rellenarlo',
   contactar:'Contactar',
-  splashSub:'Tabloia · actividades del pueblo',
+  splashSub:'actividades del pueblo', markAria:'ElorriON · ir al inicio',
   porMateria:'Por materia',
   qCapa:'Busca francés, pilota, piano, yoga…', cerrarBusq:'Cerrar la búsqueda',
   pubCta:'Publica tu actividad', filtrar:'Filtrar', verTodas:'Ver todas',
@@ -1759,7 +1762,7 @@ Object.assign(T.eu, {
   guardarLista:'Nire zerrendan gorde', verMiLista:'Nire zerrenda ikusi',
   vistaPrevia:'Horrela ikusiko dute familiek', arreglaCampo:'Bete egin behar da',
   contactar:'Harremanetan jarri',
-  splashSub:'Tabloia · herriko jarduerak',
+  splashSub:'herriko jarduerak', markAria:'ElorriON · hasierara joan',
   porMateria:'Gaiaren arabera',
   qCapa:'Bilatu frantsesa, pilota, pianoa, yoga…', cerrarBusq:'Itxi bilaketa',
   pubCta:'Argitaratu zure jarduera', filtrar:'Iragazi', verTodas:'Ikusi guztiak',
@@ -2807,6 +2810,8 @@ function pintarCromo(){
   $('#f-l4').textContent = t('fL4'); $('#f-l5').textContent = t('fL5');
   $('#creditos').textContent = t('creditos');
   const sp2 = $('#sp-2'); if(sp2) sp2.textContent = t('splashSub');
+  const ms = $('#mark-s'); if(ms) ms.textContent = t('splashSub');
+  const mk = $('#mark'); if(mk) mk.setAttribute('aria-label', t('markAria'));
   const sl = $('#saltar'); if(sl) sl.textContent = t('saltar');
   ['#secs','#secs-movil'].forEach(s => { const c = $(s); if(c) c.setAttribute('aria-label', t('navAmbitos')); });
   const nv = $('#nav'); if(nv) nv.setAttribute('aria-label', t('navSecciones'));
@@ -3359,7 +3364,7 @@ function construirFicha(){
 /* Compartir: con enlace real, ya no hace falta mentir con un aviso. */
 function compartir(){
   const url = location.href;
-  const datos = { title:'Elorrioko Tabloia', url:url };
+  const datos = { title:'ElorriON', url:url };
   if(navigator.share){ navigator.share(datos).catch(() => {}); return; }
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(url).then(() => toast(t('tCopiado')), () => toast(url));

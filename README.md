@@ -1,4 +1,4 @@
-# Elorrioko Tabloia
+# ElorriON
 
 Directorio de todas las actividades de Elorrio en un solo sitio: clases
 particulares, academias, clubes deportivos, escuelas municipales, elkarteak y
@@ -6,6 +6,10 @@ lo que se hace en verano. Bilingüe (euskera / castellano), con contacto directo
 con quien da la clase: sin pagos, sin comisiones y sin intermediarios.
 
 **https://kenitech-io.github.io/tabloia-elorrio/**
+
+El nombre se lee «Elorrion», que en euskera es «en Elorrio»: lo que hay en el
+pueblo. El ON va en mayúsculas y se escribe así en todas partes. (El
+repositorio y la URL todavía llevan el nombre anterior, `tabloia-elorrio`.)
 
 ---
 
@@ -60,5 +64,5 @@ conviene no perder por el camino:
 
 - **Nunca guardar el DNI ni el certificado de delitos sexuales.** Sólo
   «verificado por X el día Y». Los documentos se miran y no se almacenan.
-- El tablón no organiza las clases, no cobra comisión y no interviene en el
+- ElorriON no organiza las clases, no cobra comisión y no interviene en el
   pago. En cuanto lo haga, deja de ser esto.
