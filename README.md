@@ -24,8 +24,8 @@ servicio que exista hoy.
 
 Las fotografías de las actividades son de archivo, con licencia libre (Flickr,
 Wikimedia Commons, StockSnap). La autoría y la licencia de cada una están en
-[`fotos/creditos.json`](fotos/creditos.json). La de la portada no: es una foto
-del monte, aportada por el propietario de la web.
+[`fotos/creditos.json`](fotos/creditos.json). La panorámica de la portada no:
+la aporta el propietario de la web y falta anotar ahí su autoría.
 
 Mientras los datos sean inventados, la web lleva `noindex, nofollow`: quitarlo
 es la primera casilla de la lista si algún día pasa a ser real.
@@ -36,7 +36,7 @@ Una web estática sin dependencias ni compilación:
 
 ```
 index.html        todo: markup, estilos y lógica
-fotos/            fotografías a 900×600
+fotos/            fotografías a 900×600 (la portada, panorámica a 1500)
 fotos/s/          las mismas a 560 px, para las tarjetas del móvil
 fotos/t/          recortes cuadrados de 320 px, para las miniaturas de materia
 fuentes/          Inter (fuente variable, 48 KB) servida desde aquí, no desde Google
