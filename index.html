@@ -2160,9 +2160,12 @@ function viewBuscar(){
 }
 function heroHTML(){
   return '<section class="hero">' +
-    /* Panoramica: en una banda con object-fit:cover el ancho pintado lo manda el alto,
-   no el del hueco, asi que una copia de 560 se veria al triple de su tamano. Una sola. */
-    '<img src="' + foto('elorrio') + '" alt="" width="1500" height="281" fetchpriority="high">' +
+    /* En una banda con object-fit:cover el ancho que se pinta lo manda el alto del hueco,
+   no su ancho: con 5,3:1 la foto se dibuja a unas tres veces el ancho de la pantalla.
+   Por eso el sizes del movil dice 300vw y no 100vw; con 100vw pedia una copia
+   pequena y la estiraba. */
+    '<img src="' + foto('elorrio') + '" srcset="' + fotoS('elorrio') + ' 1440w, ' + foto('elorrio') + ' 2880w" ' +
+      'sizes="(max-width:680px) 300vw, 100vw" alt="" width="2880" height="540" fetchpriority="high">' +
     '<div class="wrap"><div class="in">' +
       '<span class="kick">' + esc(t('heroKicker')) + '</span>' +
       '<h1>' + esc(t('heroH1')) + '</h1>' +
